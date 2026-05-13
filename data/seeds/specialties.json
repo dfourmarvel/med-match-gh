@@ -1,0 +1,3239 @@
+[
+  {
+    "id": "internal-medicine",
+    "slug": "internal-medicine",
+    "name": "Internal Medicine",
+    "category": "medical",
+    "short_description": "Adult medicine centered on diagnosis, complex disease management, and longitudinal hospital-clinic care.",
+    "full_description": "Internal Medicine suits clinicians who enjoy synthesizing symptoms, labs, imaging, physiology, and social context to manage complex adult illness. In Ghana, internists are important in teaching hospitals, regional referral centers, chronic disease clinics, and subspecialty services such as cardiology, nephrology, endocrinology, pulmonology, infectious disease, and gastroenterology.",
+    "trait_profile": {
+      "patientInteraction": 8,
+      "proceduralInterest": 3,
+      "diagnosticThinking": 9,
+      "fastPacedPreference": 6,
+      "workLifeBalancePriority": 5,
+      "emotionalResilience": 7,
+      "teamwork": 7,
+      "precisionOrientation": 7,
+      "longTermRelationships": 8,
+      "researchInterest": 7,
+      "leadershipPreference": 6,
+      "longTrainingTolerance": 7,
+      "emergencyComfort": 5,
+      "communicationEmpathy": 8,
+      "schedulePredictability": 5
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Medium",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "Very High",
+    "data": {
+      "id": "internal-medicine",
+      "slug": "internal-medicine",
+      "name": "Internal Medicine",
+      "category": "medical",
+      "shortDescription": "Adult medicine centered on diagnosis, complex disease management, and longitudinal hospital-clinic care.",
+      "fullDescription": "Internal Medicine suits clinicians who enjoy synthesizing symptoms, labs, imaging, physiology, and social context to manage complex adult illness. In Ghana, internists are important in teaching hospitals, regional referral centers, chronic disease clinics, and subspecialty services such as cardiology, nephrology, endocrinology, pulmonology, infectious disease, and gastroenterology.",
+      "icon": "stethoscope",
+      "colorTheme": {
+        "primary": "#0ea5e9",
+        "secondary": "#10b981"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Medium",
+      "burnoutRisk": "Medium",
+      "workload": "High",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": 3,
+      "patientInteractionLevel": 5,
+      "procedureIntensity": 2,
+      "diagnosticIntensity": 5,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          8500,
+          16000
+        ],
+        "privateSectorMonthly": [
+          12000,
+          28000
+        ],
+        "seniorSpecialistMonthly": [
+          22000,
+          45000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "Very High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Housemanship, medical officer experience where required, GCPS/WACS-style membership training, then fellowship or subspecialty exposure.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Full registration with the Medical and Dental Council, Ghana",
+          "House officer rotations",
+          "Primary/membership entry requirements and interview"
+        ],
+        "milestones": [
+          "Core medical rotations",
+          "Membership examinations",
+          "Logbook and case presentations",
+          "Fellowship or subspecialty track"
+        ]
+      },
+      "residencyPathwayGhana": "Usually pursued through Ghana College of Physicians and Surgeons membership and fellowship pathways at accredited teaching hospitals and regional centers.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital",
+        "Ho Teaching Hospital"
+      ],
+      "relatedSpecialties": [
+        "cardiology",
+        "neurology",
+        "family-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "Best for analytical, patient-facing learners who like complex adult medicine and can tolerate busy ward systems.",
+      "idealCandidateDescription": "A reflective clinician who enjoys diagnosis, continuity, teaching rounds, chronic disease management, and multidisciplinary care.",
+      "majorPros": [
+        "Broad career flexibility",
+        "Strong teaching and subspecialty options",
+        "High national relevance for chronic disease"
+      ],
+      "majorCons": [
+        "Heavy ward workload",
+        "Administrative burden",
+        "Long training if subspecializing"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "6:30 AM",
+          "activity": "Review overnight admissions, labs, and unstable patients",
+          "location": "medical ward"
+        },
+        {
+          "time": "8:00 AM",
+          "activity": "Consultant-led ward round with residents and students",
+          "location": "teaching ward"
+        },
+        {
+          "time": "11:30 AM",
+          "activity": "Coordinate referrals, discharge plans, and investigations",
+          "location": "ward office"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Outpatient clinic for diabetes, hypertension, HIV, or complex referrals",
+          "location": "specialist clinic"
+        },
+        {
+          "time": "5:30 PM",
+          "activity": "Review new consults and hand over sick patients",
+          "location": "ward/emergency unit"
+        }
+      ],
+      "typicalCases": [
+        "heart failure",
+        "diabetes complications",
+        "stroke workup",
+        "severe infections",
+        "renal disease",
+        "hypertension"
+      ],
+      "workEnvironments": [
+        "medical wards",
+        "specialist outpatient clinics",
+        "emergency consult areas",
+        "teaching hospitals",
+        "regional referral hospitals"
+      ],
+      "commonMisconceptions": [
+        "It is only ward work",
+        "It has no procedures",
+        "It is less decisive than surgery"
+      ],
+      "recommendedStudentActivities": [
+        "Join internal medicine ward rounds",
+        "Practice case presentations",
+        "Shadow outpatient chronic disease clinics",
+        "Read ECG and lab interpretation cases"
+      ],
+      "researchOpportunities": [
+        "non-communicable disease burden",
+        "infectious disease outcomes",
+        "quality improvement in ward care",
+        "hypertension and diabetes registries"
+      ],
+      "subspecialties": [
+        "Cardiology",
+        "Nephrology",
+        "Endocrinology",
+        "Gastroenterology",
+        "Pulmonology",
+        "Infectious Diseases"
+      ],
+      "tags": [
+        "diagnosis",
+        "adult-care",
+        "chronic-disease",
+        "teaching-hospital"
+      ],
+      "traitProfile": {
+        "patientInteraction": 8,
+        "proceduralInterest": 3,
+        "diagnosticThinking": 9,
+        "fastPacedPreference": 6,
+        "workLifeBalancePriority": 5,
+        "emotionalResilience": 7,
+        "teamwork": 7,
+        "precisionOrientation": 7,
+        "longTermRelationships": 8,
+        "researchInterest": 7,
+        "leadershipPreference": 6,
+        "longTrainingTolerance": 7,
+        "emergencyComfort": 5,
+        "communicationEmpathy": 8,
+        "schedulePredictability": 5
+      }
+    }
+  },
+  {
+    "id": "general-surgery",
+    "slug": "general-surgery",
+    "name": "General Surgery",
+    "category": "medical",
+    "short_description": "A demanding operative specialty for decisive clinicians who enjoy procedures, urgency, and visible outcomes.",
+    "full_description": "General Surgery combines acute assessment, operative skill, trauma care, ward leadership, and follow-up. In Ghana it remains essential in teaching hospitals, regional hospitals, district referral systems, and private surgical practice, with a broad case mix including abdominal emergencies, hernias, trauma, breast disease, and soft-tissue conditions.",
+    "trait_profile": {
+      "patientInteraction": 6,
+      "proceduralInterest": 10,
+      "diagnosticThinking": 7,
+      "fastPacedPreference": 9,
+      "workLifeBalancePriority": 3,
+      "emotionalResilience": 9,
+      "teamwork": 8,
+      "precisionOrientation": 9,
+      "longTermRelationships": 4,
+      "researchInterest": 5,
+      "leadershipPreference": 8,
+      "longTrainingTolerance": 9,
+      "emergencyComfort": 9,
+      "communicationEmpathy": 6,
+      "schedulePredictability": 2
+    },
+    "training_years": [
+      5,
+      7
+    ],
+    "competitiveness": "High",
+    "burnout_risk": "High",
+    "lifestyle_rating": "2 - Poor",
+    "future_demand": "Very High",
+    "data": {
+      "id": "general-surgery",
+      "slug": "general-surgery",
+      "name": "General Surgery",
+      "category": "medical",
+      "shortDescription": "A demanding operative specialty for decisive clinicians who enjoy procedures, urgency, and visible outcomes.",
+      "fullDescription": "General Surgery combines acute assessment, operative skill, trauma care, ward leadership, and follow-up. In Ghana it remains essential in teaching hospitals, regional hospitals, district referral systems, and private surgical practice, with a broad case mix including abdominal emergencies, hernias, trauma, breast disease, and soft-tissue conditions.",
+      "icon": "scalpel",
+      "colorTheme": {
+        "primary": "#dc2626",
+        "secondary": "#f97316"
+      },
+      "trainingYears": [
+        5,
+        7
+      ],
+      "competitiveness": "High",
+      "burnoutRisk": "High",
+      "workload": "Very High",
+      "stress": "Very High",
+      "lifestyleRating": "2 - Poor",
+      "emergencyIntensity": 5,
+      "patientInteractionLevel": 3,
+      "procedureIntensity": 5,
+      "diagnosticIntensity": 4,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          9000,
+          18000
+        ],
+        "privateSectorMonthly": [
+          15000,
+          35000
+        ],
+        "seniorSpecialistMonthly": [
+          28000,
+          60000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "Very High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "Very High",
+      "residencyDifficulty": "High",
+      "trainingPathway": {
+        "summary": "Housemanship, surgical rotations, membership training, operative logbook, exams, then fellowship or subspecialty training.",
+        "typicalYears": [
+          5,
+          7
+        ],
+        "prerequisites": [
+          "Full MDC registration",
+          "Housemanship",
+          "GCPS/WACS surgical entry requirements",
+          "Fitness for operative and on-call training"
+        ],
+        "milestones": [
+          "Basic surgical skills",
+          "Emergency call competence",
+          "Membership exams",
+          "Fellowship logbook",
+          "Subspecialty exposure"
+        ]
+      },
+      "residencyPathwayGhana": "Often through GCPS Surgery & Subspecialties membership/fellowship training at accredited centers, with progressive theatre responsibility and emergency call.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "37 Military Hospital",
+        "Tamale Teaching Hospital",
+        "FOCOS Orthopaedic Hospital",
+        "University of Ghana Medical Centre"
+      ],
+      "relatedSpecialties": [
+        "orthopedic-surgery",
+        "obstetrics-and-gynecology",
+        "emergency-medicine",
+        "oral-and-maxillofacial-surgery"
+      ],
+      "personalityFitDescription": "Best for high-stamina learners who like procedures, quick decisions, anatomy, and leading teams under pressure.",
+      "idealCandidateDescription": "A practical, resilient, hands-on clinician who can communicate clearly while managing urgent operative risk.",
+      "majorPros": [
+        "Hands-on impact",
+        "Strong private-sector potential",
+        "Wide relevance across Ghana"
+      ],
+      "majorCons": [
+        "Long hours",
+        "High emergency burden",
+        "Training can be physically and emotionally demanding"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "5:45 AM",
+          "activity": "Pre-round on post-op and emergency admissions",
+          "location": "surgical ward"
+        },
+        {
+          "time": "7:30 AM",
+          "activity": "Team ward round and theatre planning",
+          "location": "ward/theatre board"
+        },
+        {
+          "time": "9:00 AM",
+          "activity": "Elective or emergency theatre list",
+          "location": "operating theatre"
+        },
+        {
+          "time": "2:30 PM",
+          "activity": "Surgical clinic, wound care, consent discussions",
+          "location": "outpatient clinic"
+        },
+        {
+          "time": "7:00 PM",
+          "activity": "On-call review of trauma and acute abdomen consults",
+          "location": "emergency unit"
+        }
+      ],
+      "typicalCases": [
+        "appendicitis",
+        "intestinal obstruction",
+        "hernia",
+        "breast lumps",
+        "trauma laparotomy",
+        "soft tissue infection"
+      ],
+      "workEnvironments": [
+        "operating theatres",
+        "surgical wards",
+        "emergency departments",
+        "trauma units",
+        "private hospitals"
+      ],
+      "commonMisconceptions": [
+        "It is only technical work",
+        "Surgeons do not need communication skills",
+        "Every case has an immediate fix"
+      ],
+      "recommendedStudentActivities": [
+        "Observe theatre safely",
+        "Learn sterile technique",
+        "Attend surgical morbidity meetings",
+        "Practice anatomy and suturing basics"
+      ],
+      "researchOpportunities": [
+        "trauma outcomes",
+        "surgical site infections",
+        "access to emergency surgery",
+        "perioperative quality improvement"
+      ],
+      "subspecialties": [
+        "Paediatric Surgery",
+        "Urology",
+        "Plastic Surgery",
+        "Cardiothoracic Surgery",
+        "Breast Surgery"
+      ],
+      "tags": [
+        "surgery",
+        "procedural",
+        "emergency",
+        "theatre"
+      ],
+      "traitProfile": {
+        "patientInteraction": 6,
+        "proceduralInterest": 10,
+        "diagnosticThinking": 7,
+        "fastPacedPreference": 9,
+        "workLifeBalancePriority": 3,
+        "emotionalResilience": 9,
+        "teamwork": 8,
+        "precisionOrientation": 9,
+        "longTermRelationships": 4,
+        "researchInterest": 5,
+        "leadershipPreference": 8,
+        "longTrainingTolerance": 9,
+        "emergencyComfort": 9,
+        "communicationEmpathy": 6,
+        "schedulePredictability": 2
+      }
+    }
+  },
+  {
+    "id": "pediatrics",
+    "slug": "pediatrics",
+    "name": "Pediatrics",
+    "category": "medical",
+    "short_description": "Child-focused care blending family communication, prevention, broad medicine, and emotional resilience.",
+    "full_description": "Pediatrics focuses on newborns, children, adolescents, caregivers, growth, development, and acute childhood illness. Ghanaian pediatric practice spans immunization, malaria, neonatal care, nutrition, sickle cell disease, respiratory infections, emergencies, and child development, often in resource-constrained but high-impact settings.",
+    "trait_profile": {
+      "patientInteraction": 9,
+      "proceduralInterest": 3,
+      "diagnosticThinking": 7,
+      "fastPacedPreference": 6,
+      "workLifeBalancePriority": 5,
+      "emotionalResilience": 8,
+      "teamwork": 8,
+      "precisionOrientation": 7,
+      "longTermRelationships": 8,
+      "researchInterest": 6,
+      "leadershipPreference": 6,
+      "longTrainingTolerance": 7,
+      "emergencyComfort": 6,
+      "communicationEmpathy": 10,
+      "schedulePredictability": 5
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Medium",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "Very High",
+    "data": {
+      "id": "pediatrics",
+      "slug": "pediatrics",
+      "name": "Pediatrics",
+      "category": "medical",
+      "shortDescription": "Child-focused care blending family communication, prevention, broad medicine, and emotional resilience.",
+      "fullDescription": "Pediatrics focuses on newborns, children, adolescents, caregivers, growth, development, and acute childhood illness. Ghanaian pediatric practice spans immunization, malaria, neonatal care, nutrition, sickle cell disease, respiratory infections, emergencies, and child development, often in resource-constrained but high-impact settings.",
+      "icon": "baby",
+      "colorTheme": {
+        "primary": "#ec4899",
+        "secondary": "#38bdf8"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Medium",
+      "burnoutRisk": "Medium",
+      "workload": "High",
+      "stress": "High",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": 3,
+      "patientInteractionLevel": 5,
+      "procedureIntensity": 2,
+      "diagnosticIntensity": 4,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          8500,
+          15500
+        ],
+        "privateSectorMonthly": [
+          11000,
+          27000
+        ],
+        "seniorSpecialistMonthly": [
+          22000,
+          42000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "Very High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Core child health residency with neonatal, emergency, ward, outpatient, and community child health exposure.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "MDC registration",
+          "Housemanship",
+          "Membership admission requirements",
+          "Interest in child and caregiver communication"
+        ],
+        "milestones": [
+          "Neonatal rotations",
+          "Emergency pediatrics",
+          "Growth/development clinics",
+          "Membership exams",
+          "Fellowship/subspecialty options"
+        ]
+      },
+      "residencyPathwayGhana": "Typically through GCPS child health routes at teaching hospitals with ward, neonatal, outpatient, and emergency exposure.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital",
+        "Ho Teaching Hospital"
+      ],
+      "relatedSpecialties": [
+        "family-medicine",
+        "pediatric-dentistry",
+        "public-health-community-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "Best for empathetic communicators who enjoy children, prevention, family education, and broad diagnostic thinking.",
+      "idealCandidateDescription": "A patient, emotionally steady learner who can explain complex issues to caregivers and handle vulnerable children with care.",
+      "majorPros": [
+        "High social impact",
+        "Strong communication role",
+        "Broad clinical variety"
+      ],
+      "majorCons": [
+        "Emotionally heavy cases",
+        "Night calls can be demanding",
+        "Caregiver communication can be complex"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "7:00 AM",
+          "activity": "Review overnight admissions and neonatal updates",
+          "location": "children's ward/NICU"
+        },
+        {
+          "time": "8:30 AM",
+          "activity": "Pediatric ward round with growth charts and medication review",
+          "location": "ward"
+        },
+        {
+          "time": "11:30 AM",
+          "activity": "Counsel caregivers and arrange investigations",
+          "location": "ward counseling area"
+        },
+        {
+          "time": "1:30 PM",
+          "activity": "Clinic for asthma, sickle cell, nutrition, or development",
+          "location": "pediatric clinic"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Emergency consults and handover",
+          "location": "emergency unit"
+        }
+      ],
+      "typicalCases": [
+        "malaria",
+        "pneumonia",
+        "neonatal jaundice",
+        "sickle cell crisis",
+        "malnutrition",
+        "asthma"
+      ],
+      "workEnvironments": [
+        "children's wards",
+        "NICU",
+        "pediatric emergency areas",
+        "child welfare clinics",
+        "teaching hospitals"
+      ],
+      "commonMisconceptions": [
+        "It is easy because children are small",
+        "It is mostly immunizations",
+        "Pediatricians only talk to children, not families"
+      ],
+      "recommendedStudentActivities": [
+        "Volunteer in child health outreach",
+        "Practice pediatric histories",
+        "Attend neonatal rounds",
+        "Study growth and development"
+      ],
+      "researchOpportunities": [
+        "neonatal outcomes",
+        "childhood infections",
+        "sickle cell disease",
+        "nutrition interventions",
+        "vaccine uptake"
+      ],
+      "subspecialties": [
+        "Neonatology",
+        "Pediatric Cardiology",
+        "Pediatric Emergency Medicine",
+        "Pediatric Neurology"
+      ],
+      "tags": [
+        "children",
+        "family",
+        "prevention",
+        "neonatal"
+      ],
+      "traitProfile": {
+        "patientInteraction": 9,
+        "proceduralInterest": 3,
+        "diagnosticThinking": 7,
+        "fastPacedPreference": 6,
+        "workLifeBalancePriority": 5,
+        "emotionalResilience": 8,
+        "teamwork": 8,
+        "precisionOrientation": 7,
+        "longTermRelationships": 8,
+        "researchInterest": 6,
+        "leadershipPreference": 6,
+        "longTrainingTolerance": 7,
+        "emergencyComfort": 6,
+        "communicationEmpathy": 10,
+        "schedulePredictability": 5
+      }
+    }
+  },
+  {
+    "id": "obstetrics-and-gynecology",
+    "slug": "obstetrics-and-gynecology",
+    "name": "Obstetrics & Gynecology",
+    "category": "medical",
+    "short_description": "A high-stakes blend of surgery, reproductive health, continuity care, and emergency decision-making.",
+    "full_description": "Obstetrics & Gynecology combines antenatal care, labor ward emergencies, gynecologic surgery, reproductive health, fertility, oncology, and public health priorities. In Ghana it is central to maternal health, safe delivery, emergency obstetric care, and women's health across teaching hospitals, regional hospitals, district facilities, and private practice.",
+    "trait_profile": {
+      "patientInteraction": 8,
+      "proceduralInterest": 8,
+      "diagnosticThinking": 7,
+      "fastPacedPreference": 8,
+      "workLifeBalancePriority": 3,
+      "emotionalResilience": 9,
+      "teamwork": 8,
+      "precisionOrientation": 8,
+      "longTermRelationships": 7,
+      "researchInterest": 6,
+      "leadershipPreference": 7,
+      "longTrainingTolerance": 8,
+      "emergencyComfort": 9,
+      "communicationEmpathy": 9,
+      "schedulePredictability": 3
+    },
+    "training_years": [
+      5,
+      7
+    ],
+    "competitiveness": "High",
+    "burnout_risk": "High",
+    "lifestyle_rating": "2 - Poor",
+    "future_demand": "Very High",
+    "data": {
+      "id": "obstetrics-and-gynecology",
+      "slug": "obstetrics-and-gynecology",
+      "name": "Obstetrics & Gynecology",
+      "category": "medical",
+      "shortDescription": "A high-stakes blend of surgery, reproductive health, continuity care, and emergency decision-making.",
+      "fullDescription": "Obstetrics & Gynecology combines antenatal care, labor ward emergencies, gynecologic surgery, reproductive health, fertility, oncology, and public health priorities. In Ghana it is central to maternal health, safe delivery, emergency obstetric care, and women's health across teaching hospitals, regional hospitals, district facilities, and private practice.",
+      "icon": "venus",
+      "colorTheme": {
+        "primary": "#db2777",
+        "secondary": "#f97316"
+      },
+      "trainingYears": [
+        5,
+        7
+      ],
+      "competitiveness": "High",
+      "burnoutRisk": "High",
+      "workload": "Very High",
+      "stress": "Very High",
+      "lifestyleRating": "2 - Poor",
+      "emergencyIntensity": 5,
+      "patientInteractionLevel": 5,
+      "procedureIntensity": 4,
+      "diagnosticIntensity": 4,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          9000,
+          18000
+        ],
+        "privateSectorMonthly": [
+          15000,
+          34000
+        ],
+        "seniorSpecialistMonthly": [
+          28000,
+          58000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "Very High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "Very High",
+      "residencyDifficulty": "High",
+      "trainingPathway": {
+        "summary": "Membership and fellowship training across antenatal care, labor ward, gynecologic surgery, emergency obstetrics, and reproductive health.",
+        "typicalYears": [
+          5,
+          7
+        ],
+        "prerequisites": [
+          "MDC registration",
+          "Housemanship",
+          "GCPS admission requirements",
+          "Readiness for emergency call and theatre work"
+        ],
+        "milestones": [
+          "Labor ward competence",
+          "Caesarean section skills",
+          "Gynecologic surgery exposure",
+          "Membership exams",
+          "Fellowship/subspecialty rotations"
+        ]
+      },
+      "residencyPathwayGhana": "GCPS Obstetrics and Gynaecology training occurs at accredited centers; official training center lists include Korle-Bu, Komfo Anokye, 37 Military Hospital, Greater Accra Regional Hospital, Tamale, Ho, Cape Coast, and regional hospitals.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Greater Accra Regional Hospital",
+        "37 Military Hospital",
+        "Tamale Teaching Hospital",
+        "Ho Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "relatedSpecialties": [
+        "general-surgery",
+        "family-medicine",
+        "pediatrics",
+        "public-health-community-medicine"
+      ],
+      "personalityFitDescription": "Best for resilient, empathic clinicians who want both procedures and meaningful patient relationships.",
+      "idealCandidateDescription": "A decisive communicator who can move from counseling to emergency theatre without losing empathy.",
+      "majorPros": [
+        "High impact on maternal health",
+        "Mix of clinic and procedures",
+        "Strong private-sector demand"
+      ],
+      "majorCons": [
+        "Unpredictable hours",
+        "High emotional and medicolegal stress",
+        "Emergency call burden"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "6:00 AM",
+          "activity": "Labor ward handover and high-risk patient review",
+          "location": "labor ward"
+        },
+        {
+          "time": "8:00 AM",
+          "activity": "Emergency caesarean or elective theatre list",
+          "location": "operating theatre"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Antenatal or gynecology clinic",
+          "location": "outpatient clinic"
+        },
+        {
+          "time": "4:00 PM",
+          "activity": "Post-op reviews and counseling",
+          "location": "ward"
+        },
+        {
+          "time": "9:00 PM",
+          "activity": "On-call delivery support and emergency triage",
+          "location": "labor ward"
+        }
+      ],
+      "typicalCases": [
+        "obstructed labor",
+        "pre-eclampsia",
+        "postpartum hemorrhage",
+        "fibroids",
+        "infertility",
+        "cervical cancer screening"
+      ],
+      "workEnvironments": [
+        "labor wards",
+        "operating theatres",
+        "antenatal clinics",
+        "gynecology clinics",
+        "emergency units"
+      ],
+      "commonMisconceptions": [
+        "It is only deliveries",
+        "It is not surgical",
+        "Every emergency is predictable"
+      ],
+      "recommendedStudentActivities": [
+        "Attend antenatal clinic",
+        "Learn respectful maternity care",
+        "Observe labor ward workflows",
+        "Study obstetric emergencies"
+      ],
+      "researchOpportunities": [
+        "maternal mortality",
+        "family planning access",
+        "hypertensive disorders of pregnancy",
+        "cervical cancer screening"
+      ],
+      "subspecialties": [
+        "Maternal-Fetal Medicine",
+        "Reproductive Endocrinology and Infertility",
+        "Gynae-Oncology",
+        "Uro-Gynaecology"
+      ],
+      "tags": [
+        "maternal-health",
+        "women-health",
+        "surgery",
+        "emergency"
+      ],
+      "traitProfile": {
+        "patientInteraction": 8,
+        "proceduralInterest": 8,
+        "diagnosticThinking": 7,
+        "fastPacedPreference": 8,
+        "workLifeBalancePriority": 3,
+        "emotionalResilience": 9,
+        "teamwork": 8,
+        "precisionOrientation": 8,
+        "longTermRelationships": 7,
+        "researchInterest": 6,
+        "leadershipPreference": 7,
+        "longTrainingTolerance": 8,
+        "emergencyComfort": 9,
+        "communicationEmpathy": 9,
+        "schedulePredictability": 3
+      }
+    }
+  },
+  {
+    "id": "psychiatry",
+    "slug": "psychiatry",
+    "name": "Psychiatry",
+    "category": "medical",
+    "short_description": "A relationship-rich specialty focused on mental health, communication, and long-term recovery.",
+    "full_description": "Psychiatry addresses mental illness, substance use, trauma, family systems, consultation-liaison care, and community mental health. In Ghana the specialty has major workforce need, high public health relevance, and opportunities in teaching hospitals, psychiatric hospitals, district services, NGOs, schools, and private practice.",
+    "trait_profile": {
+      "patientInteraction": 9,
+      "proceduralInterest": 1,
+      "diagnosticThinking": 7,
+      "fastPacedPreference": 3,
+      "workLifeBalancePriority": 7,
+      "emotionalResilience": 8,
+      "teamwork": 7,
+      "precisionOrientation": 6,
+      "longTermRelationships": 9,
+      "researchInterest": 7,
+      "leadershipPreference": 5,
+      "longTrainingTolerance": 6,
+      "emergencyComfort": 4,
+      "communicationEmpathy": 10,
+      "schedulePredictability": 7
+    },
+    "training_years": [
+      4,
+      5
+    ],
+    "competitiveness": "Low",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "4 - Good",
+    "future_demand": "Very High",
+    "data": {
+      "id": "psychiatry",
+      "slug": "psychiatry",
+      "name": "Psychiatry",
+      "category": "medical",
+      "shortDescription": "A relationship-rich specialty focused on mental health, communication, and long-term recovery.",
+      "fullDescription": "Psychiatry addresses mental illness, substance use, trauma, family systems, consultation-liaison care, and community mental health. In Ghana the specialty has major workforce need, high public health relevance, and opportunities in teaching hospitals, psychiatric hospitals, district services, NGOs, schools, and private practice.",
+      "icon": "brain",
+      "colorTheme": {
+        "primary": "#8b5cf6",
+        "secondary": "#ec4899"
+      },
+      "trainingYears": [
+        4,
+        5
+      ],
+      "competitiveness": "Low",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "4 - Good",
+      "emergencyIntensity": 2,
+      "patientInteractionLevel": 5,
+      "procedureIntensity": 1,
+      "diagnosticIntensity": 4,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          8000,
+          15000
+        ],
+        "privateSectorMonthly": [
+          12000,
+          26000
+        ],
+        "seniorSpecialistMonthly": [
+          22000,
+          42000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "Very High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Residency in adult psychiatry, child/adolescent exposure, consultation-liaison psychiatry, community mental health, psychotherapy, and psychopharmacology.",
+        "typicalYears": [
+          4,
+          5
+        ],
+        "prerequisites": [
+          "MDC registration",
+          "Housemanship",
+          "GCPS admission requirements",
+          "Comfort with reflective interviewing"
+        ],
+        "milestones": [
+          "Diagnostic interviews",
+          "Inpatient rotations",
+          "Community mental health exposure",
+          "Membership exams",
+          "Fellowship or subspecialty development"
+        ]
+      },
+      "residencyPathwayGhana": "Postgraduate psychiatry training is recognized as a priority area in GCPS admissions guidance and is delivered through accredited services with teaching and community exposure.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Accra Psychiatric Hospital",
+        "Pantang Hospital",
+        "Ankaful Psychiatric Hospital"
+      ],
+      "relatedSpecialties": [
+        "family-medicine",
+        "public-health-community-medicine",
+        "pediatrics",
+        "neurology"
+      ],
+      "personalityFitDescription": "Best for reflective listeners who can sit with complex stories and communicate without rushing.",
+      "idealCandidateDescription": "An emotionally resilient communicator who respects culture, stigma, family dynamics, and long-term therapeutic work.",
+      "majorPros": [
+        "High unmet need",
+        "Deep patient relationships",
+        "More predictable lifestyle than many acute specialties"
+      ],
+      "majorCons": [
+        "Stigma and resource barriers",
+        "Emotionally heavy narratives",
+        "Progress can be slow"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Inpatient handover and risk review",
+          "location": "mental health unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "New patient assessment and family interview",
+          "location": "clinic/interview room"
+        },
+        {
+          "time": "12:00 PM",
+          "activity": "Medication review and multidisciplinary meeting",
+          "location": "ward office"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Outpatient follow-up or psychotherapy session",
+          "location": "mental health clinic"
+        },
+        {
+          "time": "4:30 PM",
+          "activity": "Consult-liaison referral from medical or emergency unit",
+          "location": "general hospital"
+        }
+      ],
+      "typicalCases": [
+        "depression",
+        "bipolar disorder",
+        "psychosis",
+        "substance use disorder",
+        "anxiety",
+        "postpartum mental health"
+      ],
+      "workEnvironments": [
+        "psychiatric hospitals",
+        "general hospital liaison units",
+        "outpatient clinics",
+        "community mental health programs",
+        "private practice"
+      ],
+      "commonMisconceptions": [
+        "Psychiatry is not real medicine",
+        "It is only talking",
+        "Patients never recover"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow mental health clinics",
+        "Practice non-judgmental histories",
+        "Learn basic psychopharmacology",
+        "Join mental health advocacy work"
+      ],
+      "researchOpportunities": [
+        "stigma reduction",
+        "community mental health access",
+        "youth mental health",
+        "substance use patterns"
+      ],
+      "subspecialties": [
+        "Child and Adolescent Psychiatry",
+        "Addiction Psychiatry",
+        "Forensic Psychiatry",
+        "Consultation-Liaison Psychiatry"
+      ],
+      "tags": [
+        "mental-health",
+        "communication",
+        "continuity",
+        "community"
+      ],
+      "traitProfile": {
+        "patientInteraction": 9,
+        "proceduralInterest": 1,
+        "diagnosticThinking": 7,
+        "fastPacedPreference": 3,
+        "workLifeBalancePriority": 7,
+        "emotionalResilience": 8,
+        "teamwork": 7,
+        "precisionOrientation": 6,
+        "longTermRelationships": 9,
+        "researchInterest": 7,
+        "leadershipPreference": 5,
+        "longTrainingTolerance": 6,
+        "emergencyComfort": 4,
+        "communicationEmpathy": 10,
+        "schedulePredictability": 7
+      }
+    }
+  },
+  {
+    "id": "anesthesiology",
+    "slug": "anesthesiology",
+    "name": "Anesthesiology",
+    "category": "medical",
+    "short_description": "Perioperative physiology, airway management, pain control, and critical care for precise calm clinicians.",
+    "full_description": "Perioperative physiology, airway management, pain control, and critical care for precise calm clinicians. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": {
+      "patientInteraction": 5,
+      "proceduralInterest": 7,
+      "diagnosticThinking": 8,
+      "fastPacedPreference": 7,
+      "workLifeBalancePriority": 5,
+      "emotionalResilience": 9,
+      "teamwork": 9,
+      "precisionOrientation": 9,
+      "longTermRelationships": 2,
+      "researchInterest": 6,
+      "leadershipPreference": 6,
+      "longTrainingTolerance": 7,
+      "emergencyComfort": 9,
+      "communicationEmpathy": 6,
+      "schedulePredictability": 5
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Medium",
+    "burnout_risk": "High",
+    "lifestyle_rating": "2 - Poor",
+    "future_demand": "High",
+    "data": {
+      "id": "anesthesiology",
+      "slug": "anesthesiology",
+      "name": "Anesthesiology",
+      "category": "medical",
+      "shortDescription": "Perioperative physiology, airway management, pain control, and critical care for precise calm clinicians.",
+      "fullDescription": "Perioperative physiology, airway management, pain control, and critical care for precise calm clinicians. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "activity",
+      "colorTheme": {
+        "primary": "#0ea5e9",
+        "secondary": "#10b981"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Medium",
+      "burnoutRisk": "High",
+      "workload": "High",
+      "stress": "High",
+      "lifestyleRating": "2 - Poor",
+      "emergencyIntensity": 5,
+      "patientInteractionLevel": 3,
+      "procedureIntensity": 4,
+      "diagnosticIntensity": 4,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          9000,
+          18000
+        ],
+        "privateSectorMonthly": [
+          14000,
+          32000
+        ],
+        "seniorSpecialistMonthly": [
+          26000,
+          56000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Housemanship, registration, postgraduate admission, membership/residency rotations, exams, logbook, and fellowship or subspecialty development.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Specialist training should align with current GCPS admissions and accredited training center guidance.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "37 Military Hospital",
+        "Tamale Teaching Hospital",
+        "FOCOS Orthopaedic Hospital",
+        "University of Ghana Medical Centre"
+      ],
+      "relatedSpecialties": [
+        "internal-medicine",
+        "family-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches surgery and airway work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by perioperative physiology, airway management, pain control, and critical care for precise calm clinicians.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "surgery",
+        "airway",
+        "critical care"
+      ],
+      "workEnvironments": [
+        "teaching hospitals",
+        "regional hospitals",
+        "specialist clinics",
+        "private practice"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "Surgery",
+        "Airway",
+        "Critical Care"
+      ],
+      "tags": [
+        "surgery",
+        "airway",
+        "critical-care"
+      ],
+      "traitProfile": {
+        "patientInteraction": 5,
+        "proceduralInterest": 7,
+        "diagnosticThinking": 8,
+        "fastPacedPreference": 7,
+        "workLifeBalancePriority": 5,
+        "emotionalResilience": 9,
+        "teamwork": 9,
+        "precisionOrientation": 9,
+        "longTermRelationships": 2,
+        "researchInterest": 6,
+        "leadershipPreference": 6,
+        "longTrainingTolerance": 7,
+        "emergencyComfort": 9,
+        "communicationEmpathy": 6,
+        "schedulePredictability": 5
+      }
+    }
+  },
+  {
+    "id": "neurology",
+    "slug": "neurology",
+    "name": "Neurology",
+    "category": "medical",
+    "short_description": "A cognitively rich specialty for complex nervous system diagnosis and long-term disability care.",
+    "full_description": "A cognitively rich specialty for complex nervous system diagnosis and long-term disability care. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": {
+      "patientInteraction": 7,
+      "proceduralInterest": 2,
+      "diagnosticThinking": 10,
+      "fastPacedPreference": 4,
+      "workLifeBalancePriority": 6,
+      "emotionalResilience": 7,
+      "teamwork": 7,
+      "precisionOrientation": 8,
+      "longTermRelationships": 7,
+      "researchInterest": 8,
+      "leadershipPreference": 5,
+      "longTrainingTolerance": 8,
+      "emergencyComfort": 5,
+      "communicationEmpathy": 7,
+      "schedulePredictability": 6
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Medium",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "High",
+    "data": {
+      "id": "neurology",
+      "slug": "neurology",
+      "name": "Neurology",
+      "category": "medical",
+      "shortDescription": "A cognitively rich specialty for complex nervous system diagnosis and long-term disability care.",
+      "fullDescription": "A cognitively rich specialty for complex nervous system diagnosis and long-term disability care. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "brain-circuit",
+      "colorTheme": {
+        "primary": "#0ea5e9",
+        "secondary": "#10b981"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Medium",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": 3,
+      "patientInteractionLevel": 4,
+      "procedureIntensity": 1,
+      "diagnosticIntensity": 5,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          8500,
+          16000
+        ],
+        "privateSectorMonthly": [
+          12000,
+          28000
+        ],
+        "seniorSpecialistMonthly": [
+          24000,
+          48000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Housemanship, registration, postgraduate admission, membership/residency rotations, exams, logbook, and fellowship or subspecialty development.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Specialist training should align with current GCPS admissions and accredited training center guidance.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital",
+        "Ho Teaching Hospital"
+      ],
+      "relatedSpecialties": [
+        "internal-medicine",
+        "family-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches brain and diagnosis work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by a cognitively rich specialty for complex nervous system diagnosis and long-term disability care.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "brain",
+        "diagnosis",
+        "rehabilitation"
+      ],
+      "workEnvironments": [
+        "teaching hospitals",
+        "regional hospitals",
+        "specialist clinics",
+        "private practice"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "Brain",
+        "Diagnosis",
+        "Rehabilitation"
+      ],
+      "tags": [
+        "brain",
+        "diagnosis",
+        "rehabilitation"
+      ],
+      "traitProfile": {
+        "patientInteraction": 7,
+        "proceduralInterest": 2,
+        "diagnosticThinking": 10,
+        "fastPacedPreference": 4,
+        "workLifeBalancePriority": 6,
+        "emotionalResilience": 7,
+        "teamwork": 7,
+        "precisionOrientation": 8,
+        "longTermRelationships": 7,
+        "researchInterest": 8,
+        "leadershipPreference": 5,
+        "longTrainingTolerance": 8,
+        "emergencyComfort": 5,
+        "communicationEmpathy": 7,
+        "schedulePredictability": 6
+      }
+    }
+  },
+  {
+    "id": "dermatology",
+    "slug": "dermatology",
+    "name": "Dermatology",
+    "category": "medical",
+    "short_description": "Visual diagnosis, chronic skin disease, minor procedures, and outpatient-focused specialist care.",
+    "full_description": "Visual diagnosis, chronic skin disease, minor procedures, and outpatient-focused specialist care. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": {
+      "patientInteraction": 7,
+      "proceduralInterest": 4,
+      "diagnosticThinking": 8,
+      "fastPacedPreference": 3,
+      "workLifeBalancePriority": 9,
+      "emotionalResilience": 6,
+      "teamwork": 5,
+      "precisionOrientation": 9,
+      "longTermRelationships": 7,
+      "researchInterest": 6,
+      "leadershipPreference": 4,
+      "longTrainingTolerance": 7,
+      "emergencyComfort": 2,
+      "communicationEmpathy": 7,
+      "schedulePredictability": 9
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Very High",
+    "burnout_risk": "Low",
+    "lifestyle_rating": "5 - Excellent",
+    "future_demand": "High",
+    "data": {
+      "id": "dermatology",
+      "slug": "dermatology",
+      "name": "Dermatology",
+      "category": "medical",
+      "shortDescription": "Visual diagnosis, chronic skin disease, minor procedures, and outpatient-focused specialist care.",
+      "fullDescription": "Visual diagnosis, chronic skin disease, minor procedures, and outpatient-focused specialist care. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "sparkles",
+      "colorTheme": {
+        "primary": "#0ea5e9",
+        "secondary": "#10b981"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Very High",
+      "burnoutRisk": "Low",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "5 - Excellent",
+      "emergencyIntensity": 1,
+      "patientInteractionLevel": 4,
+      "procedureIntensity": 2,
+      "diagnosticIntensity": 4,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          9000,
+          17000
+        ],
+        "privateSectorMonthly": [
+          16000,
+          40000
+        ],
+        "seniorSpecialistMonthly": [
+          30000,
+          70000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "Very High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Very High",
+      "trainingPathway": {
+        "summary": "Housemanship, registration, postgraduate admission, membership/residency rotations, exams, logbook, and fellowship or subspecialty development.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Specialist training should align with current GCPS admissions and accredited training center guidance.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "University of Ghana Medical Centre"
+      ],
+      "relatedSpecialties": [
+        "internal-medicine",
+        "family-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches skin and visual-diagnosis work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by visual diagnosis, chronic skin disease, minor procedures, and outpatient-focused specialist care.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "skin",
+        "visual diagnosis",
+        "lifestyle"
+      ],
+      "workEnvironments": [
+        "teaching hospitals",
+        "regional hospitals",
+        "specialist clinics",
+        "private practice"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "Skin",
+        "Visual Diagnosis",
+        "Lifestyle"
+      ],
+      "tags": [
+        "skin",
+        "visual-diagnosis",
+        "lifestyle"
+      ],
+      "traitProfile": {
+        "patientInteraction": 7,
+        "proceduralInterest": 4,
+        "diagnosticThinking": 8,
+        "fastPacedPreference": 3,
+        "workLifeBalancePriority": 9,
+        "emotionalResilience": 6,
+        "teamwork": 5,
+        "precisionOrientation": 9,
+        "longTermRelationships": 7,
+        "researchInterest": 6,
+        "leadershipPreference": 4,
+        "longTrainingTolerance": 7,
+        "emergencyComfort": 2,
+        "communicationEmpathy": 7,
+        "schedulePredictability": 9
+      }
+    }
+  },
+  {
+    "id": "cardiology",
+    "slug": "cardiology",
+    "name": "Cardiology",
+    "category": "medical",
+    "short_description": "A high-acuity internal medicine subspecialty focused on cardiovascular diagnosis, procedures, and long-term disease.",
+    "full_description": "A high-acuity internal medicine subspecialty focused on cardiovascular diagnosis, procedures, and long-term disease. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": {
+      "patientInteraction": 8,
+      "proceduralInterest": 6,
+      "diagnosticThinking": 10,
+      "fastPacedPreference": 7,
+      "workLifeBalancePriority": 4,
+      "emotionalResilience": 8,
+      "teamwork": 8,
+      "precisionOrientation": 9,
+      "longTermRelationships": 7,
+      "researchInterest": 9,
+      "leadershipPreference": 7,
+      "longTrainingTolerance": 10,
+      "emergencyComfort": 7,
+      "communicationEmpathy": 7,
+      "schedulePredictability": 4
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Very High",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "High",
+    "data": {
+      "id": "cardiology",
+      "slug": "cardiology",
+      "name": "Cardiology",
+      "category": "medical",
+      "shortDescription": "A high-acuity internal medicine subspecialty focused on cardiovascular diagnosis, procedures, and long-term disease.",
+      "fullDescription": "A high-acuity internal medicine subspecialty focused on cardiovascular diagnosis, procedures, and long-term disease. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "heart-pulse",
+      "colorTheme": {
+        "primary": "#0ea5e9",
+        "secondary": "#10b981"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Very High",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": 4,
+      "patientInteractionLevel": 4,
+      "procedureIntensity": 3,
+      "diagnosticIntensity": 5,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          10000,
+          19000
+        ],
+        "privateSectorMonthly": [
+          16000,
+          45000
+        ],
+        "seniorSpecialistMonthly": [
+          35000,
+          80000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "Very High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Very High",
+      "trainingPathway": {
+        "summary": "Housemanship, registration, postgraduate admission, membership/residency rotations, exams, logbook, and fellowship or subspecialty development.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Specialist training should align with current GCPS admissions and accredited training center guidance.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital",
+        "Ho Teaching Hospital"
+      ],
+      "relatedSpecialties": [
+        "internal-medicine",
+        "family-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches heart and subspecialty work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by a high-acuity internal medicine subspecialty focused on cardiovascular diagnosis, procedures, and long-term disease.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "heart",
+        "subspecialty",
+        "physiology"
+      ],
+      "workEnvironments": [
+        "teaching hospitals",
+        "regional hospitals",
+        "specialist clinics",
+        "private practice"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "Heart",
+        "Subspecialty",
+        "Physiology"
+      ],
+      "tags": [
+        "heart",
+        "subspecialty",
+        "physiology"
+      ],
+      "traitProfile": {
+        "patientInteraction": 8,
+        "proceduralInterest": 6,
+        "diagnosticThinking": 10,
+        "fastPacedPreference": 7,
+        "workLifeBalancePriority": 4,
+        "emotionalResilience": 8,
+        "teamwork": 8,
+        "precisionOrientation": 9,
+        "longTermRelationships": 7,
+        "researchInterest": 9,
+        "leadershipPreference": 7,
+        "longTrainingTolerance": 10,
+        "emergencyComfort": 7,
+        "communicationEmpathy": 7,
+        "schedulePredictability": 4
+      }
+    }
+  },
+  {
+    "id": "public-health-community-medicine",
+    "slug": "public-health-community-medicine",
+    "name": "Public Health / Community Medicine",
+    "category": "medical",
+    "short_description": "Population health, prevention, epidemiology, policy, and systems-level impact.",
+    "full_description": "Population health, prevention, epidemiology, policy, and systems-level impact. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": {
+      "patientInteraction": 5,
+      "proceduralInterest": 1,
+      "diagnosticThinking": 6,
+      "fastPacedPreference": 4,
+      "workLifeBalancePriority": 8,
+      "emotionalResilience": 6,
+      "teamwork": 9,
+      "precisionOrientation": 6,
+      "longTermRelationships": 6,
+      "researchInterest": 10,
+      "leadershipPreference": 9,
+      "longTrainingTolerance": 6,
+      "emergencyComfort": 2,
+      "communicationEmpathy": 8,
+      "schedulePredictability": 8
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Medium",
+    "burnout_risk": "Low",
+    "lifestyle_rating": "5 - Excellent",
+    "future_demand": "High",
+    "data": {
+      "id": "public-health-community-medicine",
+      "slug": "public-health-community-medicine",
+      "name": "Public Health / Community Medicine",
+      "category": "medical",
+      "shortDescription": "Population health, prevention, epidemiology, policy, and systems-level impact.",
+      "fullDescription": "Population health, prevention, epidemiology, policy, and systems-level impact. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "globe-2",
+      "colorTheme": {
+        "primary": "#0ea5e9",
+        "secondary": "#10b981"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Medium",
+      "burnoutRisk": "Low",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "5 - Excellent",
+      "emergencyIntensity": 1,
+      "patientInteractionLevel": 3,
+      "procedureIntensity": 1,
+      "diagnosticIntensity": 3,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          8000,
+          15000
+        ],
+        "privateSectorMonthly": [
+          11000,
+          26000
+        ],
+        "seniorSpecialistMonthly": [
+          22000,
+          46000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Housemanship, registration, postgraduate admission, membership/residency rotations, exams, logbook, and fellowship or subspecialty development.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Specialist training should align with current GCPS admissions and accredited training center guidance.",
+      "commonTrainingCenters": [
+        "Ghana Health Service district directorates",
+        "School of Public Health, University of Ghana",
+        "KNUST School of Public Health",
+        "regional and teaching hospital public health units"
+      ],
+      "relatedSpecialties": [
+        "internal-medicine",
+        "family-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches population-health and policy work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by population health, prevention, epidemiology, policy, and systems-level impact.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "population health",
+        "policy",
+        "research"
+      ],
+      "workEnvironments": [
+        "teaching hospitals",
+        "regional hospitals",
+        "specialist clinics",
+        "private practice"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "Population Health",
+        "Policy",
+        "Research"
+      ],
+      "tags": [
+        "population-health",
+        "policy",
+        "research"
+      ],
+      "traitProfile": {
+        "patientInteraction": 5,
+        "proceduralInterest": 1,
+        "diagnosticThinking": 6,
+        "fastPacedPreference": 4,
+        "workLifeBalancePriority": 8,
+        "emotionalResilience": 6,
+        "teamwork": 9,
+        "precisionOrientation": 6,
+        "longTermRelationships": 6,
+        "researchInterest": 10,
+        "leadershipPreference": 9,
+        "longTrainingTolerance": 6,
+        "emergencyComfort": 2,
+        "communicationEmpathy": 8,
+        "schedulePredictability": 8
+      }
+    }
+  },
+  {
+    "id": "pathology",
+    "slug": "pathology",
+    "name": "Pathology",
+    "category": "medical",
+    "short_description": "Laboratory diagnosis, tissue interpretation, disease mechanisms, and behind-the-scenes clinical impact.",
+    "full_description": "Laboratory diagnosis, tissue interpretation, disease mechanisms, and behind-the-scenes clinical impact. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": {
+      "patientInteraction": 1,
+      "proceduralInterest": 2,
+      "diagnosticThinking": 9,
+      "fastPacedPreference": 3,
+      "workLifeBalancePriority": 8,
+      "emotionalResilience": 6,
+      "teamwork": 5,
+      "precisionOrientation": 10,
+      "longTermRelationships": 1,
+      "researchInterest": 9,
+      "leadershipPreference": 4,
+      "longTrainingTolerance": 7,
+      "emergencyComfort": 1,
+      "communicationEmpathy": 3,
+      "schedulePredictability": 8
+    },
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Medium",
+    "burnout_risk": "Low",
+    "lifestyle_rating": "5 - Excellent",
+    "future_demand": "High",
+    "data": {
+      "id": "pathology",
+      "slug": "pathology",
+      "name": "Pathology",
+      "category": "medical",
+      "shortDescription": "Laboratory diagnosis, tissue interpretation, disease mechanisms, and behind-the-scenes clinical impact.",
+      "fullDescription": "Laboratory diagnosis, tissue interpretation, disease mechanisms, and behind-the-scenes clinical impact. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "microscope",
+      "colorTheme": {
+        "primary": "#0ea5e9",
+        "secondary": "#10b981"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Medium",
+      "burnoutRisk": "Low",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "5 - Excellent",
+      "emergencyIntensity": 1,
+      "patientInteractionLevel": 1,
+      "procedureIntensity": 1,
+      "diagnosticIntensity": 5,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          8500,
+          16000
+        ],
+        "privateSectorMonthly": [
+          12000,
+          28000
+        ],
+        "seniorSpecialistMonthly": [
+          24000,
+          50000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "High",
+      "aiReplacementRisk": "Medium",
+      "futureDemand": "High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Housemanship, registration, postgraduate admission, membership/residency rotations, exams, logbook, and fellowship or subspecialty development.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Specialist training should align with current GCPS admissions and accredited training center guidance.",
+      "commonTrainingCenters": [
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "37 Military Hospital",
+        "University of Ghana Medical Centre"
+      ],
+      "relatedSpecialties": [
+        "internal-medicine",
+        "family-medicine",
+        "emergency-medicine"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches laboratory and diagnosis work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by laboratory diagnosis, tissue interpretation, disease mechanisms, and behind-the-scenes clinical impact.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "laboratory",
+        "diagnosis",
+        "precision"
+      ],
+      "workEnvironments": [
+        "teaching hospitals",
+        "regional hospitals",
+        "specialist clinics",
+        "private practice"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "Laboratory",
+        "Diagnosis",
+        "Precision"
+      ],
+      "tags": [
+        "laboratory",
+        "diagnosis",
+        "precision"
+      ],
+      "traitProfile": {
+        "patientInteraction": 1,
+        "proceduralInterest": 2,
+        "diagnosticThinking": 9,
+        "fastPacedPreference": 3,
+        "workLifeBalancePriority": 8,
+        "emotionalResilience": 6,
+        "teamwork": 5,
+        "precisionOrientation": 10,
+        "longTermRelationships": 1,
+        "researchInterest": 9,
+        "leadershipPreference": 4,
+        "longTrainingTolerance": 7,
+        "emergencyComfort": 1,
+        "communicationEmpathy": 3,
+        "schedulePredictability": 8
+      }
+    }
+  },
+  {
+    "id": "general-dentistry",
+    "slug": "general-dentistry",
+    "name": "General Dentistry",
+    "category": "dental",
+    "short_description": "Broad oral healthcare combining prevention, restoration, aesthetics, patient counseling, and practice ownership.",
+    "full_description": "Broad oral healthcare combining prevention, restoration, aesthetics, patient counseling, and practice ownership. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": [
+      "oral-health",
+      "procedures",
+      "private-practice"
+    ],
+    "training_years": [
+      1,
+      3
+    ],
+    "competitiveness": "High",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "High",
+    "data": {
+      "id": "general-dentistry",
+      "slug": "general-dentistry",
+      "name": "General Dentistry",
+      "category": "dental",
+      "shortDescription": "Broad oral healthcare combining prevention, restoration, aesthetics, patient counseling, and practice ownership.",
+      "fullDescription": "Broad oral healthcare combining prevention, restoration, aesthetics, patient counseling, and practice ownership. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "smile",
+      "colorTheme": {
+        "primary": "#14b8a6",
+        "secondary": "#f59e0b"
+      },
+      "trainingYears": [
+        1,
+        3
+      ],
+      "competitiveness": "High",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": null,
+      "patientInteractionLevel": null,
+      "procedureIntensity": null,
+      "diagnosticIntensity": null,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          1,
+          3
+        ],
+        "privateSectorMonthly": [
+          7000,
+          14000
+        ],
+        "seniorSpecialistMonthly": [
+          12000,
+          30000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "Medium",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Dental qualification, clinical practice or housemanship where applicable, postgraduate dental specialty training for specialist pathways, exams, and supervised case logs.",
+        "typicalYears": [
+          1,
+          3
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Dental specialist training should align with current Medical and Dental Council, dental school, GCPS dental surgery, or recognized regional postgraduate pathways.",
+      "commonTrainingCenters": [
+        22000,
+        50000
+      ],
+      "relatedSpecialties": [
+        "general-dentistry",
+        "orthodontics",
+        "oral-and-maxillofacial-surgery"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches University of Ghana Dental School and University of Ghana Dental Hospital work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by broad oral healthcare combining prevention, restoration, aesthetics, patient counseling, and practice ownership.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "workEnvironments": [
+        "dental clinics",
+        "teaching hospitals",
+        "private dental practices",
+        "community oral health programs"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "tags": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "traitProfile": [
+        "oral-health",
+        "procedures",
+        "private-practice"
+      ]
+    }
+  },
+  {
+    "id": "orthodontics",
+    "slug": "orthodontics",
+    "name": "Orthodontics",
+    "category": "dental",
+    "short_description": "Precision dental specialty focused on alignment, long treatment arcs, aesthetics, and predictable outpatient care.",
+    "full_description": "Precision dental specialty focused on alignment, long treatment arcs, aesthetics, and predictable outpatient care. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": [
+      "alignment",
+      "aesthetics",
+      "precision"
+    ],
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Very High",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "High",
+    "data": {
+      "id": "orthodontics",
+      "slug": "orthodontics",
+      "name": "Orthodontics",
+      "category": "dental",
+      "shortDescription": "Precision dental specialty focused on alignment, long treatment arcs, aesthetics, and predictable outpatient care.",
+      "fullDescription": "Precision dental specialty focused on alignment, long treatment arcs, aesthetics, and predictable outpatient care. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "align-center",
+      "colorTheme": {
+        "primary": "#14b8a6",
+        "secondary": "#f59e0b"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Very High",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": null,
+      "patientInteractionLevel": null,
+      "procedureIntensity": null,
+      "diagnosticIntensity": null,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          3,
+          5
+        ],
+        "privateSectorMonthly": [
+          9000,
+          18000
+        ],
+        "seniorSpecialistMonthly": [
+          18000,
+          42000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "Medium",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Very High",
+      "trainingPathway": {
+        "summary": "Dental qualification, clinical practice or housemanship where applicable, postgraduate dental specialty training for specialist pathways, exams, and supervised case logs.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Dental specialist training should align with current Medical and Dental Council, dental school, GCPS dental surgery, or recognized regional postgraduate pathways.",
+      "commonTrainingCenters": [
+        35000,
+        75000
+      ],
+      "relatedSpecialties": [
+        "general-dentistry",
+        "orthodontics",
+        "oral-and-maxillofacial-surgery"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches University of Ghana Dental School and University of Ghana Dental Hospital work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by precision dental specialty focused on alignment, long treatment arcs, aesthetics, and predictable outpatient care.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "workEnvironments": [
+        "dental clinics",
+        "teaching hospitals",
+        "private dental practices",
+        "community oral health programs"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "tags": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "traitProfile": [
+        "alignment",
+        "aesthetics",
+        "precision"
+      ]
+    }
+  },
+  {
+    "id": "oral-and-maxillofacial-surgery",
+    "slug": "oral-and-maxillofacial-surgery",
+    "name": "Oral & Maxillofacial Surgery",
+    "category": "dental",
+    "short_description": "Complex surgical dental specialty covering facial trauma, jaws, tumors, reconstruction, and difficult extractions.",
+    "full_description": "Complex surgical dental specialty covering facial trauma, jaws, tumors, reconstruction, and difficult extractions. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": [
+      "facial-trauma",
+      "surgery",
+      "reconstruction"
+    ],
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "Very High",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "High",
+    "data": {
+      "id": "oral-and-maxillofacial-surgery",
+      "slug": "oral-and-maxillofacial-surgery",
+      "name": "Oral & Maxillofacial Surgery",
+      "category": "dental",
+      "shortDescription": "Complex surgical dental specialty covering facial trauma, jaws, tumors, reconstruction, and difficult extractions.",
+      "fullDescription": "Complex surgical dental specialty covering facial trauma, jaws, tumors, reconstruction, and difficult extractions. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "shield-plus",
+      "colorTheme": {
+        "primary": "#14b8a6",
+        "secondary": "#f59e0b"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "Very High",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": null,
+      "patientInteractionLevel": null,
+      "procedureIntensity": null,
+      "diagnosticIntensity": null,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          5,
+          7
+        ],
+        "privateSectorMonthly": [
+          10000,
+          20000
+        ],
+        "seniorSpecialistMonthly": [
+          18000,
+          42000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "Medium",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Very High",
+      "trainingPathway": {
+        "summary": "Dental qualification, clinical practice or housemanship where applicable, postgraduate dental specialty training for specialist pathways, exams, and supervised case logs.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Dental specialist training should align with current Medical and Dental Council, dental school, GCPS dental surgery, or recognized regional postgraduate pathways.",
+      "commonTrainingCenters": [
+        35000,
+        80000
+      ],
+      "relatedSpecialties": [
+        "general-dentistry",
+        "orthodontics",
+        "oral-and-maxillofacial-surgery"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches University of Ghana Dental School and University of Ghana Dental Hospital work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by complex surgical dental specialty covering facial trauma, jaws, tumors, reconstruction, and difficult extractions.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "workEnvironments": [
+        "dental clinics",
+        "teaching hospitals",
+        "private dental practices",
+        "community oral health programs"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "tags": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "traitProfile": [
+        "facial-trauma",
+        "surgery",
+        "reconstruction"
+      ]
+    }
+  },
+  {
+    "id": "pediatric-dentistry",
+    "slug": "pediatric-dentistry",
+    "name": "Pediatric Dentistry",
+    "category": "dental",
+    "short_description": "Child-centered oral healthcare combining prevention, behavior guidance, procedures, and family education.",
+    "full_description": "Child-centered oral healthcare combining prevention, behavior guidance, procedures, and family education. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": [
+      "children",
+      "oral-health",
+      "prevention"
+    ],
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "High",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "High",
+    "data": {
+      "id": "pediatric-dentistry",
+      "slug": "pediatric-dentistry",
+      "name": "Pediatric Dentistry",
+      "category": "dental",
+      "shortDescription": "Child-centered oral healthcare combining prevention, behavior guidance, procedures, and family education.",
+      "fullDescription": "Child-centered oral healthcare combining prevention, behavior guidance, procedures, and family education. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "baby",
+      "colorTheme": {
+        "primary": "#14b8a6",
+        "secondary": "#f59e0b"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "High",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": null,
+      "patientInteractionLevel": null,
+      "procedureIntensity": null,
+      "diagnosticIntensity": null,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          3,
+          5
+        ],
+        "privateSectorMonthly": [
+          7500,
+          15000
+        ],
+        "seniorSpecialistMonthly": [
+          13000,
+          28000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "Medium",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Dental qualification, clinical practice or housemanship where applicable, postgraduate dental specialty training for specialist pathways, exams, and supervised case logs.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Dental specialist training should align with current Medical and Dental Council, dental school, GCPS dental surgery, or recognized regional postgraduate pathways.",
+      "commonTrainingCenters": [
+        24000,
+        52000
+      ],
+      "relatedSpecialties": [
+        "general-dentistry",
+        "orthodontics",
+        "oral-and-maxillofacial-surgery"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches University of Ghana Dental School and University of Ghana Dental Hospital work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by child-centered oral healthcare combining prevention, behavior guidance, procedures, and family education.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "workEnvironments": [
+        "dental clinics",
+        "teaching hospitals",
+        "private dental practices",
+        "community oral health programs"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "tags": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "traitProfile": [
+        "children",
+        "oral-health",
+        "prevention"
+      ]
+    }
+  },
+  {
+    "id": "periodontics",
+    "slug": "periodontics",
+    "name": "Periodontics",
+    "category": "dental",
+    "short_description": "Gum, implant-support, and oral-systemic disease specialty balancing chronic care and precision procedures.",
+    "full_description": "Gum, implant-support, and oral-systemic disease specialty balancing chronic care and precision procedures. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+    "trait_profile": [
+      "gum-disease",
+      "implants",
+      "precision"
+    ],
+    "training_years": [
+      4,
+      6
+    ],
+    "competitiveness": "High",
+    "burnout_risk": "Medium",
+    "lifestyle_rating": "3 - Fair",
+    "future_demand": "High",
+    "data": {
+      "id": "periodontics",
+      "slug": "periodontics",
+      "name": "Periodontics",
+      "category": "dental",
+      "shortDescription": "Gum, implant-support, and oral-systemic disease specialty balancing chronic care and precision procedures.",
+      "fullDescription": "Gum, implant-support, and oral-systemic disease specialty balancing chronic care and precision procedures. The Ghana pathway should be checked against current Ghana College of Physicians and Surgeons admissions, rules, and training-center guidance because accredited sites and requirements can change over time.",
+      "icon": "badge-plus",
+      "colorTheme": {
+        "primary": "#14b8a6",
+        "secondary": "#f59e0b"
+      },
+      "trainingYears": [
+        4,
+        6
+      ],
+      "competitiveness": "High",
+      "burnoutRisk": "Medium",
+      "workload": "Medium",
+      "stress": "Medium",
+      "lifestyleRating": "3 - Fair",
+      "emergencyIntensity": null,
+      "patientInteractionLevel": null,
+      "procedureIntensity": null,
+      "diagnosticIntensity": null,
+      "averageSalaryGHS": {
+        "publicSectorMonthly": [
+          3,
+          5
+        ],
+        "privateSectorMonthly": [
+          8000,
+          16000
+        ],
+        "seniorSpecialistMonthly": [
+          14000,
+          32000
+        ],
+        "currencyCode": "GHS",
+        "disclaimer": "Broad directional monthly estimates in Ghana cedis only. Real income varies by seniority, public/private mix, location, call burden, institutional policy, and private practice volume."
+      },
+      "privateSectorPotential": "High",
+      "globalMobility": "Medium",
+      "aiReplacementRisk": "Low",
+      "futureDemand": "High",
+      "residencyDifficulty": "Medium",
+      "trainingPathway": {
+        "summary": "Dental qualification, clinical practice or housemanship where applicable, postgraduate dental specialty training for specialist pathways, exams, and supervised case logs.",
+        "typicalYears": [
+          4,
+          6
+        ],
+        "prerequisites": [
+          "Professional qualification",
+          "Good standing with the Medical and Dental Council, Ghana",
+          "Relevant College or institution admission requirements"
+        ],
+        "milestones": [
+          "Core rotations",
+          "Supervised case logs",
+          "Examinations",
+          "Independent specialist practice readiness"
+        ]
+      },
+      "residencyPathwayGhana": "Dental specialist training should align with current Medical and Dental Council, dental school, GCPS dental surgery, or recognized regional postgraduate pathways.",
+      "commonTrainingCenters": [
+        26000,
+        58000
+      ],
+      "relatedSpecialties": [
+        "general-dentistry",
+        "orthodontics",
+        "oral-and-maxillofacial-surgery"
+      ],
+      "personalityFitDescription": "A strong fit for students whose profile matches University of Ghana Dental School and University of Ghana Dental Hospital work.",
+      "idealCandidateDescription": "The ideal candidate is realistic about Ghanaian training demands and consistently energized by gum, implant-support, and oral-systemic disease specialty balancing chronic care and precision procedures.",
+      "majorPros": [
+        "Meaningful patient or system impact",
+        "Clear specialist identity",
+        "Useful public and private sector pathways"
+      ],
+      "majorCons": [
+        "Training opportunities may be concentrated in major centers",
+        "Resource limitations can shape daily work",
+        "Career realities vary by region and institution"
+      ],
+      "dayInLifeTimeline": [
+        {
+          "time": "8:00 AM",
+          "activity": "Review cases, referrals, or list for the day",
+          "location": "department/unit"
+        },
+        {
+          "time": "9:30 AM",
+          "activity": "Core clinical service, procedure list, reporting, or clinic work",
+          "location": "clinical area"
+        },
+        {
+          "time": "12:30 PM",
+          "activity": "Teaching, handover, multidisciplinary discussion, or documentation",
+          "location": "team room"
+        },
+        {
+          "time": "2:00 PM",
+          "activity": "Follow-up cases, consults, procedures, or community/program work",
+          "location": "clinic/unit"
+        },
+        {
+          "time": "5:00 PM",
+          "activity": "Wrap-up, urgent reviews, and next-day planning",
+          "location": "department"
+        }
+      ],
+      "typicalCases": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "workEnvironments": [
+        "dental clinics",
+        "teaching hospitals",
+        "private dental practices",
+        "community oral health programs"
+      ],
+      "commonMisconceptions": [
+        "The specialty is exactly the same in every institution",
+        "Salary and lifestyle are fixed",
+        "Training requirements never change"
+      ],
+      "recommendedStudentActivities": [
+        "Shadow practitioners in public and private settings",
+        "Speak with residents and consultants",
+        "Review Ghana-specific training requirements",
+        "Compare daily workflow with personal strengths"
+      ],
+      "researchOpportunities": [
+        "service access",
+        "training capacity",
+        "quality improvement",
+        "patient outcomes"
+      ],
+      "subspecialties": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "tags": [
+        "University of Ghana Dental School",
+        "University of Ghana Dental Hospital",
+        "Korle-Bu Teaching Hospital",
+        "Komfo Anokye Teaching Hospital",
+        "Tamale Teaching Hospital",
+        "Cape Coast Teaching Hospital"
+      ],
+      "traitProfile": [
+        "gum-disease",
+        "implants",
+        "precision"
+      ]
+    }
+  }
+]

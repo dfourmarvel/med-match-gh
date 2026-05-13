@@ -1,0 +1,2222 @@
+[
+  {
+    "id": "mock-result-001",
+    "userId": "mock-user-001",
+    "audience": "medical-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 5
+      },
+      {
+        "questionId": 2,
+        "answer": 5
+      },
+      {
+        "questionId": 3,
+        "answer": 5
+      },
+      {
+        "questionId": 4,
+        "answer": 2
+      },
+      {
+        "questionId": 5,
+        "answer": 5
+      },
+      {
+        "questionId": 6,
+        "answer": 1
+      },
+      {
+        "questionId": 7,
+        "answer": 5
+      },
+      {
+        "questionId": 8,
+        "answer": 5
+      },
+      {
+        "questionId": 9,
+        "answer": 4
+      },
+      {
+        "questionId": 10,
+        "answer": 5
+      },
+      {
+        "questionId": 11,
+        "answer": 5
+      },
+      {
+        "questionId": 12,
+        "answer": 3
+      },
+      {
+        "questionId": 13,
+        "answer": 5
+      },
+      {
+        "questionId": 14,
+        "answer": 4
+      },
+      {
+        "questionId": 15,
+        "answer": 5
+      },
+      {
+        "questionId": 16,
+        "answer": 1
+      },
+      {
+        "questionId": 17,
+        "answer": 2
+      },
+      {
+        "questionId": 18,
+        "answer": 5
+      },
+      {
+        "questionId": 19,
+        "answer": 1
+      },
+      {
+        "questionId": 20,
+        "answer": 3
+      },
+      {
+        "questionId": 21,
+        "answer": 4
+      },
+      {
+        "questionId": 22,
+        "answer": 2
+      },
+      {
+        "questionId": 23,
+        "answer": 5
+      },
+      {
+        "questionId": 24,
+        "answer": 4
+      },
+      {
+        "questionId": 25,
+        "answer": 4
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 5.04,
+      "proceduralInterest": 8.95,
+      "diagnosticThinking": 8.46,
+      "fastPacedPreference": 10,
+      "workLifeBalancePriority": 3.25,
+      "emotionalResilience": 9.65,
+      "teamwork": 6.33,
+      "precisionOrientation": 7.98,
+      "longTermRelationships": 4.53,
+      "researchInterest": 7.8,
+      "leadershipPreference": 7.42,
+      "longTrainingTolerance": 7.1,
+      "emergencyComfort": 10,
+      "communicationEmpathy": 5.14,
+      "schedulePredictability": 2.3
+    },
+    "topMatches": [
+      {
+        "specialtyId": "general-surgery",
+        "specialtyName": "General Surgery",
+        "rank": 1,
+        "rawScore": 8.7519,
+        "matchPercentage": 81,
+        "confidence": "High",
+        "strengths": [
+          "Research Interest",
+          "Diagnostic Thinking",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Long Training Tolerance",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your research interest and diagnostic thinking align with General Surgery's daily work. The main growth areas to test through shadowing are long training tolerance and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "anesthesiology",
+        "specialtyName": "Anesthesiology",
+        "rank": 2,
+        "rawScore": 8.2609,
+        "matchPercentage": 73,
+        "confidence": "High",
+        "strengths": [
+          "Fast-Paced Preference",
+          "Long-Term Relationships",
+          "Procedural Interest"
+        ],
+        "challenges": [
+          "Schedule Predictability",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your fast-paced preference and long-term relationships align with Anesthesiology's daily work. The main growth areas to test through shadowing are schedule predictability and teamwork.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "obstetrics-and-gynecology",
+        "specialtyName": "Obstetrics & Gynecology",
+        "rank": 3,
+        "rawScore": 8.2529,
+        "matchPercentage": 73,
+        "confidence": "High",
+        "strengths": [
+          "Fast-Paced Preference",
+          "Research Interest",
+          "Diagnostic Thinking"
+        ],
+        "challenges": [
+          "Communication & Empathy",
+          "Patient Interaction"
+        ],
+        "reasoning": "This is a promising match because your fast-paced preference and research interest align with Obstetrics & Gynecology's daily work. The main growth areas to test through shadowing are communication & empathy and patient interaction.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "cardiology",
+        "specialtyName": "Cardiology",
+        "rank": 4,
+        "rawScore": 7.8798,
+        "matchPercentage": 67,
+        "confidence": "High",
+        "strengths": [
+          "Fast-Paced Preference",
+          "Emergency Comfort",
+          "Procedural Interest"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a possible match because your fast-paced preference and emergency comfort align with Cardiology's daily work. The main growth areas to test through shadowing are patient interaction and long training tolerance.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 5,
+        "rawScore": 7.0888,
+        "matchPercentage": 55,
+        "confidence": "High",
+        "strengths": [
+          "Procedural Interest",
+          "Emergency Comfort",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Long-Term Relationships",
+          "Patient Interaction"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and emergency comfort align with Internal Medicine's daily work. The main growth areas to test through shadowing are long-term relationships and patient interaction.",
+        "tieBreakerScore": 2
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.111Z"
+  },
+  {
+    "id": "mock-result-002",
+    "userId": "mock-user-002",
+    "audience": "medical-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 5
+      },
+      {
+        "questionId": 2,
+        "answer": 2
+      },
+      {
+        "questionId": 3,
+        "answer": 3
+      },
+      {
+        "questionId": 4,
+        "answer": 5
+      },
+      {
+        "questionId": 5,
+        "answer": 4
+      },
+      {
+        "questionId": 6,
+        "answer": 5
+      },
+      {
+        "questionId": 7,
+        "answer": 2
+      },
+      {
+        "questionId": 8,
+        "answer": 4
+      },
+      {
+        "questionId": 9,
+        "answer": 1
+      },
+      {
+        "questionId": 10,
+        "answer": 3
+      },
+      {
+        "questionId": 11,
+        "answer": 4
+      },
+      {
+        "questionId": 12,
+        "answer": 5
+      },
+      {
+        "questionId": 13,
+        "answer": 2
+      },
+      {
+        "questionId": 14,
+        "answer": 4
+      },
+      {
+        "questionId": 15,
+        "answer": 3
+      },
+      {
+        "questionId": 16,
+        "answer": 5
+      },
+      {
+        "questionId": 17,
+        "answer": 4
+      },
+      {
+        "questionId": 18,
+        "answer": 3
+      },
+      {
+        "questionId": 19,
+        "answer": 5
+      },
+      {
+        "questionId": 20,
+        "answer": 5
+      },
+      {
+        "questionId": 21,
+        "answer": 3
+      },
+      {
+        "questionId": 22,
+        "answer": 3
+      },
+      {
+        "questionId": 23,
+        "answer": 2
+      },
+      {
+        "questionId": 24,
+        "answer": 5
+      },
+      {
+        "questionId": 25,
+        "answer": 4
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 9.58,
+      "proceduralInterest": 3.94,
+      "diagnosticThinking": 8.83,
+      "fastPacedPreference": 3.38,
+      "workLifeBalancePriority": 7.75,
+      "emotionalResilience": 7.07,
+      "teamwork": 5.8,
+      "precisionOrientation": 5.95,
+      "longTermRelationships": 7.67,
+      "researchInterest": 7.27,
+      "leadershipPreference": 5.9,
+      "longTrainingTolerance": 5.5,
+      "emergencyComfort": 4.72,
+      "communicationEmpathy": 10,
+      "schedulePredictability": 8.18
+    },
+    "topMatches": [
+      {
+        "specialtyId": "psychiatry",
+        "specialtyName": "Psychiatry",
+        "rank": 1,
+        "rawScore": 8.8408,
+        "matchPercentage": 82,
+        "confidence": "High",
+        "strengths": [
+          "Procedural Interest",
+          "Diagnostic Thinking",
+          "Schedule Predictability"
+        ],
+        "challenges": [
+          "Long-Term Relationships",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your procedural interest and diagnostic thinking align with Psychiatry's daily work. The main growth areas to test through shadowing are long-term relationships and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 2,
+        "rawScore": 8.4291,
+        "matchPercentage": 76,
+        "confidence": "High",
+        "strengths": [
+          "Schedule Predictability",
+          "Work-Life Balance Priority",
+          "Communication & Empathy"
+        ],
+        "challenges": [
+          "Fast-Paced Preference",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your schedule predictability and work-life balance priority align with Internal Medicine's daily work. The main growth areas to test through shadowing are fast-paced preference and long training tolerance.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 3,
+        "rawScore": 8.336,
+        "matchPercentage": 74,
+        "confidence": "High",
+        "strengths": [
+          "Schedule Predictability",
+          "Work-Life Balance Priority",
+          "Diagnostic Thinking"
+        ],
+        "challenges": [
+          "Fast-Paced Preference",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your schedule predictability and work-life balance priority align with Pediatrics's daily work. The main growth areas to test through shadowing are fast-paced preference and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "neurology",
+        "specialtyName": "Neurology",
+        "rank": 4,
+        "rawScore": 8.3117,
+        "matchPercentage": 74,
+        "confidence": "High",
+        "strengths": [
+          "Communication & Empathy",
+          "Patient Interaction",
+          "Schedule Predictability"
+        ],
+        "challenges": [
+          "Long Training Tolerance",
+          "Precision Orientation"
+        ],
+        "reasoning": "This is a promising match because your communication & empathy and patient interaction align with Neurology's daily work. The main growth areas to test through shadowing are long training tolerance and precision orientation.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "dermatology",
+        "specialtyName": "Dermatology",
+        "rank": 5,
+        "rawScore": 8.2653,
+        "matchPercentage": 73,
+        "confidence": "High",
+        "strengths": [
+          "Communication & Empathy",
+          "Emergency Comfort",
+          "Patient Interaction"
+        ],
+        "challenges": [
+          "Precision Orientation",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your communication & empathy and emergency comfort align with Dermatology's daily work. The main growth areas to test through shadowing are precision orientation and long training tolerance.",
+        "tieBreakerScore": 1
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.122Z"
+  },
+  {
+    "id": "mock-result-003",
+    "userId": "mock-user-003",
+    "audience": "dental-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 4
+      },
+      {
+        "questionId": 2,
+        "answer": 5
+      },
+      {
+        "questionId": 3,
+        "answer": 3
+      },
+      {
+        "questionId": 4,
+        "answer": 5
+      },
+      {
+        "questionId": 5,
+        "answer": 3
+      },
+      {
+        "questionId": 6,
+        "answer": 5
+      },
+      {
+        "questionId": 7,
+        "answer": 3
+      },
+      {
+        "questionId": 8,
+        "answer": 4
+      },
+      {
+        "questionId": 9,
+        "answer": 2
+      },
+      {
+        "questionId": 10,
+        "answer": 3
+      },
+      {
+        "questionId": 11,
+        "answer": 5
+      },
+      {
+        "questionId": 12,
+        "answer": 4
+      },
+      {
+        "questionId": 13,
+        "answer": 2
+      },
+      {
+        "questionId": 14,
+        "answer": 3
+      },
+      {
+        "questionId": 15,
+        "answer": 4
+      },
+      {
+        "questionId": 16,
+        "answer": 2
+      },
+      {
+        "questionId": 17,
+        "answer": 5
+      },
+      {
+        "questionId": 18,
+        "answer": 3
+      },
+      {
+        "questionId": 19,
+        "answer": 5
+      },
+      {
+        "questionId": 20,
+        "answer": 5
+      },
+      {
+        "questionId": 21,
+        "answer": 4
+      },
+      {
+        "questionId": 22,
+        "answer": 2
+      },
+      {
+        "questionId": 23,
+        "answer": 3
+      },
+      {
+        "questionId": 24,
+        "answer": 5
+      },
+      {
+        "questionId": 25,
+        "answer": 3
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 9.55,
+      "proceduralInterest": 8.22,
+      "diagnosticThinking": 7.01,
+      "fastPacedPreference": 4.7,
+      "workLifeBalancePriority": 7.75,
+      "emotionalResilience": 6.04,
+      "teamwork": 5.28,
+      "precisionOrientation": 7.98,
+      "longTermRelationships": 7.9,
+      "researchInterest": 6.3,
+      "leadershipPreference": 5.39,
+      "longTrainingTolerance": 6.3,
+      "emergencyComfort": 5.28,
+      "communicationEmpathy": 9.89,
+      "schedulePredictability": 8.18
+    },
+    "topMatches": [
+      {
+        "specialtyId": "dermatology",
+        "specialtyName": "Dermatology",
+        "rank": 1,
+        "rawScore": 8.1032,
+        "matchPercentage": 71,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Emergency Comfort",
+          "Communication & Empathy"
+        ],
+        "challenges": [
+          "Work-Life Balance Priority",
+          "Precision Orientation"
+        ],
+        "reasoning": "This is a promising match because your procedural interest and emergency comfort align with Dermatology's daily work. The main growth areas to test through shadowing are work-life balance priority and precision orientation.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 2,
+        "rawScore": 7.9899,
+        "matchPercentage": 69,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Schedule Predictability",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Teamwork",
+          "Emotional Resilience"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and schedule predictability align with Pediatrics's daily work. The main growth areas to test through shadowing are teamwork and emotional resilience.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 3,
+        "rawScore": 7.9534,
+        "matchPercentage": 69,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Schedule Predictability",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Diagnostic Thinking",
+          "Teamwork"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and schedule predictability align with Internal Medicine's daily work. The main growth areas to test through shadowing are diagnostic thinking and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "psychiatry",
+        "specialtyName": "Psychiatry",
+        "rank": 4,
+        "rawScore": 7.8154,
+        "matchPercentage": 66,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Precision Orientation",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Emotional Resilience",
+          "Teamwork"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and precision orientation align with Psychiatry's daily work. The main growth areas to test through shadowing are emotional resilience and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "neurology",
+        "specialtyName": "Neurology",
+        "rank": 5,
+        "rawScore": 7.6692,
+        "matchPercentage": 64,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Communication & Empathy",
+          "Patient Interaction"
+        ],
+        "challenges": [
+          "Diagnostic Thinking",
+          "Teamwork"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and communication & empathy align with Neurology's daily work. The main growth areas to test through shadowing are diagnostic thinking and teamwork.",
+        "tieBreakerScore": 1
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.123Z"
+  },
+  {
+    "id": "mock-result-004",
+    "userId": "mock-user-004",
+    "audience": "high-school",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 4
+      },
+      {
+        "questionId": 2,
+        "answer": 2
+      },
+      {
+        "questionId": 3,
+        "answer": 3
+      },
+      {
+        "questionId": 4,
+        "answer": 4
+      },
+      {
+        "questionId": 5,
+        "answer": 4
+      },
+      {
+        "questionId": 6,
+        "answer": 4
+      },
+      {
+        "questionId": 7,
+        "answer": 3
+      },
+      {
+        "questionId": 8,
+        "answer": 4
+      },
+      {
+        "questionId": 9,
+        "answer": 3
+      },
+      {
+        "questionId": 10,
+        "answer": 5
+      },
+      {
+        "questionId": 11,
+        "answer": 3
+      },
+      {
+        "questionId": 12,
+        "answer": 4
+      },
+      {
+        "questionId": 13,
+        "answer": 4
+      },
+      {
+        "questionId": 14,
+        "answer": 5
+      },
+      {
+        "questionId": 15,
+        "answer": 3
+      },
+      {
+        "questionId": 16,
+        "answer": 4
+      },
+      {
+        "questionId": 17,
+        "answer": 3
+      },
+      {
+        "questionId": 18,
+        "answer": 3
+      },
+      {
+        "questionId": 19,
+        "answer": 4
+      },
+      {
+        "questionId": 20,
+        "answer": 4
+      },
+      {
+        "questionId": 21,
+        "answer": 3
+      },
+      {
+        "questionId": 22,
+        "answer": 5
+      },
+      {
+        "questionId": 23,
+        "answer": 3
+      },
+      {
+        "questionId": 24,
+        "answer": 5
+      },
+      {
+        "questionId": 25,
+        "answer": 5
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 6.75,
+      "proceduralInterest": 4.29,
+      "diagnosticThinking": 8.54,
+      "fastPacedPreference": 5.63,
+      "workLifeBalancePriority": 6.63,
+      "emotionalResilience": 6.77,
+      "teamwork": 7.3,
+      "precisionOrientation": 5.17,
+      "longTermRelationships": 6.47,
+      "researchInterest": 8.36,
+      "leadershipPreference": 8.3,
+      "longTrainingTolerance": 5.5,
+      "emergencyComfort": 6.07,
+      "communicationEmpathy": 8.52,
+      "schedulePredictability": 6.04
+    },
+    "topMatches": [
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 1,
+        "rawScore": 8.7364,
+        "matchPercentage": 81,
+        "confidence": "Medium",
+        "strengths": [
+          "Leadership Preference",
+          "Work-Life Balance Priority",
+          "Research Interest"
+        ],
+        "challenges": [
+          "Precision Orientation",
+          "Long-Term Relationships"
+        ],
+        "reasoning": "This is a promising match because your leadership preference and work-life balance priority align with Internal Medicine's daily work. The main growth areas to test through shadowing are precision orientation and long-term relationships.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 2,
+        "rawScore": 8.4514,
+        "matchPercentage": 76,
+        "confidence": "Medium",
+        "strengths": [
+          "Research Interest",
+          "Leadership Preference",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Precision Orientation"
+        ],
+        "reasoning": "This is a promising match because your research interest and leadership preference align with Pediatrics's daily work. The main growth areas to test through shadowing are patient interaction and precision orientation.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "neurology",
+        "specialtyName": "Neurology",
+        "rank": 3,
+        "rawScore": 8.3741,
+        "matchPercentage": 75,
+        "confidence": "Medium",
+        "strengths": [
+          "Leadership Preference",
+          "Procedural Interest",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Precision Orientation",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your leadership preference and procedural interest align with Neurology's daily work. The main growth areas to test through shadowing are precision orientation and long training tolerance.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "public-health-community-medicine",
+        "specialtyName": "Public Health / Community Medicine",
+        "rank": 4,
+        "rawScore": 8.1137,
+        "matchPercentage": 71,
+        "confidence": "Medium",
+        "strengths": [
+          "Emergency Comfort",
+          "Procedural Interest",
+          "Diagnostic Thinking"
+        ],
+        "challenges": [
+          "Schedule Predictability",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your emergency comfort and procedural interest align with Public Health / Community Medicine's daily work. The main growth areas to test through shadowing are schedule predictability and teamwork.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "psychiatry",
+        "specialtyName": "Psychiatry",
+        "rank": 5,
+        "rawScore": 8.0958,
+        "matchPercentage": 71,
+        "confidence": "Medium",
+        "strengths": [
+          "Leadership Preference",
+          "Procedural Interest",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Long-Term Relationships",
+          "Patient Interaction"
+        ],
+        "reasoning": "This is a promising match because your leadership preference and procedural interest align with Psychiatry's daily work. The main growth areas to test through shadowing are long-term relationships and patient interaction.",
+        "tieBreakerScore": 2
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.123Z"
+  },
+  {
+    "id": "mock-result-005",
+    "userId": "mock-user-005",
+    "audience": "medical-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 5
+      },
+      {
+        "questionId": 2,
+        "answer": 3
+      },
+      {
+        "questionId": 3,
+        "answer": 5
+      },
+      {
+        "questionId": 4,
+        "answer": 3
+      },
+      {
+        "questionId": 5,
+        "answer": 5
+      },
+      {
+        "questionId": 6,
+        "answer": 2
+      },
+      {
+        "questionId": 7,
+        "answer": 5
+      },
+      {
+        "questionId": 8,
+        "answer": 5
+      },
+      {
+        "questionId": 9,
+        "answer": 4
+      },
+      {
+        "questionId": 10,
+        "answer": 4
+      },
+      {
+        "questionId": 11,
+        "answer": 5
+      },
+      {
+        "questionId": 12,
+        "answer": 3
+      },
+      {
+        "questionId": 13,
+        "answer": 5
+      },
+      {
+        "questionId": 14,
+        "answer": 4
+      },
+      {
+        "questionId": 15,
+        "answer": 5
+      },
+      {
+        "questionId": 16,
+        "answer": 4
+      },
+      {
+        "questionId": 17,
+        "answer": 2
+      },
+      {
+        "questionId": 18,
+        "answer": 5
+      },
+      {
+        "questionId": 19,
+        "answer": 2
+      },
+      {
+        "questionId": 20,
+        "answer": 3
+      },
+      {
+        "questionId": 21,
+        "answer": 5
+      },
+      {
+        "questionId": 22,
+        "answer": 3
+      },
+      {
+        "questionId": 23,
+        "answer": 5
+      },
+      {
+        "questionId": 24,
+        "answer": 4
+      },
+      {
+        "questionId": 25,
+        "answer": 5
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 5.08,
+      "proceduralInterest": 5.67,
+      "diagnosticThinking": 10,
+      "fastPacedPreference": 10,
+      "workLifeBalancePriority": 4.38,
+      "emotionalResilience": 9.65,
+      "teamwork": 6.18,
+      "precisionOrientation": 7.6,
+      "longTermRelationships": 5.28,
+      "researchInterest": 9.25,
+      "leadershipPreference": 6.97,
+      "longTrainingTolerance": 7.1,
+      "emergencyComfort": 10,
+      "communicationEmpathy": 5.43,
+      "schedulePredictability": 3.37
+    },
+    "topMatches": [
+      {
+        "specialtyId": "cardiology",
+        "specialtyName": "Cardiology",
+        "rank": 1,
+        "rawScore": 8.1914,
+        "matchPercentage": 72,
+        "confidence": "High",
+        "strengths": [
+          "Fast-Paced Preference",
+          "Emergency Comfort",
+          "Emotional Resilience"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your fast-paced preference and emergency comfort align with Cardiology's daily work. The main growth areas to test through shadowing are patient interaction and long training tolerance.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "anesthesiology",
+        "specialtyName": "Anesthesiology",
+        "rank": 2,
+        "rawScore": 8.1426,
+        "matchPercentage": 71,
+        "confidence": "High",
+        "strengths": [
+          "Long-Term Relationships",
+          "Research Interest",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Teamwork",
+          "Schedule Predictability"
+        ],
+        "reasoning": "This is a promising match because your long-term relationships and research interest align with Anesthesiology's daily work. The main growth areas to test through shadowing are teamwork and schedule predictability.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "obstetrics-and-gynecology",
+        "specialtyName": "Obstetrics & Gynecology",
+        "rank": 3,
+        "rawScore": 7.9839,
+        "matchPercentage": 69,
+        "confidence": "High",
+        "strengths": [
+          "Research Interest",
+          "Diagnostic Thinking",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Communication & Empathy",
+          "Patient Interaction"
+        ],
+        "reasoning": "This is a possible match because your research interest and diagnostic thinking align with Obstetrics & Gynecology's daily work. The main growth areas to test through shadowing are communication & empathy and patient interaction.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "general-surgery",
+        "specialtyName": "General Surgery",
+        "rank": 4,
+        "rawScore": 7.922,
+        "matchPercentage": 68,
+        "confidence": "High",
+        "strengths": [
+          "Research Interest",
+          "Diagnostic Thinking",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Procedural Interest",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a possible match because your research interest and diagnostic thinking align with General Surgery's daily work. The main growth areas to test through shadowing are procedural interest and long training tolerance.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 5,
+        "rawScore": 7.5673,
+        "matchPercentage": 63,
+        "confidence": "High",
+        "strengths": [
+          "Emergency Comfort",
+          "Fast-Paced Preference",
+          "Procedural Interest"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Long-Term Relationships"
+        ],
+        "reasoning": "This is a possible match because your emergency comfort and fast-paced preference align with Internal Medicine's daily work. The main growth areas to test through shadowing are patient interaction and long-term relationships.",
+        "tieBreakerScore": 2
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.123Z"
+  },
+  {
+    "id": "mock-result-006",
+    "userId": "mock-user-006",
+    "audience": "medical-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 4
+      },
+      {
+        "questionId": 2,
+        "answer": 2
+      },
+      {
+        "questionId": 3,
+        "answer": 3
+      },
+      {
+        "questionId": 4,
+        "answer": 5
+      },
+      {
+        "questionId": 5,
+        "answer": 4
+      },
+      {
+        "questionId": 6,
+        "answer": 5
+      },
+      {
+        "questionId": 7,
+        "answer": 2
+      },
+      {
+        "questionId": 8,
+        "answer": 4
+      },
+      {
+        "questionId": 9,
+        "answer": 2
+      },
+      {
+        "questionId": 10,
+        "answer": 4
+      },
+      {
+        "questionId": 11,
+        "answer": 4
+      },
+      {
+        "questionId": 12,
+        "answer": 5
+      },
+      {
+        "questionId": 13,
+        "answer": 2
+      },
+      {
+        "questionId": 14,
+        "answer": 4
+      },
+      {
+        "questionId": 15,
+        "answer": 3
+      },
+      {
+        "questionId": 16,
+        "answer": 5
+      },
+      {
+        "questionId": 17,
+        "answer": 5
+      },
+      {
+        "questionId": 18,
+        "answer": 3
+      },
+      {
+        "questionId": 19,
+        "answer": 5
+      },
+      {
+        "questionId": 20,
+        "answer": 5
+      },
+      {
+        "questionId": 21,
+        "answer": 3
+      },
+      {
+        "questionId": 22,
+        "answer": 4
+      },
+      {
+        "questionId": 23,
+        "answer": 2
+      },
+      {
+        "questionId": 24,
+        "answer": 5
+      },
+      {
+        "questionId": 25,
+        "answer": 4
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 9.25,
+      "proceduralInterest": 3.94,
+      "diagnosticThinking": 8.59,
+      "fastPacedPreference": 3.38,
+      "workLifeBalancePriority": 7.75,
+      "emotionalResilience": 6.84,
+      "teamwork": 6.4,
+      "precisionOrientation": 5.95,
+      "longTermRelationships": 7.9,
+      "researchInterest": 7.29,
+      "leadershipPreference": 6.9,
+      "longTrainingTolerance": 5.5,
+      "emergencyComfort": 4.72,
+      "communicationEmpathy": 10,
+      "schedulePredictability": 8.18
+    },
+    "topMatches": [
+      {
+        "specialtyId": "psychiatry",
+        "specialtyName": "Psychiatry",
+        "rank": 1,
+        "rawScore": 8.8249,
+        "matchPercentage": 82,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Leadership Preference",
+          "Diagnostic Thinking"
+        ],
+        "challenges": [
+          "Emotional Resilience",
+          "Long-Term Relationships"
+        ],
+        "reasoning": "This is a promising match because your procedural interest and leadership preference align with Psychiatry's daily work. The main growth areas to test through shadowing are emotional resilience and long-term relationships.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 2,
+        "rawScore": 8.4535,
+        "matchPercentage": 76,
+        "confidence": "Medium",
+        "strengths": [
+          "Schedule Predictability",
+          "Work-Life Balance Priority",
+          "Communication & Empathy"
+        ],
+        "challenges": [
+          "Fast-Paced Preference",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your schedule predictability and work-life balance priority align with Internal Medicine's daily work. The main growth areas to test through shadowing are fast-paced preference and long training tolerance.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 3,
+        "rawScore": 8.3794,
+        "matchPercentage": 75,
+        "confidence": "Medium",
+        "strengths": [
+          "Schedule Predictability",
+          "Work-Life Balance Priority",
+          "Diagnostic Thinking"
+        ],
+        "challenges": [
+          "Fast-Paced Preference",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your schedule predictability and work-life balance priority align with Pediatrics's daily work. The main growth areas to test through shadowing are fast-paced preference and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "neurology",
+        "specialtyName": "Neurology",
+        "rank": 4,
+        "rawScore": 8.2901,
+        "matchPercentage": 74,
+        "confidence": "Medium",
+        "strengths": [
+          "Communication & Empathy",
+          "Patient Interaction",
+          "Schedule Predictability"
+        ],
+        "challenges": [
+          "Long Training Tolerance",
+          "Precision Orientation"
+        ],
+        "reasoning": "This is a promising match because your communication & empathy and patient interaction align with Neurology's daily work. The main growth areas to test through shadowing are long training tolerance and precision orientation.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "dermatology",
+        "specialtyName": "Dermatology",
+        "rank": 5,
+        "rawScore": 8.1872,
+        "matchPercentage": 72,
+        "confidence": "Medium",
+        "strengths": [
+          "Communication & Empathy",
+          "Leadership Preference",
+          "Emergency Comfort"
+        ],
+        "challenges": [
+          "Precision Orientation",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your communication & empathy and leadership preference align with Dermatology's daily work. The main growth areas to test through shadowing are precision orientation and long training tolerance.",
+        "tieBreakerScore": 1
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.124Z"
+  },
+  {
+    "id": "mock-result-007",
+    "userId": "mock-user-007",
+    "audience": "dental-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 3
+      },
+      {
+        "questionId": 2,
+        "answer": 5
+      },
+      {
+        "questionId": 3,
+        "answer": 3
+      },
+      {
+        "questionId": 4,
+        "answer": 5
+      },
+      {
+        "questionId": 5,
+        "answer": 3
+      },
+      {
+        "questionId": 6,
+        "answer": 5
+      },
+      {
+        "questionId": 7,
+        "answer": 2
+      },
+      {
+        "questionId": 8,
+        "answer": 4
+      },
+      {
+        "questionId": 9,
+        "answer": 2
+      },
+      {
+        "questionId": 10,
+        "answer": 3
+      },
+      {
+        "questionId": 11,
+        "answer": 5
+      },
+      {
+        "questionId": 12,
+        "answer": 4
+      },
+      {
+        "questionId": 13,
+        "answer": 2
+      },
+      {
+        "questionId": 14,
+        "answer": 3
+      },
+      {
+        "questionId": 15,
+        "answer": 4
+      },
+      {
+        "questionId": 16,
+        "answer": 2
+      },
+      {
+        "questionId": 17,
+        "answer": 5
+      },
+      {
+        "questionId": 18,
+        "answer": 3
+      },
+      {
+        "questionId": 19,
+        "answer": 5
+      },
+      {
+        "questionId": 20,
+        "answer": 5
+      },
+      {
+        "questionId": 21,
+        "answer": 4
+      },
+      {
+        "questionId": 22,
+        "answer": 2
+      },
+      {
+        "questionId": 23,
+        "answer": 2
+      },
+      {
+        "questionId": 24,
+        "answer": 5
+      },
+      {
+        "questionId": 25,
+        "answer": 3
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 9.55,
+      "proceduralInterest": 8.22,
+      "diagnosticThinking": 6.29,
+      "fastPacedPreference": 3.38,
+      "workLifeBalancePriority": 7.75,
+      "emotionalResilience": 5.58,
+      "teamwork": 5.28,
+      "precisionOrientation": 7.98,
+      "longTermRelationships": 7.9,
+      "researchInterest": 6.01,
+      "leadershipPreference": 5.39,
+      "longTrainingTolerance": 6.3,
+      "emergencyComfort": 4.38,
+      "communicationEmpathy": 9.89,
+      "schedulePredictability": 8.18
+    },
+    "topMatches": [
+      {
+        "specialtyId": "dermatology",
+        "specialtyName": "Dermatology",
+        "rank": 1,
+        "rawScore": 8.2082,
+        "matchPercentage": 72,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Communication & Empathy",
+          "Patient Interaction"
+        ],
+        "challenges": [
+          "Diagnostic Thinking",
+          "Work-Life Balance Priority"
+        ],
+        "reasoning": "This is a promising match because your procedural interest and communication & empathy align with Dermatology's daily work. The main growth areas to test through shadowing are diagnostic thinking and work-life balance priority.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 2,
+        "rawScore": 7.8348,
+        "matchPercentage": 67,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Schedule Predictability",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Teamwork",
+          "Fast-Paced Preference"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and schedule predictability align with Pediatrics's daily work. The main growth areas to test through shadowing are teamwork and fast-paced preference.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "psychiatry",
+        "specialtyName": "Psychiatry",
+        "rank": 3,
+        "rawScore": 7.8342,
+        "matchPercentage": 67,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Precision Orientation",
+          "Schedule Predictability"
+        ],
+        "challenges": [
+          "Emotional Resilience",
+          "Teamwork"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and precision orientation align with Psychiatry's daily work. The main growth areas to test through shadowing are emotional resilience and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 4,
+        "rawScore": 7.7897,
+        "matchPercentage": 66,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Schedule Predictability",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Diagnostic Thinking",
+          "Fast-Paced Preference"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and schedule predictability align with Internal Medicine's daily work. The main growth areas to test through shadowing are diagnostic thinking and fast-paced preference.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "neurology",
+        "specialtyName": "Neurology",
+        "rank": 5,
+        "rawScore": 7.5686,
+        "matchPercentage": 63,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Communication & Empathy",
+          "Patient Interaction"
+        ],
+        "challenges": [
+          "Diagnostic Thinking",
+          "Research Interest"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and communication & empathy align with Neurology's daily work. The main growth areas to test through shadowing are diagnostic thinking and research interest.",
+        "tieBreakerScore": 1
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.124Z"
+  },
+  {
+    "id": "mock-result-008",
+    "userId": "mock-user-008",
+    "audience": "high-school",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 4
+      },
+      {
+        "questionId": 2,
+        "answer": 2
+      },
+      {
+        "questionId": 3,
+        "answer": 4
+      },
+      {
+        "questionId": 4,
+        "answer": 4
+      },
+      {
+        "questionId": 5,
+        "answer": 4
+      },
+      {
+        "questionId": 6,
+        "answer": 4
+      },
+      {
+        "questionId": 7,
+        "answer": 3
+      },
+      {
+        "questionId": 8,
+        "answer": 4
+      },
+      {
+        "questionId": 9,
+        "answer": 3
+      },
+      {
+        "questionId": 10,
+        "answer": 5
+      },
+      {
+        "questionId": 11,
+        "answer": 4
+      },
+      {
+        "questionId": 12,
+        "answer": 4
+      },
+      {
+        "questionId": 13,
+        "answer": 4
+      },
+      {
+        "questionId": 14,
+        "answer": 5
+      },
+      {
+        "questionId": 15,
+        "answer": 4
+      },
+      {
+        "questionId": 16,
+        "answer": 4
+      },
+      {
+        "questionId": 17,
+        "answer": 3
+      },
+      {
+        "questionId": 18,
+        "answer": 4
+      },
+      {
+        "questionId": 19,
+        "answer": 4
+      },
+      {
+        "questionId": 20,
+        "answer": 4
+      },
+      {
+        "questionId": 21,
+        "answer": 4
+      },
+      {
+        "questionId": 22,
+        "answer": 5
+      },
+      {
+        "questionId": 23,
+        "answer": 3
+      },
+      {
+        "questionId": 24,
+        "answer": 5
+      },
+      {
+        "questionId": 25,
+        "answer": 5
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 6.75,
+      "proceduralInterest": 4.51,
+      "diagnosticThinking": 9.08,
+      "fastPacedPreference": 6.28,
+      "workLifeBalancePriority": 6.63,
+      "emotionalResilience": 7.63,
+      "teamwork": 7.3,
+      "precisionOrientation": 6.23,
+      "longTermRelationships": 6.47,
+      "researchInterest": 8.73,
+      "leadershipPreference": 8.47,
+      "longTrainingTolerance": 6.3,
+      "emergencyComfort": 7.2,
+      "communicationEmpathy": 8.52,
+      "schedulePredictability": 6.04
+    },
+    "topMatches": [
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 1,
+        "rawScore": 8.689,
+        "matchPercentage": 80,
+        "confidence": "Medium",
+        "strengths": [
+          "Leadership Preference",
+          "Emergency Comfort",
+          "Research Interest"
+        ],
+        "challenges": [
+          "Long-Term Relationships",
+          "Patient Interaction"
+        ],
+        "reasoning": "This is a promising match because your leadership preference and emergency comfort align with Internal Medicine's daily work. The main growth areas to test through shadowing are long-term relationships and patient interaction.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 2,
+        "rawScore": 8.4354,
+        "matchPercentage": 76,
+        "confidence": "Medium",
+        "strengths": [
+          "Research Interest",
+          "Leadership Preference",
+          "Diagnostic Thinking"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Long-Term Relationships"
+        ],
+        "reasoning": "This is a promising match because your research interest and leadership preference align with Pediatrics's daily work. The main growth areas to test through shadowing are patient interaction and long-term relationships.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "neurology",
+        "specialtyName": "Neurology",
+        "rank": 3,
+        "rawScore": 8.3809,
+        "matchPercentage": 75,
+        "confidence": "Medium",
+        "strengths": [
+          "Leadership Preference",
+          "Procedural Interest",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Precision Orientation",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your leadership preference and procedural interest align with Neurology's daily work. The main growth areas to test through shadowing are precision orientation and long training tolerance.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "cardiology",
+        "specialtyName": "Cardiology",
+        "rank": 4,
+        "rawScore": 8.3053,
+        "matchPercentage": 74,
+        "confidence": "Medium",
+        "strengths": [
+          "Work-Life Balance Priority",
+          "Schedule Predictability",
+          "Communication & Empathy"
+        ],
+        "challenges": [
+          "Long Training Tolerance",
+          "Precision Orientation"
+        ],
+        "reasoning": "This is a promising match because your work-life balance priority and schedule predictability align with Cardiology's daily work. The main growth areas to test through shadowing are long training tolerance and precision orientation.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "obstetrics-and-gynecology",
+        "specialtyName": "Obstetrics & Gynecology",
+        "rank": 5,
+        "rawScore": 7.9151,
+        "matchPercentage": 68,
+        "confidence": "Medium",
+        "strengths": [
+          "Work-Life Balance Priority",
+          "Schedule Predictability",
+          "Research Interest"
+        ],
+        "challenges": [
+          "Procedural Interest",
+          "Emergency Comfort"
+        ],
+        "reasoning": "This is a possible match because your work-life balance priority and schedule predictability align with Obstetrics & Gynecology's daily work. The main growth areas to test through shadowing are procedural interest and emergency comfort.",
+        "tieBreakerScore": 2
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.124Z"
+  },
+  {
+    "id": "mock-result-009",
+    "userId": "mock-user-009",
+    "audience": "medical-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 5
+      },
+      {
+        "questionId": 2,
+        "answer": 2
+      },
+      {
+        "questionId": 3,
+        "answer": 4
+      },
+      {
+        "questionId": 4,
+        "answer": 4
+      },
+      {
+        "questionId": 5,
+        "answer": 4
+      },
+      {
+        "questionId": 6,
+        "answer": 4
+      },
+      {
+        "questionId": 7,
+        "answer": 3
+      },
+      {
+        "questionId": 8,
+        "answer": 5
+      },
+      {
+        "questionId": 9,
+        "answer": 4
+      },
+      {
+        "questionId": 10,
+        "answer": 3
+      },
+      {
+        "questionId": 11,
+        "answer": 5
+      },
+      {
+        "questionId": 12,
+        "answer": 4
+      },
+      {
+        "questionId": 13,
+        "answer": 3
+      },
+      {
+        "questionId": 14,
+        "answer": 4
+      },
+      {
+        "questionId": 15,
+        "answer": 5
+      },
+      {
+        "questionId": 16,
+        "answer": 5
+      },
+      {
+        "questionId": 17,
+        "answer": 3
+      },
+      {
+        "questionId": 18,
+        "answer": 4
+      },
+      {
+        "questionId": 19,
+        "answer": 4
+      },
+      {
+        "questionId": 20,
+        "answer": 4
+      },
+      {
+        "questionId": 21,
+        "answer": 5
+      },
+      {
+        "questionId": 22,
+        "answer": 4
+      },
+      {
+        "questionId": 23,
+        "answer": 3
+      },
+      {
+        "questionId": 24,
+        "answer": 4
+      },
+      {
+        "questionId": 25,
+        "answer": 5
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 6.22,
+      "proceduralInterest": 4.32,
+      "diagnosticThinking": 10,
+      "fastPacedPreference": 5.94,
+      "workLifeBalancePriority": 6.63,
+      "emotionalResilience": 7.88,
+      "teamwork": 6.02,
+      "precisionOrientation": 7.27,
+      "longTermRelationships": 6.47,
+      "researchInterest": 9.53,
+      "leadershipPreference": 6.53,
+      "longTrainingTolerance": 7.1,
+      "emergencyComfort": 6.97,
+      "communicationEmpathy": 7.52,
+      "schedulePredictability": 6.57
+    },
+    "topMatches": [
+      {
+        "specialtyId": "neurology",
+        "specialtyName": "Neurology",
+        "rank": 1,
+        "rawScore": 8.7707,
+        "matchPercentage": 81,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Emergency Comfort",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Teamwork",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a promising match because your procedural interest and emergency comfort align with Neurology's daily work. The main growth areas to test through shadowing are teamwork and long training tolerance.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "internal-medicine",
+        "specialtyName": "Internal Medicine",
+        "rank": 2,
+        "rawScore": 8.6837,
+        "matchPercentage": 80,
+        "confidence": "Medium",
+        "strengths": [
+          "Research Interest",
+          "Emergency Comfort",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Long-Term Relationships"
+        ],
+        "reasoning": "This is a promising match because your research interest and emergency comfort align with Internal Medicine's daily work. The main growth areas to test through shadowing are patient interaction and long-term relationships.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "cardiology",
+        "specialtyName": "Cardiology",
+        "rank": 3,
+        "rawScore": 8.4288,
+        "matchPercentage": 76,
+        "confidence": "Medium",
+        "strengths": [
+          "Work-Life Balance Priority",
+          "Schedule Predictability",
+          "Research Interest"
+        ],
+        "challenges": [
+          "Long Training Tolerance",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your work-life balance priority and schedule predictability align with Cardiology's daily work. The main growth areas to test through shadowing are long training tolerance and teamwork.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 4,
+        "rawScore": 8.1781,
+        "matchPercentage": 72,
+        "confidence": "Medium",
+        "strengths": [
+          "Research Interest",
+          "Diagnostic Thinking",
+          "Work-Life Balance Priority"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Communication & Empathy"
+        ],
+        "reasoning": "This is a promising match because your research interest and diagnostic thinking align with Pediatrics's daily work. The main growth areas to test through shadowing are patient interaction and communication & empathy.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "psychiatry",
+        "specialtyName": "Psychiatry",
+        "rank": 5,
+        "rawScore": 7.8301,
+        "matchPercentage": 67,
+        "confidence": "Medium",
+        "strengths": [
+          "Procedural Interest",
+          "Diagnostic Thinking",
+          "Emergency Comfort"
+        ],
+        "challenges": [
+          "Patient Interaction",
+          "Long-Term Relationships"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and diagnostic thinking align with Psychiatry's daily work. The main growth areas to test through shadowing are patient interaction and long-term relationships.",
+        "tieBreakerScore": 2
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.125Z"
+  },
+  {
+    "id": "mock-result-010",
+    "userId": "mock-user-010",
+    "audience": "medical-student",
+    "responses": [
+      {
+        "questionId": 1,
+        "answer": 5
+      },
+      {
+        "questionId": 2,
+        "answer": 4
+      },
+      {
+        "questionId": 3,
+        "answer": 5
+      },
+      {
+        "questionId": 4,
+        "answer": 4
+      },
+      {
+        "questionId": 5,
+        "answer": 5
+      },
+      {
+        "questionId": 6,
+        "answer": 2
+      },
+      {
+        "questionId": 7,
+        "answer": 5
+      },
+      {
+        "questionId": 8,
+        "answer": 5
+      },
+      {
+        "questionId": 9,
+        "answer": 3
+      },
+      {
+        "questionId": 10,
+        "answer": 5
+      },
+      {
+        "questionId": 11,
+        "answer": 5
+      },
+      {
+        "questionId": 12,
+        "answer": 4
+      },
+      {
+        "questionId": 13,
+        "answer": 5
+      },
+      {
+        "questionId": 14,
+        "answer": 5
+      },
+      {
+        "questionId": 15,
+        "answer": 5
+      },
+      {
+        "questionId": 16,
+        "answer": 3
+      },
+      {
+        "questionId": 17,
+        "answer": 4
+      },
+      {
+        "questionId": 18,
+        "answer": 5
+      },
+      {
+        "questionId": 19,
+        "answer": 2
+      },
+      {
+        "questionId": 20,
+        "answer": 5
+      },
+      {
+        "questionId": 21,
+        "answer": 5
+      },
+      {
+        "questionId": 22,
+        "answer": 4
+      },
+      {
+        "questionId": 23,
+        "answer": 5
+      },
+      {
+        "questionId": 24,
+        "answer": 5
+      },
+      {
+        "questionId": 25,
+        "answer": 5
+      }
+    ],
+    "traitScores": {
+      "patientInteraction": 7.88,
+      "proceduralInterest": 7.03,
+      "diagnosticThinking": 10,
+      "fastPacedPreference": 10,
+      "workLifeBalancePriority": 4.38,
+      "emotionalResilience": 9.97,
+      "teamwork": 7.07,
+      "precisionOrientation": 7.93,
+      "longTermRelationships": 6.92,
+      "researchInterest": 9.53,
+      "leadershipPreference": 8.38,
+      "longTrainingTolerance": 7.1,
+      "emergencyComfort": 10,
+      "communicationEmpathy": 9.64,
+      "schedulePredictability": 3.37
+    },
+    "topMatches": [
+      {
+        "specialtyId": "obstetrics-and-gynecology",
+        "specialtyName": "Obstetrics & Gynecology",
+        "rank": 1,
+        "rawScore": 8.4857,
+        "matchPercentage": 77,
+        "confidence": "High",
+        "strengths": [
+          "Research Interest",
+          "Diagnostic Thinking",
+          "Fast-Paced Preference"
+        ],
+        "challenges": [
+          "Procedural Interest",
+          "Teamwork"
+        ],
+        "reasoning": "This is a promising match because your research interest and diagnostic thinking align with Obstetrics & Gynecology's daily work. The main growth areas to test through shadowing are procedural interest and teamwork.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "cardiology",
+        "specialtyName": "Cardiology",
+        "rank": 2,
+        "rawScore": 8.3053,
+        "matchPercentage": 74,
+        "confidence": "High",
+        "strengths": [
+          "Fast-Paced Preference",
+          "Emergency Comfort",
+          "Communication & Empathy"
+        ],
+        "challenges": [
+          "Long Training Tolerance",
+          "Precision Orientation"
+        ],
+        "reasoning": "This is a promising match because your fast-paced preference and emergency comfort align with Cardiology's daily work. The main growth areas to test through shadowing are long training tolerance and precision orientation.",
+        "tieBreakerScore": 1
+      },
+      {
+        "specialtyId": "general-surgery",
+        "specialtyName": "General Surgery",
+        "rank": 3,
+        "rawScore": 7.747,
+        "matchPercentage": 65,
+        "confidence": "High",
+        "strengths": [
+          "Research Interest",
+          "Communication & Empathy",
+          "Diagnostic Thinking"
+        ],
+        "challenges": [
+          "Procedural Interest",
+          "Long Training Tolerance"
+        ],
+        "reasoning": "This is a possible match because your research interest and communication & empathy align with General Surgery's daily work. The main growth areas to test through shadowing are procedural interest and long training tolerance.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "pediatrics",
+        "specialtyName": "Pediatrics",
+        "rank": 4,
+        "rawScore": 7.5975,
+        "matchPercentage": 63,
+        "confidence": "High",
+        "strengths": [
+          "Procedural Interest",
+          "Fast-Paced Preference",
+          "Emergency Comfort"
+        ],
+        "challenges": [
+          "Schedule Predictability",
+          "Patient Interaction"
+        ],
+        "reasoning": "This is a possible match because your procedural interest and fast-paced preference align with Pediatrics's daily work. The main growth areas to test through shadowing are schedule predictability and patient interaction.",
+        "tieBreakerScore": 2
+      },
+      {
+        "specialtyId": "anesthesiology",
+        "specialtyName": "Anesthesiology",
+        "rank": 5,
+        "rawScore": 7.5953,
+        "matchPercentage": 63,
+        "confidence": "High",
+        "strengths": [
+          "Long-Term Relationships",
+          "Communication & Empathy",
+          "Research Interest"
+        ],
+        "challenges": [
+          "Teamwork",
+          "Schedule Predictability"
+        ],
+        "reasoning": "This is a possible match because your long-term relationships and communication & empathy align with Anesthesiology's daily work. The main growth areas to test through shadowing are teamwork and schedule predictability.",
+        "tieBreakerScore": 1
+      }
+    ],
+    "generatedAt": "2026-05-13T21:01:52.125Z"
+  }
+]
