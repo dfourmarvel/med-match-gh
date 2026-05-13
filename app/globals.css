@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: 210 33% 98%;
-  --foreground: 218 42% 12%;
+  --background: 206 45% 98%;
+  --foreground: 214 54% 13%;
   --card: 0 0% 100%;
-  --border: 214 26% 86%;
-  --primary: 174 61% 34%;
-  --secondary: 226 46% 37%;
-  --accent: 15 82% 62%;
-  --muted: 210 26% 94%;
+  --border: 210 28% 86%;
+  --primary: 196 84% 43%;
+  --secondary: 214 59% 23%;
+  --accent: 24 91% 59%;
+  --muted: 205 30% 94%;
 }
 
 .dark {
-  --background: 220 35% 7%;
+  --background: 214 55% 7%;
   --foreground: 210 32% 96%;
-  --card: 219 31% 10%;
-  --border: 218 24% 22%;
-  --primary: 174 58% 48%;
-  --secondary: 226 58% 68%;
-  --accent: 15 88% 66%;
-  --muted: 220 24% 15%;
+  --card: 214 48% 10%;
+  --border: 212 27% 22%;
+  --primary: 194 92% 55%;
+  --secondary: 206 86% 72%;
+  --accent: 25 95% 64%;
+  --muted: 214 30% 15%;
 }
 
 html {
@@ -32,7 +32,7 @@ body {
   @apply bg-background text-foreground antialiased;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   background-image:
-    linear-gradient(180deg, rgba(248,250,252,0.98), rgba(239,246,246,0.92) 42%, rgba(246,248,251,0.98)),
+    linear-gradient(180deg, rgba(248,251,253,0.98), rgba(235,246,251,0.94) 42%, rgba(248,250,252,0.98)),
     linear-gradient(90deg, rgba(15,23,42,0.035) 1px, transparent 1px),
     linear-gradient(180deg, rgba(15,23,42,0.03) 1px, transparent 1px);
   background-size: auto, 48px 48px, 48px 48px;

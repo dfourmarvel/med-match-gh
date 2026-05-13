@@ -8,7 +8,7 @@ export function SpecialtyCard({ specialty, matchPercentage }: { specialty: Speci
     <Card className="group h-full">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">
             {specialty.category}
           </p>
           <h3 className="text-xl font-semibold">{specialty.name}</h3>

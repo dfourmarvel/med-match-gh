@@ -80,8 +80,8 @@ export function AssessmentClient() {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
       <Card className="relative overflow-hidden bg-slate-950 text-white">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-teal-400 via-sky-400 to-indigo-400" />
-        <div className="flex items-center gap-3 text-teal-200">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400" />
+        <div className="flex items-center gap-3 text-cyan-200">
           <BrainCircuit className="h-5 w-5" />
           <p className="text-xs font-semibold uppercase tracking-[0.22em]">Clinical fit profile</p>
         </div>
@@ -113,13 +113,13 @@ export function AssessmentClient() {
               onClick={() => setAudience(option.value)}
               className={`rounded-lg border p-4 text-left transition duration-200 ${
                 audience === option.value
-                  ? "border-teal-300 bg-teal-300/12 shadow-[inset_0_0_0_1px_rgba(94,234,212,0.12)]"
+                  ? "border-cyan-300 bg-cyan-300/12 shadow-[inset_0_0_0_1px_rgba(94,234,212,0.12)]"
                   : "border-white/10 bg-white/[0.045] hover:border-white/24 hover:bg-white/[0.075]"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
                 <p className="font-semibold">{option.label}</p>
-                {audience === option.value ? <CheckCircle2 className="h-4 w-4 text-teal-200" /> : null}
+                {audience === option.value ? <CheckCircle2 className="h-4 w-4 text-cyan-200" /> : null}
               </div>
               <p className="mt-1 text-sm text-white/65">{option.description}</p>
             </button>
