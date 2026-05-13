@@ -1,14 +1,35 @@
 import { NextResponse } from "next/server";
+import { fullAssessmentResultSchema, validationErrorResponse } from "@/lib/api-validation";
+import { rateLimit } from "@/lib/rate-limit";
 import { specialtiesById } from "@/lib/specialties";
-import { FullAssessmentResult } from "@/lib/types";
 
 export async function POST(request: Request) {
-  const result = (await request.json()) as FullAssessmentResult;
+  const limit = rateLimit(request, { namespace: "ai-explanation", limit: 10, windowMs: 60_000 });
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "Too many AI guidance requests. Please try again shortly." },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } }
+    );
+  }
+
+  let payload: unknown;
+  try {
+    payload = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON request body." }, { status: 400 });
+  }
+
+  const parsed = fullAssessmentResultSchema.safeParse(payload);
+  if (!parsed.success) {
+    return NextResponse.json(validationErrorResponse(parsed.error), { status: 400 });
+  }
+
+  const result = parsed.data;
   const topMatches = result.topMatches.slice(0, 3).map((item) => specialtiesById[item.specialtyId].name);
 
   const apiKey = process.env.GROQ_API_KEY;
   const model = process.env.GROQ_MODEL ?? "llama-3.1-8b-instant";
-  if (!apiKey) {
+  if (!apiKey || apiKey.startsWith("replace-with")) {
     return NextResponse.json({
       explanation: `Your strongest current fit appears to be ${topMatches.join(", ")}. You show a profile with clear strengths in ${result.topMatches[0]?.strengths.join(", ").toLowerCase()}, which suggests you may thrive in specialties balancing those traits with Ghana's training realities. To deepen fit, shadow clinicians in your top 3 areas and compare how each specialty handles schedule control, emergency intensity, and patient continuity.`
     });
@@ -26,11 +47,11 @@ export async function POST(request: Request) {
         {
           role: "system",
           content:
-            "You are a warm, practical medical career advisor focused on Ghana. Keep advice educational, non-diagnostic, concise, and motivating."
+            "You are a warm, practical medical career advisor focused on Ghana. Keep advice educational, non-diagnostic, concise, and motivating. Avoid certainty; frame results as exploratory and encourage verification with mentors and official training bodies."
         },
         {
           role: "user",
-          content: `Create a concise explanation for this MedMatch Ghana user. Top matches: ${topMatches.join(", ")}. Personality summary: ${result.personalitySummary}. Trait scores: ${JSON.stringify(result.traitScores)}. Suggested next steps should be Ghana-aware and reference shadowing, mentorship, and training reality.`
+          content: `Create a concise explanation for this MedMatch Ghana user. Top matches: ${topMatches.join(", ")}. Overall confidence: ${result.confidenceLevel}. Methodology note: ${result.methodologyNote}. Personality summary: ${result.personalitySummary}. Trait scores: ${JSON.stringify(result.traitScores)}. Suggested next steps should be Ghana-aware and reference shadowing, mentorship, and training reality.`
         }
       ],
       temperature: 0.7

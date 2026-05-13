@@ -75,6 +75,8 @@ GROQ_MODEL=llama-3.1-8b-instant
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
+Security note: keep `.env.local` private and rotate any API key that has ever been shared, committed, pasted into logs, or exposed during a demo.
+
 3. Start the app:
 
 ```bash

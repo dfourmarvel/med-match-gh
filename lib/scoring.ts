@@ -1,7 +1,20 @@
 import { assessmentQuestions, emptyTraitVector, traitLabels } from "@/lib/assessment";
 import { specialties } from "@/lib/specialties";
-import { FullAssessmentResult, MatchResult, TraitKey, TraitVector } from "@/lib/types";
+import { FullAssessmentResult, MatchResult, TraitKey, TraitVector, Audience } from "@/lib/types";
 import { clamp } from "@/lib/utils";
+
+/**
+ * Filter specialties based on user audience type
+ */
+function getSpecialtiesByAudience(audience: Audience): typeof specialties {
+  if (audience === "medical-student") {
+    return specialties.filter((s) => s.category === "medical");
+  } else if (audience === "dental-student") {
+    return specialties.filter((s) => s.category === "dental");
+  }
+  // High school students see all specialties
+  return specialties;
+}
 
 const traitWeighting: Record<TraitKey, number> = {
   patientInteraction: 1,
@@ -57,20 +70,38 @@ function strengthsAndChallenges(user: TraitVector, target: TraitVector) {
   }));
 
   const strengths = diffs
+    .slice()
     .sort((a, b) => a.closeness - b.closeness)
     .slice(0, 3)
     .map((item) => traitLabels[item.trait]);
 
   const challenges = diffs
+    .slice()
     .sort((a, b) => b.closeness - a.closeness)
     .slice(0, 2)
     .map((item) => traitLabels[item.trait]);
 
-  return { strengths, challenges };
+  return {
+    strengths,
+    challenges,
+    alignedTraits: strengths,
+    stretchTraits: challenges
+  };
 }
 
-function createReasoning(matchPercentage: number, strengths: string[], challenges: string[]) {
-  return `This specialty aligns strongly with your profile because your ${strengths.join(", ").toLowerCase()} closely match what the field tends to reward. A likely stretch area is ${challenges.join(" and ").toLowerCase()}, so shadowing and reflective mentorship would help test fit in real settings. Match confidence: ${matchPercentage}%.`;
+function confidenceFromGap(matchPercentage: number, gapFromNext?: number): "Low" | "Medium" | "High" {
+  if (matchPercentage >= 82 && (gapFromNext ?? 0) >= 4) return "High";
+  if (matchPercentage >= 68 && (gapFromNext ?? 0) >= 2) return "Medium";
+  return "Low";
+}
+
+function createReasoning(
+  matchPercentage: number,
+  confidenceLevel: "Low" | "Medium" | "High",
+  strengths: string[],
+  challenges: string[]
+) {
+  return `This is an exploratory ${matchPercentage}% fit, not a deterministic career answer. The strongest alignment is around ${strengths.join(", ").toLowerCase()}. The main areas to test through shadowing are ${challenges.join(" and ").toLowerCase()}. Confidence is ${confidenceLevel.toLowerCase()} because it depends on how clearly this specialty separates from nearby matches.`;
 }
 
 function summarizePersonality(scores: TraitVector) {
@@ -79,23 +110,62 @@ function summarizePersonality(scores: TraitVector) {
   return `You show a profile anchored by ${top[0]}, ${top[1]}, ${top[2]}, and ${top[3]}. You are likely to do best in career paths that let you combine those strengths with meaningful exposure, mentorship, and structured self-reflection.`;
 }
 
-export function scoreSpecialties(traitScores: TraitVector): MatchResult[] {
-  return specialties
+export function scoreSpecialties(traitScores: TraitVector, audience: Audience = "medical-student"): MatchResult[] {
+  const filtered = getSpecialtiesByAudience(audience);
+  const ranked = filtered
     .map((specialty) => {
       const distance = weightedDistance(traitScores, specialty.traitProfile);
       const score = 1 - distance;
       const matchPercentage = Math.round(clamp(score * 100, 1, 99));
-      const { strengths, challenges } = strengthsAndChallenges(traitScores, specialty.traitProfile);
+      const { strengths, challenges, alignedTraits, stretchTraits } = strengthsAndChallenges(
+        traitScores,
+        specialty.traitProfile
+      );
       return {
         specialtyId: specialty.id,
         score,
         matchPercentage,
+        confidenceLevel: "Low" as const,
         strengths,
         challenges,
-        reasoning: createReasoning(matchPercentage, strengths, challenges)
+        explanationFactors: {
+          alignedTraits,
+          stretchTraits
+        },
+        reasoning: ""
       };
-    })
-    .sort((a, b) => b.score - a.score);
+    });
+
+  return ranked
+    .sort((a, b) => b.score - a.score)
+    .map((match, index, matches) => {
+      const scoreGapFromNext =
+        matches[index + 1] !== undefined
+          ? match.matchPercentage - matches[index + 1].matchPercentage
+          : undefined;
+      const confidenceLevel = confidenceFromGap(match.matchPercentage, scoreGapFromNext);
+
+      return {
+        ...match,
+        confidenceLevel,
+        explanationFactors: {
+          ...match.explanationFactors,
+          scoreGapFromNext
+        },
+        reasoning: createReasoning(
+          match.matchPercentage,
+          confidenceLevel,
+          match.strengths,
+          match.challenges
+        )
+      };
+    });
+}
+
+function overallConfidence(matches: MatchResult[]): "Low" | "Medium" | "High" {
+  const top = matches[0];
+  if (!top) return "Low";
+  return top.confidenceLevel;
 }
 
 export function buildAssessmentResult(
@@ -103,10 +173,14 @@ export function buildAssessmentResult(
   answers: Record<number, number>
 ): FullAssessmentResult {
   const traitScores = calculateTraitScores(answers);
+  const matches = scoreSpecialties(traitScores, audience).slice(0, 5);
   return {
     audience,
     traitScores,
-    topMatches: scoreSpecialties(traitScores).slice(0, 5),
+    topMatches: matches,
+    confidenceLevel: overallConfidence(matches),
+    methodologyNote:
+      "MedMatch compares your answer-derived trait profile with hand-reviewed specialty profiles. Results are exploratory and should be validated through shadowing, mentorship, rotations, and current Ghana training-body guidance.",
     personalitySummary: summarizePersonality(traitScores),
     suggestedNextSteps: [
       "Shadow one of your top matches at a teaching hospital or private clinic if possible.",

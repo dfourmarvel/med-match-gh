@@ -64,8 +64,14 @@ export interface MatchResult {
   specialtyId: string;
   score: number;
   matchPercentage: number;
+  confidenceLevel: "Low" | "Medium" | "High";
   strengths: string[];
   challenges: string[];
+  explanationFactors: {
+    alignedTraits: string[];
+    stretchTraits: string[];
+    scoreGapFromNext?: number;
+  };
   reasoning: string;
 }
 
@@ -78,6 +84,8 @@ export interface FullAssessmentResult {
   audience: Audience;
   traitScores: TraitVector;
   topMatches: MatchResult[];
+  confidenceLevel: "Low" | "Medium" | "High";
+  methodologyNote: string;
   personalitySummary: string;
   suggestedNextSteps: string[];
   generatedAt: string;
