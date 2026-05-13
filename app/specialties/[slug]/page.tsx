@@ -13,14 +13,14 @@ export default async function SpecialtyDetailPage({ params }: { params: Promise<
 
   return (
     <div className="space-y-8">
-      <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600">
+      <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600">
         <ArrowLeft className="h-4 w-4" />
         Back to home
       </Link>
 
       <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <Card className="bg-slate-950 text-white">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-300">{specialty.category}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-300">{specialty.category}</p>
           <h1 className="mt-4 text-4xl font-semibold">{specialty.name}</h1>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-white/72">{specialty.description}</p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -46,7 +46,7 @@ export default async function SpecialtyDetailPage({ params }: { params: Promise<
         <Card>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
-              <Wallet className="mt-1 h-5 w-5 text-emerald-500" />
+              <Wallet className="mt-1 h-5 w-5 text-sky-500" />
               <div>
                 <p className="font-semibold">Salary estimate</p>
                 <p className="text-sm text-foreground/70">{formatCurrencyRange(specialty.salaryRangeGhs)}</p>
@@ -61,7 +61,7 @@ export default async function SpecialtyDetailPage({ params }: { params: Promise<
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Clock3 className="mt-1 h-5 w-5 text-pink-500" />
+              <Clock3 className="mt-1 h-5 w-5 text-orange-500" />
               <div>
                 <p className="font-semibold">Work environment</p>
                 <p className="text-sm text-foreground/70">{specialty.workEnvironment}</p>
@@ -85,7 +85,7 @@ export default async function SpecialtyDetailPage({ params }: { params: Promise<
           <div className="mt-6 space-y-4">
             {specialty.dayInLife.map((item) => (
               <div key={`${item.time}-${item.activity}`} className="rounded-2xl border border-border/50 p-4">
-                <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-300">{item.time}</p>
+                <p className="text-sm font-semibold text-sky-600 dark:text-sky-300">{item.time}</p>
                 <p className="mt-2 text-sm text-foreground/72">{item.activity}</p>
               </div>
             ))}

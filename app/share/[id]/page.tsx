@@ -14,7 +14,7 @@ export default async function SharedResultPage({ params }: { params: Promise<{ i
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">Shared Result</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Shared Result</p>
         <h1 className="mt-3 text-4xl font-semibold">Shared MedMatch Ghana report</h1>
       </div>
       <ResultsClient sharedResult={sharedResult} />

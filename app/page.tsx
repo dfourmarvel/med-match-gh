@@ -48,7 +48,7 @@ export default function HomePage() {
             </div>
             <div className="mt-8 flex flex-wrap gap-6 text-sm text-foreground/65">
               <div className="flex items-center gap-2">
-                <GraduationCap className="h-4 w-4 text-emerald-500" />
+                <GraduationCap className="h-4 w-4 text-sky-500" />
                 Medical students
               </div>
               <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ export default function HomePage() {
                 High school explorers
               </div>
               <div className="flex items-center gap-2">
-                <Brain className="h-4 w-4 text-pink-500" />
+                <Brain className="h-4 w-4 text-orange-500" />
                 Dental students
               </div>
             </div>
@@ -69,7 +69,7 @@ export default function HomePage() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-lg border border-white/10 bg-white/5 p-5">
-                <Building2 className="h-5 w-5 text-teal-300" />
+                <Building2 className="h-5 w-5 text-cyan-300" />
                 <p className="mt-4 font-semibold">Residency pathways</p>
                 <p className="mt-2 text-sm text-white/65">Context for Korle Bu, Komfo Anokye, and broader postgraduate training routes.</p>
               </div>
@@ -79,7 +79,7 @@ export default function HomePage() {
                 <p className="mt-2 text-sm text-white/65">Burnout, competitiveness, emergency load, salary ranges, and demand signals.</p>
               </div>
             </div>
-            <div className="rounded-lg border border-white/10 bg-teal-400/10 p-5 text-sm text-white/80">
+            <div className="rounded-lg border border-white/10 bg-cyan-400/10 p-5 text-sm text-white/80">
               This tool is designed for educational and career exploration purposes only and should not replace professional academic or career counseling.
             </div>
           </Card>

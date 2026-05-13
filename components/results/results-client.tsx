@@ -173,7 +173,7 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
   if (!result) {
     return (
       <Card className="flex min-h-[320px] items-center justify-center">
-        <LoaderCircle className="h-8 w-8 animate-spin text-emerald-500" />
+        <LoaderCircle className="h-8 w-8 animate-spin text-sky-500" />
       </Card>
     );
   }
@@ -182,10 +182,10 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
     <div className="space-y-10">
       <section className="grid gap-6 xl:grid-cols-[1.35fr_0.65fr]">
         <Card className="relative overflow-hidden bg-slate-950 p-0 text-white">
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-teal-400 via-sky-400 to-indigo-400" />
+          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400" />
           <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-200">Your specialty intelligence report</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">Your specialty intelligence report</p>
               <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-balance sm:text-5xl">
                 {topSpecialty?.name ?? "Top specialty"} is your strongest current signal.
               </h1>
@@ -206,15 +206,15 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
                   <Link
                     href={`/specialties/${specialty.id}`}
                     key={match.specialtyId}
-                    className="rounded-lg border border-white/10 bg-white/[0.055] p-4 transition hover:border-teal-200/45 hover:bg-white/[0.08]"
+                    className="rounded-lg border border-white/10 bg-white/[0.055] p-4 transition hover:border-cyan-200/45 hover:bg-white/[0.08]"
                   >
                     <p className="text-[11px] uppercase tracking-[0.18em] text-white/42">#{index + 1} match</p>
                     <p className="mt-3 min-h-12 text-base font-semibold leading-snug">{specialty.name}</p>
                     <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
-                      <div className="h-full rounded-full bg-teal-300" style={{ width: `${match.matchPercentage}%` }} />
+                      <div className="h-full rounded-full bg-cyan-300" style={{ width: `${match.matchPercentage}%` }} />
                     </div>
                     <div className="mt-3 flex items-center justify-between text-sm">
-                      <span className="font-semibold text-teal-200">{match.matchPercentage}%</span>
+                      <span className="font-semibold text-cyan-200">{match.matchPercentage}%</span>
                       <span className="text-xs uppercase tracking-[0.14em] text-white/42">{match.confidenceLevel}</span>
                     </div>
                   </Link>
@@ -283,7 +283,7 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
         </Card>
         <Card>
           <div className="mb-4 flex items-center gap-3">
-            <div className="rounded-lg bg-indigo-500/10 p-3 text-indigo-500">
+            <div className="rounded-lg bg-blue-500/10 p-3 text-blue-500">
               <TrendingUp className="h-5 w-5" />
             </div>
             <div>
