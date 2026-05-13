@@ -1,0 +1,23 @@
+import { ResultsClient } from "@/components/results/results-client";
+
+async function getSharedResult(id: string) {
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const response = await fetch(`${base}/api/results/${id}`, { cache: "no-store" });
+  if (!response.ok) return null;
+  return response.json();
+}
+
+export default async function SharedResultPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const sharedResult = await getSharedResult(id);
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">Shared Result</p>
+        <h1 className="mt-3 text-4xl font-semibold">Shared MedMatch Ghana report</h1>
+      </div>
+      <ResultsClient sharedResult={sharedResult} />
+    </div>
+  );
+}
