@@ -1,0 +1,90 @@
+[
+  {
+    "id": "mock-user-001",
+    "name": "Ama Mensah",
+    "email": "ama.mensah@example.com",
+    "audience": "medical-student",
+    "institution": "University of Ghana Medical School",
+    "region": "Greater Accra",
+    "yearOfStudy": 3
+  },
+  {
+    "id": "mock-user-002",
+    "name": "Kwame Asante",
+    "email": "kwame.asante@example.com",
+    "audience": "medical-student",
+    "institution": "KNUST School of Medical Sciences",
+    "region": "Ashanti",
+    "yearOfStudy": 4
+  },
+  {
+    "id": "mock-user-003",
+    "name": "Efua Osei",
+    "email": "efua.osei@example.com",
+    "audience": "dental-student",
+    "institution": "University of Ghana Dental School",
+    "region": "Greater Accra",
+    "yearOfStudy": 2
+  },
+  {
+    "id": "mock-user-004",
+    "name": "Kojo Boateng",
+    "email": "kojo.boateng@example.com",
+    "audience": "high-school",
+    "institution": "Prempeh College",
+    "region": "Ashanti"
+  },
+  {
+    "id": "mock-user-005",
+    "name": "Abena Darko",
+    "email": "abena.darko@example.com",
+    "audience": "medical-student",
+    "institution": "University for Development Studies",
+    "region": "Northern",
+    "yearOfStudy": 5
+  },
+  {
+    "id": "mock-user-006",
+    "name": "Yaw Owusu",
+    "email": "yaw.owusu@example.com",
+    "audience": "medical-student",
+    "institution": "University of Cape Coast School of Medical Sciences",
+    "region": "Central",
+    "yearOfStudy": 2
+  },
+  {
+    "id": "mock-user-007",
+    "name": "Akosua Appiah",
+    "email": "akosua.appiah@example.com",
+    "audience": "dental-student",
+    "institution": "KNUST Dental School",
+    "region": "Ashanti",
+    "yearOfStudy": 3
+  },
+  {
+    "id": "mock-user-008",
+    "name": "Selorm Adjei",
+    "email": "selorm.adjei@example.com",
+    "audience": "high-school",
+    "institution": "Achimota School",
+    "region": "Greater Accra"
+  },
+  {
+    "id": "mock-user-009",
+    "name": "Nana Yeboah",
+    "email": "nana.yeboah@example.com",
+    "audience": "medical-student",
+    "institution": "University of Health and Allied Sciences",
+    "region": "Volta",
+    "yearOfStudy": 4
+  },
+  {
+    "id": "mock-user-010",
+    "name": "Esi Arthur",
+    "email": "esi.arthur@example.com",
+    "audience": "medical-student",
+    "institution": "University of Ghana Medical School",
+    "region": "Greater Accra",
+    "yearOfStudy": 6
+  }
+]
