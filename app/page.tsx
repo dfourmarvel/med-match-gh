@@ -23,17 +23,17 @@ const featureCards = [
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="overflow-hidden rounded-[2rem] border border-border/50 bg-mesh-gradient">
+      <section className="overflow-hidden rounded-lg border border-border/55 bg-card/88 shadow-[0_24px_70px_-50px_rgba(15,23,42,0.55)]">
         <div className="grid gap-10 px-6 py-12 sm:px-10 lg:grid-cols-[1.08fr_0.92fr] lg:px-12 lg:py-16">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-700 dark:text-emerald-300">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">
               Medical career intelligence for Ghana
             </p>
-            <h1 className="mt-5 max-w-3xl text-5xl font-semibold leading-tight tracking-tight sm:text-6xl">
-              Find the medical or dental specialty that fits how you think, work, and live.
+            <h1 className="mt-5 max-w-3xl text-5xl font-semibold leading-tight tracking-tight text-balance sm:text-6xl">
+              Discover the specialty where your clinical instincts make sense.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-foreground/72">
-              MedMatch Ghana helps medical students, high school students interested in medicine, and dental students explore specialty fit through a modern, data-driven assessment experience designed for local realities.
+              MedMatch Ghana turns interests, temperament, lifestyle priorities, and training goals into an explainable specialty profile designed for local training realities.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link href="/assessment">
@@ -63,23 +63,23 @@ export default function HomePage() {
           </div>
 
           <Card className="grid gap-4 self-start bg-slate-950 text-white">
-            <div className="rounded-2xl bg-white/5 p-5">
+            <div className="rounded-lg bg-white/5 p-5">
               <p className="text-sm text-white/60">Built for Ghana-specific exploration</p>
               <p className="mt-3 text-2xl font-semibold">Teaching hospital, residency, and lifestyle context included</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <Building2 className="h-5 w-5 text-emerald-300" />
+              <div className="rounded-lg border border-white/10 bg-white/5 p-5">
+                <Building2 className="h-5 w-5 text-teal-300" />
                 <p className="mt-4 font-semibold">Residency pathways</p>
                 <p className="mt-2 text-sm text-white/65">Context for Korle Bu, Komfo Anokye, and broader postgraduate training routes.</p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="rounded-lg border border-white/10 bg-white/5 p-5">
                 <GraduationCap className="h-5 w-5 text-sky-300" />
                 <p className="mt-4 font-semibold">Career reality</p>
                 <p className="mt-2 text-sm text-white/65">Burnout, competitiveness, emergency load, salary ranges, and demand signals.</p>
               </div>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-emerald-400/10 p-5 text-sm text-white/80">
+            <div className="rounded-lg border border-white/10 bg-teal-400/10 p-5 text-sm text-white/80">
               This tool is designed for educational and career exploration purposes only and should not replace professional academic or career counseling.
             </div>
           </Card>
@@ -97,7 +97,7 @@ export default function HomePage() {
 
       <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
         <Card>
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">Why It Feels Different</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Why It Feels Different</p>
           <h2 className="mt-4 text-3xl font-semibold">Built like a polished exploration platform, not a static quiz.</h2>
           <div className="mt-6 space-y-4 text-sm leading-7 text-foreground/72">
             <p>Every answer shifts multiple traits, then a vector-based scoring engine compares your profile to specialty profiles across medicine and dentistry.</p>
@@ -114,7 +114,7 @@ export default function HomePage() {
               "University of Ghana Medical School",
               "KNUST School of Medical Sciences"
             ].map((item) => (
-              <div key={item} className="rounded-2xl bg-slate-50 p-5 text-sm font-medium dark:bg-white/5">
+              <div key={item} className="rounded-lg bg-slate-50 p-5 text-sm font-medium dark:bg-white/5">
                 {item}
               </div>
             ))}
@@ -125,10 +125,10 @@ export default function HomePage() {
       <section>
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">Specialty Library</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Specialty Library</p>
             <h2 className="mt-3 text-3xl font-semibold">Explore the included specialties</h2>
           </div>
-          <Link href="/assessment" className="text-sm font-semibold text-emerald-600">
+          <Link href="/assessment" className="text-sm font-semibold text-primary">
             Take the quiz first
           </Link>
         </div>
