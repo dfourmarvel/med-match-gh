@@ -2,7 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState, useTransition } from "react";
-import { Award, Download, LoaderCircle, Search, Share2, Sparkles } from "lucide-react";
+import {
+  Award,
+  Brain,
+  Clock3,
+  Download,
+  LoaderCircle,
+  Search,
+  Share2,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+  TrendingUp,
+  Wallet
+} from "lucide-react";
 import { fullAssessmentResultSchema } from "@/lib/api-validation";
 import { FullAssessmentResult } from "@/lib/types";
 import { specialtiesById, specialties } from "@/lib/specialties";
@@ -52,6 +65,33 @@ const demoResult = {
   ],
   generatedAt: new Date().toISOString()
 } satisfies FullAssessmentResult;
+
+function CompatibilityRing({ value }: { value: number }) {
+  return (
+    <div
+      className="relative flex h-40 w-40 shrink-0 items-center justify-center rounded-full"
+      style={{
+        background: `conic-gradient(hsl(var(--primary)) ${value * 3.6}deg, rgba(148,163,184,0.18) 0deg)`
+      }}
+      aria-label={`${value}% specialty compatibility`}
+    >
+      <div className="absolute inset-3 rounded-full bg-slate-950" />
+      <div className="relative text-center text-white">
+        <p className="text-4xl font-semibold">{value}%</p>
+        <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/45">compatibility</p>
+      </div>
+    </div>
+  );
+}
+
+function SignalPill({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-lg border border-white/10 bg-white/[0.055] p-4">
+      <p className="text-[11px] uppercase tracking-[0.18em] text-white/42">{label}</p>
+      <p className="mt-2 text-lg font-semibold text-white">{value}</p>
+    </div>
+  );
+}
 
 export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentResult | null }) {
   const [result, setResult] = useState<FullAssessmentResult | null>(sharedResult ?? null);
@@ -127,6 +167,8 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
       ),
     [query]
   );
+  const topMatch = result?.topMatches[0] ?? null;
+  const topSpecialty = topMatch ? specialtiesById[topMatch.specialtyId] : null;
 
   if (!result) {
     return (
@@ -138,57 +180,83 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
 
   return (
     <div className="space-y-10">
-      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-        <Card className="bg-slate-950 text-white">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-300">Your Career Signal</p>
-          <h1 className="mt-4 text-4xl font-semibold">Top specialty matches for your current profile</h1>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70">{result.personalitySummary}</p>
-          <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/75">
-            Confidence: <span className="font-semibold text-emerald-300">{result.confidenceLevel}</span>. {result.methodologyNote}
+      <section className="grid gap-6 xl:grid-cols-[1.35fr_0.65fr]">
+        <Card className="relative overflow-hidden bg-slate-950 p-0 text-white">
+          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-teal-400 via-sky-400 to-indigo-400" />
+          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-200">Your specialty intelligence report</p>
+              <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-balance sm:text-5xl">
+                {topSpecialty?.name ?? "Top specialty"} is your strongest current signal.
+              </h1>
+              <p className="mt-5 max-w-2xl text-sm leading-7 text-white/68">{result.personalitySummary}</p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <SignalPill label="Confidence" value={result.confidenceLevel} />
+                <SignalPill label="Top match" value={topSpecialty?.name ?? "Pending"} />
+                <SignalPill label="Report date" value={new Date(result.generatedAt).toLocaleDateString()} />
+              </div>
+            </div>
+            {topMatch ? <CompatibilityRing value={topMatch.matchPercentage} /> : null}
           </div>
-          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            {result.topMatches.map((match, index) => {
-              const specialty = specialtiesById[match.specialtyId];
-              return (
-                <div key={match.specialtyId} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/45">#{index + 1} match</p>
-                  <p className="mt-3 text-lg font-semibold">{specialty.name}</p>
-                  <p className="mt-4 text-3xl font-semibold text-emerald-300">{match.matchPercentage}%</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white/45">{match.confidenceLevel} confidence</p>
-                  <p className="mt-3 text-sm text-white/65">{match.reasoning}</p>
-                </div>
-              );
-            })}
+          <div className="border-t border-white/10 bg-white/[0.035] p-6 sm:p-8">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+              {result.topMatches.map((match, index) => {
+                const specialty = specialtiesById[match.specialtyId];
+                return (
+                  <Link
+                    href={`/specialties/${specialty.id}`}
+                    key={match.specialtyId}
+                    className="rounded-lg border border-white/10 bg-white/[0.055] p-4 transition hover:border-teal-200/45 hover:bg-white/[0.08]"
+                  >
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/42">#{index + 1} match</p>
+                    <p className="mt-3 min-h-12 text-base font-semibold leading-snug">{specialty.name}</p>
+                    <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
+                      <div className="h-full rounded-full bg-teal-300" style={{ width: `${match.matchPercentage}%` }} />
+                    </div>
+                    <div className="mt-3 flex items-center justify-between text-sm">
+                      <span className="font-semibold text-teal-200">{match.matchPercentage}%</span>
+                      <span className="text-xs uppercase tracking-[0.14em] text-white/42">{match.confidenceLevel}</span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </Card>
-        <Card>
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">AI Guidance</p>
-          <div className="mt-4 flex items-start gap-3">
-            <Sparkles className="mt-1 h-5 w-5 text-emerald-500" />
-            <p className="text-sm leading-7 text-foreground/75">
-              {isPending ? "Generating your personalized explanation..." : aiSummary}
-            </p>
+
+        <Card className="flex flex-col">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-primary/10 p-3 text-primary">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">AI Guidance</p>
+              <p className="text-xs text-foreground/55">Personalized, Ghana-aware next steps</p>
+            </div>
           </div>
-          <div className="mt-6 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-900 dark:bg-emerald-500/10 dark:text-emerald-100">
-            Educational disclaimer: This tool is designed for educational and career exploration purposes only and should not replace professional academic or career counseling.
+          <p className="mt-5 text-sm leading-7 text-foreground/72">
+            {isPending ? "Generating your personalized explanation..." : aiSummary}
+          </p>
+          <div className="mt-6 rounded-lg bg-primary/8 p-4 text-sm leading-6 text-foreground/72">
+            {result.methodologyNote}
           </div>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-auto flex flex-wrap gap-3 pt-6">
             <Button onClick={() => window.print()}>
               <Download className="mr-2 h-4 w-4" />
               Export PDF
             </Button>
             <Button variant="outline" onClick={saveAndShare}>
               <Share2 className="mr-2 h-4 w-4" />
-              Save and Share
+              Save
             </Button>
             <Link href="/assessment">
-              <Button variant="outline">Retake Quiz</Button>
+              <Button variant="outline">Retake</Button>
             </Link>
           </div>
           {(shareUrl || saveMessage) && (
-            <div className="mt-4 rounded-2xl border border-border/60 p-4 text-sm text-foreground/75">
+            <div className="mt-4 rounded-lg border border-border/60 p-4 text-sm text-foreground/75">
               <p>{saveMessage}</p>
-              {shareUrl ? <p className="mt-2 break-all font-medium text-emerald-600 dark:text-emerald-300">{shareUrl}</p> : null}
+              {shareUrl ? <p className="mt-2 break-all font-medium text-primary">{shareUrl}</p> : null}
             </div>
           )}
         </Card>
@@ -202,33 +270,66 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
 
       <section className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <p className="text-lg font-semibold">Trait Radar</p>
+          <div className="mb-4 flex items-center gap-3">
+            <div className="rounded-lg bg-primary/10 p-3 text-primary">
+              <Brain className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-lg font-semibold">Clinical trait profile</p>
+              <p className="text-sm text-foreground/58">How your answers map across the specialty-fit dimensions.</p>
+            </div>
+          </div>
           <TraitRadarChart scores={result.traitScores} />
         </Card>
         <Card>
-          <p className="text-lg font-semibold">Top 5 Match Distribution</p>
+          <div className="mb-4 flex items-center gap-3">
+            <div className="rounded-lg bg-indigo-500/10 p-3 text-indigo-500">
+              <TrendingUp className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-lg font-semibold">Compatibility spread</p>
+              <p className="text-sm text-foreground/58">Close scores mean you should compare tradeoffs before committing.</p>
+            </div>
+          </div>
           <MatchesBarChart matches={result.topMatches} />
         </Card>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <Card>
-          <p className="text-lg font-semibold">Compare Your Top 3</p>
-          <p className="mt-2 text-sm text-foreground/65">
-            Compare lifestyle, training, patient interaction, and competitiveness side by side.
-          </p>
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-sky-500/10 p-3 text-sky-600 dark:text-sky-300">
+              <Stethoscope className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-lg font-semibold">Compare your top 3</p>
+              <p className="mt-1 text-sm text-foreground/65">
+                Lifestyle, training, patient interaction, and competitiveness side by side.
+              </p>
+            </div>
+          </div>
           <div className="mt-6">
             <CompareTable matches={result.topMatches} />
           </div>
         </Card>
         <Card>
-          <p className="text-lg font-semibold">Detected Strengths and Stretch Areas</p>
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-primary/10 p-3 text-primary">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-lg font-semibold">Why these matches surfaced</p>
+              <p className="mt-1 text-sm text-foreground/58">Aligned traits and stretch areas to test in real clinical settings.</p>
+            </div>
+          </div>
           <div className="mt-5 space-y-4">
             {result.topMatches.slice(0, 3).map((match) => (
-              <div key={match.specialtyId} className="rounded-2xl border border-border/50 p-4">
+              <div key={match.specialtyId} className="rounded-lg border border-border/50 bg-muted/25 p-4">
                 <p className="font-semibold">{specialtiesById[match.specialtyId].name}</p>
-                <p className="mt-3 text-sm text-foreground/70">Strengths: {match.strengths.join(", ")}</p>
-                <p className="mt-2 text-sm text-foreground/70">Potential challenges: {match.challenges.join(", ")}</p>
+                <div className="mt-3 grid gap-2 text-sm text-foreground/70">
+                  <p><span className="font-medium text-foreground">Aligned:</span> {match.strengths.join(", ")}</p>
+                  <p><span className="font-medium text-foreground">Test next:</span> {match.challenges.join(", ")}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -237,10 +338,21 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
 
       <section className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
         <Card>
-          <p className="text-lg font-semibold">Suggested Next Steps</p>
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-amber-500/10 p-3 text-amber-600">
+              <Clock3 className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-lg font-semibold">Next best actions</p>
+              <p className="mt-1 text-sm text-foreground/58">Turn the score into real-world specialty exploration.</p>
+            </div>
+          </div>
           <div className="mt-5 space-y-3">
-            {result.suggestedNextSteps.map((step) => (
-              <div key={step} className="rounded-2xl bg-slate-50 p-4 text-sm text-foreground/75 dark:bg-white/5">
+            {result.suggestedNextSteps.map((step, index) => (
+              <div key={step} className="flex gap-3 rounded-lg bg-slate-50 p-4 text-sm text-foreground/75 dark:bg-white/5">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-semibold text-white">
+                  {index + 1}
+                </span>
                 {step}
               </div>
             ))}
@@ -252,15 +364,16 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
               <p className="text-lg font-semibold">Specialty Explorer</p>
               <p className="mt-2 text-sm text-foreground/65">Search all included medical and dental specialties.</p>
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-border/60 px-4 py-3">
+            <label className="flex items-center gap-2 rounded-lg border border-border/60 bg-card/70 px-4 py-3">
               <Search className="h-4 w-4 text-foreground/45" />
+              <span className="sr-only">Search specialties</span>
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search specialties"
                 className="bg-transparent text-sm outline-none"
               />
-            </div>
+            </label>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {filteredSpecialties.slice(0, 6).map((specialty) => {
@@ -281,7 +394,7 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
         <Card>
           <div className="flex items-center gap-3">
             <Award className="h-5 w-5 text-amber-500" />
-            <p className="text-lg font-semibold">Achievement badges</p>
+            <p className="text-lg font-semibold">Profile signals</p>
           </div>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {[
@@ -289,14 +402,19 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
               "Patient Connector",
               "Ghana Health Explorer"
             ].map((badge) => (
-              <div key={badge} className="rounded-2xl bg-amber-50 p-4 text-sm font-medium text-amber-900 dark:bg-amber-500/10 dark:text-amber-100">
+              <div key={badge} className="rounded-lg bg-amber-50 p-4 text-sm font-medium text-amber-900 dark:bg-amber-500/10 dark:text-amber-100">
                 {badge}
               </div>
             ))}
           </div>
         </Card>
         <Card>
-          <p className="text-lg font-semibold">Suggested extracurriculars</p>
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-primary/10 p-3 text-primary">
+              <Wallet className="h-5 w-5" />
+            </div>
+            <p className="text-lg font-semibold">Career-building activities</p>
+          </div>
           <div className="mt-5 space-y-3">
             {[
               "Arrange a shadowing visit at Korle Bu Teaching Hospital or Komfo Anokye Teaching Hospital.",
@@ -304,7 +422,7 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
               "Keep a reflection journal comparing what energizes you in clinic, theatre, and community work.",
               "Explore student research, public health projects, or case presentations tied to your top matches."
             ].map((item) => (
-              <div key={item} className="rounded-2xl bg-slate-50 p-4 text-sm text-foreground/75 dark:bg-white/5">
+              <div key={item} className="rounded-lg bg-slate-50 p-4 text-sm text-foreground/75 dark:bg-white/5">
                 {item}
               </div>
             ))}

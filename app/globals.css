@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: 196 100% 99%;
-  --foreground: 222 47% 11%;
+  --background: 210 33% 98%;
+  --foreground: 218 42% 12%;
   --card: 0 0% 100%;
-  --border: 215 27% 84%;
-  --primary: 160 84% 39%;
-  --secondary: 199 89% 48%;
-  --accent: 338 82% 67%;
-  --muted: 210 40% 96%;
+  --border: 214 26% 86%;
+  --primary: 174 61% 34%;
+  --secondary: 226 46% 37%;
+  --accent: 15 82% 62%;
+  --muted: 210 26% 94%;
 }
 
 .dark {
-  --background: 222 47% 7%;
-  --foreground: 210 40% 96%;
-  --card: 222 47% 10%;
-  --border: 217 33% 22%;
-  --primary: 160 84% 39%;
-  --secondary: 199 89% 58%;
-  --accent: 338 82% 67%;
-  --muted: 222 40% 16%;
+  --background: 220 35% 7%;
+  --foreground: 210 32% 96%;
+  --card: 219 31% 10%;
+  --border: 218 24% 22%;
+  --primary: 174 58% 48%;
+  --secondary: 226 58% 68%;
+  --accent: 15 88% 66%;
+  --muted: 220 24% 15%;
 }
 
 html {
@@ -30,15 +30,26 @@ html {
 
 body {
   @apply bg-background text-foreground antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   background-image:
-    radial-gradient(circle at top left, rgba(16, 185, 129, 0.1), transparent 26%),
-    radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 28%),
-    linear-gradient(180deg, rgba(255,255,255,0.85), rgba(236,253,245,0.65));
+    linear-gradient(180deg, rgba(248,250,252,0.98), rgba(239,246,246,0.92) 42%, rgba(246,248,251,0.98)),
+    linear-gradient(90deg, rgba(15,23,42,0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(15,23,42,0.03) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
 }
 
 .dark body {
   background-image:
-    radial-gradient(circle at top left, rgba(16, 185, 129, 0.1), transparent 22%),
-    radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 24%),
-    linear-gradient(180deg, rgba(2,6,23,0.98), rgba(15,23,42,0.98));
+    linear-gradient(180deg, rgba(5,10,20,0.98), rgba(12,20,34,0.98)),
+    linear-gradient(90deg, rgba(148,163,184,0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(148,163,184,0.045) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+::selection {
+  background: hsl(var(--primary) / 0.18);
+}
+
+.text-balance {
+  text-wrap: balance;
 }

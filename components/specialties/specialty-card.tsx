@@ -14,7 +14,7 @@ export function SpecialtyCard({ specialty, matchPercentage }: { specialty: Speci
           <h3 className="text-xl font-semibold">{specialty.name}</h3>
           <p className="mt-3 text-sm leading-6 text-foreground/70">{specialty.description}</p>
         </div>
-        <div className="rounded-2xl bg-emerald-500/10 p-3 text-emerald-500">
+        <div className="rounded-lg bg-primary/10 p-3 text-primary">
           <HeartPulse className="h-5 w-5" />
         </div>
       </div>
@@ -22,7 +22,7 @@ export function SpecialtyCard({ specialty, matchPercentage }: { specialty: Speci
         <div className="text-sm text-foreground/60">
           {matchPercentage ? `${matchPercentage}% match` : `${specialty.lifestyleRating}/5 lifestyle`}
         </div>
-        <Link href={`/specialties/${specialty.id}`} className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 transition group-hover:gap-3">
+        <Link href={`/specialties/${specialty.id}`} className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition group-hover:gap-3">
           Explore
           <ArrowRight className="h-4 w-4" />
         </Link>
