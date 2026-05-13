@@ -1,10 +1,31 @@
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
+import { fullAssessmentResultSchema, validationErrorResponse } from "@/lib/api-validation";
+import { rateLimit } from "@/lib/rate-limit";
 import { serverSupabase } from "@/lib/supabase";
-import { FullAssessmentResult } from "@/lib/types";
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as FullAssessmentResult;
+  const limit = rateLimit(request, { namespace: "save-result", limit: 12, windowMs: 60_000 });
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "Too many share-link requests. Please try again shortly." },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } }
+    );
+  }
+
+  let payload: unknown;
+  try {
+    payload = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON request body." }, { status: 400 });
+  }
+
+  const parsed = fullAssessmentResultSchema.safeParse(payload);
+  if (!parsed.success) {
+    return NextResponse.json(validationErrorResponse(parsed.error), { status: 400 });
+  }
+
+  const body = parsed.data;
   const id = randomUUID();
 
   if (!serverSupabase) {

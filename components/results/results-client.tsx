@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { Award, Download, LoaderCircle, Search, Share2, Sparkles } from "lucide-react";
+import { fullAssessmentResultSchema } from "@/lib/api-validation";
 import { FullAssessmentResult } from "@/lib/types";
 import { specialtiesById, specialties } from "@/lib/specialties";
 import { TraitRadarChart } from "@/components/results/radar-chart";
@@ -32,12 +33,15 @@ const demoResult = {
     predictableSchedulePreference: 58
   },
   topMatches: [
-    { specialtyId: "internal-medicine", score: 0.92, matchPercentage: 92, strengths: ["Diagnostic Reasoning", "Patient Interaction", "Communication & Empathy"], challenges: ["Procedural Interest", "Predictable Schedule Preference"], reasoning: "Your strengths suggest a strong fit for broad diagnostic medicine with longitudinal patient care." },
-    { specialtyId: "family-medicine", score: 0.9, matchPercentage: 90, strengths: ["Long-Term Relationships", "Communication & Empathy", "Patient Interaction"], challenges: ["Procedural Interest", "Fast-Paced Preference"], reasoning: "You appear well matched for continuity-driven, community-facing care." },
-    { specialtyId: "pediatrics", score: 0.88, matchPercentage: 88, strengths: ["Communication & Empathy", "Patient Interaction", "Team Collaboration"], challenges: ["Emergency Comfort", "Procedural Interest"], reasoning: "You combine empathy with enough resilience for child and family-centered care." },
-    { specialtyId: "psychiatry", score: 0.85, matchPercentage: 85, strengths: ["Communication & Empathy", "Long-Term Relationships", "Emotional Resilience"], challenges: ["Procedural Interest", "Fast-Paced Preference"], reasoning: "You are well suited to reflective, relationship-rich mental health work." },
-    { specialtyId: "cardiology", score: 0.81, matchPercentage: 81, strengths: ["Diagnostic Reasoning", "Research Curiosity", "Emotional Resilience"], challenges: ["Work-Life Balance Priority", "Predictable Schedule Preference"], reasoning: "A strong analytical profile could support future internal medicine subspecialty ambitions." }
+    { specialtyId: "internal-medicine", score: 0.92, matchPercentage: 92, confidenceLevel: "Medium", strengths: ["Diagnostic Reasoning", "Patient Interaction", "Communication & Empathy"], challenges: ["Procedural Interest", "Predictable Schedule Preference"], explanationFactors: { alignedTraits: ["Diagnostic Reasoning", "Patient Interaction", "Communication & Empathy"], stretchTraits: ["Procedural Interest", "Predictable Schedule Preference"], scoreGapFromNext: 2 }, reasoning: "This is an exploratory 92% fit, not a deterministic career answer. Your strengths suggest a strong fit for broad diagnostic medicine with longitudinal patient care." },
+    { specialtyId: "family-medicine", score: 0.9, matchPercentage: 90, confidenceLevel: "Medium", strengths: ["Long-Term Relationships", "Communication & Empathy", "Patient Interaction"], challenges: ["Procedural Interest", "Fast-Paced Preference"], explanationFactors: { alignedTraits: ["Long-Term Relationships", "Communication & Empathy", "Patient Interaction"], stretchTraits: ["Procedural Interest", "Fast-Paced Preference"], scoreGapFromNext: 2 }, reasoning: "This is an exploratory 90% fit, not a deterministic career answer. You appear well matched for continuity-driven, community-facing care." },
+    { specialtyId: "pediatrics", score: 0.88, matchPercentage: 88, confidenceLevel: "Medium", strengths: ["Communication & Empathy", "Patient Interaction", "Team Collaboration"], challenges: ["Emergency Comfort", "Procedural Interest"], explanationFactors: { alignedTraits: ["Communication & Empathy", "Patient Interaction", "Team Collaboration"], stretchTraits: ["Emergency Comfort", "Procedural Interest"], scoreGapFromNext: 3 }, reasoning: "This is an exploratory 88% fit, not a deterministic career answer. You combine empathy with enough resilience for child and family-centered care." },
+    { specialtyId: "psychiatry", score: 0.85, matchPercentage: 85, confidenceLevel: "Medium", strengths: ["Communication & Empathy", "Long-Term Relationships", "Emotional Resilience"], challenges: ["Procedural Interest", "Fast-Paced Preference"], explanationFactors: { alignedTraits: ["Communication & Empathy", "Long-Term Relationships", "Emotional Resilience"], stretchTraits: ["Procedural Interest", "Fast-Paced Preference"], scoreGapFromNext: 4 }, reasoning: "This is an exploratory 85% fit, not a deterministic career answer. You are well suited to reflective, relationship-rich mental health work." },
+    { specialtyId: "cardiology", score: 0.81, matchPercentage: 81, confidenceLevel: "Low", strengths: ["Diagnostic Reasoning", "Research Curiosity", "Emotional Resilience"], challenges: ["Work-Life Balance Priority", "Predictable Schedule Preference"], explanationFactors: { alignedTraits: ["Diagnostic Reasoning", "Research Curiosity", "Emotional Resilience"], stretchTraits: ["Work-Life Balance Priority", "Predictable Schedule Preference"] }, reasoning: "This is an exploratory 81% fit, not a deterministic career answer. A strong analytical profile could support future internal medicine subspecialty ambitions." }
   ],
+  confidenceLevel: "Medium",
+  methodologyNote:
+    "MedMatch compares your answer-derived trait profile with hand-reviewed specialty profiles. Results are exploratory and should be validated through shadowing, mentorship, rotations, and current Ghana training-body guidance.",
   personalitySummary:
     "You look like an empathic analytical clinician who balances strong reasoning with meaningful patient connection.",
   suggestedNextSteps: [
@@ -54,6 +58,7 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
   const [aiSummary, setAiSummary] = useState<string>("");
   const [shareUrl, setShareUrl] = useState<string>("");
   const [saveMessage, setSaveMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const [query, setQuery] = useState("");
 
@@ -61,8 +66,17 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
     if (result || sharedResult) return;
     const stored = localStorage.getItem("medmatch-last-result");
     if (stored) {
-      setResult(JSON.parse(stored) as FullAssessmentResult);
-      return;
+      try {
+        const parsed = fullAssessmentResultSchema.safeParse(JSON.parse(stored));
+        if (parsed.success) {
+          setResult(parsed.data);
+          return;
+        }
+      } catch {
+        // Fall through to demo result and clear the invalid local value.
+      }
+      localStorage.removeItem("medmatch-last-result");
+      setErrorMessage("Your saved local result was outdated, so a demo report is shown instead.");
     }
     setResult(demoResult);
   }, [result, sharedResult]);
@@ -75,6 +89,10 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(result)
       });
+      if (!response.ok) {
+        setAiSummary("Personalized AI guidance is temporarily unavailable. Use the match details below as a starting point for shadowing and mentorship.");
+        return;
+      }
       const data = await response.json();
       setAiSummary(data.explanation);
     });
@@ -89,6 +107,10 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
         body: JSON.stringify(result)
       });
       const data = await response.json();
+      if (!response.ok) {
+        setSaveMessage(data.error ?? "Could not create a share link right now.");
+        return;
+      }
       const absoluteUrl = `${window.location.origin}${data.url}`;
       setShareUrl(absoluteUrl);
       setSaveMessage(data.message ?? "Sharable result created.");
@@ -121,6 +143,9 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-300">Your Career Signal</p>
           <h1 className="mt-4 text-4xl font-semibold">Top specialty matches for your current profile</h1>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70">{result.personalitySummary}</p>
+          <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/75">
+            Confidence: <span className="font-semibold text-emerald-300">{result.confidenceLevel}</span>. {result.methodologyNote}
+          </div>
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             {result.topMatches.map((match, index) => {
               const specialty = specialtiesById[match.specialtyId];
@@ -129,6 +154,7 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
                   <p className="text-xs uppercase tracking-[0.18em] text-white/45">#{index + 1} match</p>
                   <p className="mt-3 text-lg font-semibold">{specialty.name}</p>
                   <p className="mt-4 text-3xl font-semibold text-emerald-300">{match.matchPercentage}%</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white/45">{match.confidenceLevel} confidence</p>
                   <p className="mt-3 text-sm text-white/65">{match.reasoning}</p>
                 </div>
               );
@@ -167,6 +193,12 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
           )}
         </Card>
       </section>
+
+      {errorMessage ? (
+        <Card className="border-amber-200 bg-amber-50 text-sm text-amber-950 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100">
+          {errorMessage}
+        </Card>
+      ) : null}
 
       <section className="grid gap-6 lg:grid-cols-2">
         <Card>
