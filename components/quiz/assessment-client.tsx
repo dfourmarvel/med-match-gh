@@ -1,16 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  BrainCircuit,
-  CheckCircle2,
-  ClipboardList,
-  Save,
-  Share2,
-  Stethoscope
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, BrainCircuit, CheckCircle2, Save, Share2, Stethoscope } from "lucide-react";
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { assessmentQuestions } from "@/lib/assessment";
@@ -178,15 +169,9 @@ export function AssessmentClient() {
               transition={{ duration: 0.28, ease: "easeOut" }}
               className="px-5 py-7 sm:px-8 sm:py-9"
             >
-              <div className="mb-5 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-2 rounded-md bg-primary/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                  <ClipboardList className="h-3.5 w-3.5" />
-                  {currentQuestion.type}
-                </span>
-                <span className="rounded-md bg-slate-100 px-3 py-1.5 text-xs font-medium text-foreground/58 dark:bg-white/6">
-                  Answer honestly; there are no right choices.
-                </span>
-              </div>
+              <p className="mb-5 text-sm font-medium text-foreground/58">
+                Answer honestly; there are no right choices.
+              </p>
               <h3 className="max-w-3xl text-3xl font-semibold leading-tight text-balance sm:text-4xl">
                 {currentQuestion.prompt}
               </h3>
