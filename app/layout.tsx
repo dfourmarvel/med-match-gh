@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <Navbar />
         <main className="mx-auto min-h-screen max-w-7xl px-4 py-10 sm:px-6 lg:px-8">{children}</main>
+        <SpeedInsights />
       </body>
     </html>
   );
