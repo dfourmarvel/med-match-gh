@@ -1,0 +1,7 @@
+$kind: collection
+name: MedMatch Ghana API
+description: |-
+  API collection for MedMatch Ghana — a medical specialty matching platform for Ghanaian students. Covers quiz scoring, AI-powered explanations, saving results, and retrieving shared results.
+variables:
+  - key: baseUrl
+    value: 'http://localhost:3000'

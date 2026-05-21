@@ -110,6 +110,11 @@ export function ResultsClient({ sharedResult }: { sharedResult?: FullAssessmentR
         const parsed = fullAssessmentResultSchema.safeParse(JSON.parse(stored));
         if (parsed.success) {
           setResult(parsed.data);
+          const saveWarning = localStorage.getItem("medmatch-save-warning");
+          if (saveWarning) {
+            setErrorMessage(saveWarning);
+            localStorage.removeItem("medmatch-save-warning");
+          }
           return;
         }
       } catch {

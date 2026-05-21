@@ -15,14 +15,14 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   }
 
   const { data, error } = await serverSupabase
-    .from("saved_results")
-    .select("result_payload")
+    .from("quiz_results")
+    .select("scores")
     .eq("id", parsedId.data)
     .single();
 
-  if (error || !data) {
+  if (error || !data || !data.scores?.fullResult) {
     return NextResponse.json({ error: "Result not found." }, { status: 404 });
   }
 
-  return NextResponse.json(data.result_payload);
+  return NextResponse.json(data.scores.fullResult);
 }

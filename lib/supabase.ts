@@ -7,9 +7,11 @@ const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 export const browserSupabase =
   supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
+export const supabase = browserSupabase;
+
 export const serverSupabase =
-  supabaseUrl && supabaseServiceRoleKey
-    ? createClient(supabaseUrl, supabaseServiceRoleKey, {
+  supabaseUrl && (supabaseServiceRoleKey || supabaseAnonKey)
+    ? createClient(supabaseUrl, supabaseServiceRoleKey ?? supabaseAnonKey!, {
         auth: { persistSession: false }
       })
     : null;

@@ -1,0 +1,10 @@
+name: MedMatch Ghana
+values:
+  - key: baseUrl
+    value: 'http://localhost:3000'
+    enabled: true
+    type: default
+  - key: resultId
+    value: ''
+    enabled: true
+    type: default

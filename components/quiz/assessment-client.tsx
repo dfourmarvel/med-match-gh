@@ -5,10 +5,17 @@ import { ArrowLeft, ArrowRight, BrainCircuit, CheckCircle2, Save, Share2, Stetho
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { assessmentQuestions } from "@/lib/assessment";
-import { Audience } from "@/lib/types";
+import { supabase } from "@/lib/supabase";
+import { specialtiesById } from "@/lib/specialties";
+import { Audience, FullAssessmentResult } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+
+type StoredAnswer = {
+  questionId: string;
+  selectedOption: string;
+};
 
 const audienceOptions: { label: string; value: Audience; description: string }[] = [
   { label: "Medical student", value: "medical-student", description: "Clinical-stage or preclinical medical learners." },
@@ -20,7 +27,7 @@ export function AssessmentClient() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [audience, setAudience] = useState<Audience>("medical-student");
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [answers, setAnswers] = useState<StoredAnswer[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isPending, startTransition] = useTransition();
 
@@ -29,9 +36,20 @@ export function AssessmentClient() {
   const currentQuestion = !isAudienceStep ? assessmentQuestions[step - 1] : null;
   const questionNumber = step;
   const progress = Math.round((step / totalSteps) * 100);
-  const answeredCount = Object.keys(answers).length;
+  const answeredCount = answers.length;
   const stageLabel =
     questionNumber < 9 ? "Interests and energy" : questionNumber < 18 ? "Clinical style" : "Lifestyle and training fit";
+  const answerRecord = useMemo(
+    () =>
+      Object.fromEntries(
+        answers.map((answer) => [
+          Number(answer.questionId.replace("q", "")),
+          Number(answer.selectedOption)
+        ])
+      ) as Record<number, number>,
+    [answers]
+  );
+  const selectedValue = currentQuestion ? answerRecord[currentQuestion.id] : undefined;
 
   const activeOptions = useMemo(
     () =>
@@ -45,7 +63,49 @@ export function AssessmentClient() {
     [currentQuestion]
   );
 
-  const canAdvance = isAudienceStep || (currentQuestion && answers[currentQuestion.id] !== undefined);
+  const canAdvance = isAudienceStep || Boolean(currentQuestion && selectedValue !== undefined);
+
+  const recordAnswer = (questionId: number, selectedOption: number) => {
+    const nextAnswer = { questionId: `q${questionId}`, selectedOption: String(selectedOption) };
+
+    setAnswers((previous) => {
+      const existingAnswer = previous.some((answer) => answer.questionId === nextAnswer.questionId);
+      if (!existingAnswer) return [...previous, nextAnswer];
+
+      return previous.map((answer) =>
+        answer.questionId === nextAnswer.questionId ? nextAnswer : answer
+      );
+    });
+  };
+
+  const saveQuizResult = async (result: FullAssessmentResult) => {
+    if (!supabase) {
+      return "Result shown locally. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to save quiz rows in Supabase.";
+    }
+
+    const topMatch = result.topMatches[0];
+    const topSpecialty = topMatch ? specialtiesById[topMatch.specialtyId] : null;
+    const specialtyScores = Object.fromEntries(
+      result.topMatches.map((match) => [
+        specialtiesById[match.specialtyId]?.name ?? match.specialtyId,
+        match.matchPercentage
+      ])
+    );
+
+    const { error } = await supabase.from("quiz_results").insert([
+      {
+        answers,
+        scores: {
+          audience,
+          traitScores: result.traitScores,
+          specialtyScores
+        },
+        top_specialty: topSpecialty?.name ?? topMatch?.specialtyId ?? "Unknown"
+      }
+    ]);
+
+    return error ? `Result shown locally, but Supabase save failed: ${error.message}` : "";
+  };
 
   const submit = () => {
     setErrorMessage("");
@@ -53,7 +113,7 @@ export function AssessmentClient() {
       const response = await fetch("/api/score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ audience, answers })
+        body: JSON.stringify({ audience, answers: answerRecord })
       });
 
       if (!response.ok) {
@@ -63,7 +123,13 @@ export function AssessmentClient() {
       }
 
       const data = await response.json();
+      const saveWarning = await saveQuizResult(data);
       localStorage.setItem("medmatch-last-result", JSON.stringify(data));
+      if (saveWarning) {
+        localStorage.setItem("medmatch-save-warning", saveWarning);
+      } else {
+        localStorage.removeItem("medmatch-save-warning");
+      }
       router.push("/results");
     });
   };
@@ -180,10 +246,10 @@ export function AssessmentClient() {
                   <button
                     key={`${currentQuestion.id}-${option.value}`}
                     type="button"
-                    aria-pressed={answers[currentQuestion.id] === option.value}
-                    onClick={() => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: option.value }))}
+                    aria-pressed={selectedValue === option.value}
+                    onClick={() => recordAnswer(currentQuestion.id, option.value)}
                     className={`group rounded-lg border p-4 text-left transition duration-200 sm:p-5 ${
-                      answers[currentQuestion.id] === option.value
+                      selectedValue === option.value
                         ? "border-primary/70 bg-primary/8 shadow-[0_18px_42px_-32px_hsl(var(--primary))]"
                         : "border-border/60 bg-card/70 hover:border-primary/35 hover:bg-primary/4"
                     }`}
@@ -192,7 +258,7 @@ export function AssessmentClient() {
                       <span className="flex items-center gap-3 font-medium">
                         <span
                           className={`flex h-7 w-7 items-center justify-center rounded-md border text-xs ${
-                            answers[currentQuestion.id] === option.value
+                            selectedValue === option.value
                               ? "border-primary bg-primary text-white"
                               : "border-border text-foreground/45 group-hover:border-primary/40"
                           }`}
@@ -202,7 +268,7 @@ export function AssessmentClient() {
                         {option.label}
                       </span>
                       <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                        {answers[currentQuestion.id] === option.value ? "Selected" : ""}
+                        {selectedValue === option.value ? "Selected" : ""}
                       </span>
                     </div>
                   </button>
@@ -226,7 +292,7 @@ export function AssessmentClient() {
               <Share2 className="mr-2 h-4 w-4" />
               Share From Results
             </Button>
-            {step < totalSteps - 1 ? (
+            {step < totalSteps ? (
               <Button onClick={() => canAdvance && setStep((value) => value + 1)} disabled={!canAdvance}>
                 Next
                 <ArrowRight className="ml-2 h-4 w-4" />
