@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import { fullAssessmentResultSchema, validationErrorResponse } from "@/lib/api-validation";
 import { rateLimit } from "@/lib/rate-limit";
+import { specialtiesById } from "@/lib/specialties";
 import { serverSupabase } from "@/lib/supabase";
 
 export async function POST(request: Request) {
@@ -37,10 +38,25 @@ export async function POST(request: Request) {
     });
   }
 
-  const { error } = await serverSupabase.from("saved_results").insert({
+  const topMatch = body.topMatches[0];
+  const topSpecialty = topMatch ? specialtiesById[topMatch.specialtyId] : null;
+  const specialtyScores = Object.fromEntries(
+    body.topMatches.map((match) => [
+      specialtiesById[match.specialtyId]?.name ?? match.specialtyId,
+      match.matchPercentage
+    ])
+  );
+
+  const { error } = await serverSupabase.from("quiz_results").insert({
     id,
-    audience: body.audience,
-    result_payload: body
+    answers: [],
+    scores: {
+      audience: body.audience,
+      traitScores: body.traitScores,
+      specialtyScores,
+      fullResult: body
+    },
+    top_specialty: topSpecialty?.name ?? topMatch?.specialtyId ?? "Unknown"
   });
 
   if (error) {

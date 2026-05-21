@@ -1,0 +1,61 @@
+$kind: http-request
+name: Get AI Explanation
+method: POST
+url: '{{baseUrl}}/api/ai-explanation'
+description: |-
+  Submit a full assessment result to receive an AI-generated career guidance explanation tailored to Ghana's medical training context.
+
+  Uses the Groq LLM (llama-3.1-8b-instant by default). Falls back to a static explanation if GROQ_API_KEY is not configured.
+
+  Rate limit: 10 requests per minute.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "audience": "medical-student",
+      "traitScores": {
+        "patientInteraction": 80,
+        "proceduralInterest": 60,
+        "diagnosticReasoning": 75,
+        "fastPacedPreference": 55,
+        "workLifePriority": 70,
+        "emotionalResilience": 65,
+        "teamCollaboration": 72,
+        "precisionOrientation": 68,
+        "longTermRelationships": 78,
+        "researchCuriosity": 50,
+        "leadershipPreference": 60,
+        "trainingTolerance": 65,
+        "emergencyComfort": 45,
+        "communicationEmpathy": 85,
+        "predictableSchedulePreference": 70
+      },
+      "topMatches": [
+        {
+          "specialtyId": "family-medicine",
+          "score": 0.87,
+          "matchPercentage": 87,
+          "confidenceLevel": "High",
+          "strengths": ["Strong patient interaction", "Empathy", "Long-term relationships"],
+          "challenges": ["Broad scope requires versatility"],
+          "explanationFactors": {
+            "alignedTraits": ["patientInteraction", "communicationEmpathy", "longTermRelationships"],
+            "stretchTraits": ["proceduralInterest"],
+            "scoreGapFromNext": 0.08
+          },
+          "reasoning": "Your high empathy and patient interaction scores align strongly with family medicine's core demands."
+        }
+      ],
+      "confidenceLevel": "High",
+      "methodologyNote": "Scores computed using weighted trait-to-specialty cosine similarity.",
+      "personalitySummary": "You are a people-oriented, empathetic individual who values long-term patient relationships.",
+      "suggestedNextSteps": [
+        "Shadow a family medicine physician at a district hospital",
+        "Speak with a resident in your top specialty",
+        "Review Ghana Health Service postings for your top matches"
+      ],
+      "generatedAt": "2026-05-20T12:00:00.000Z"
+    }

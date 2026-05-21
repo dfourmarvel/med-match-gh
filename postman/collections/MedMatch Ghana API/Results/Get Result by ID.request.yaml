@@ -1,0 +1,11 @@
+$kind: http-request
+name: Get Result by ID
+method: GET
+url: '{{baseUrl}}/api/results/{{resultId}}'
+description: |-
+  Retrieve a previously saved assessment result by its UUID.
+
+  Requires Supabase to be configured. Returns the full assessment result payload.
+
+  Returns 400 if the ID is not a valid UUID.
+  Returns 404 if the result is not found or Supabase is not configured.
