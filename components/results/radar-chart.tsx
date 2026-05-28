@@ -10,8 +10,10 @@ export function TraitRadarChart({ scores }: { scores: TraitVector }) {
     value
   }));
 
+  const summaryText = data.map(d => `${d.trait}: ${d.value}`).join(", ");
+
   return (
-    <div className="h-[320px] w-full">
+    <div className="h-[320px] w-full" role="img" aria-label={`Radar chart of clinical trait scores. ${summaryText}`}>
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data}>
           <PolarGrid stroke="rgba(148,163,184,0.25)" />

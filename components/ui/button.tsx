@@ -4,21 +4,26 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline" | "ghost";
+  variant?: "default" | "outline" | "ghost" | "secondary";
+  size?: "sm" | "md" | "lg";
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", ...props }, ref) => (
+  ({ className, variant = "default", size = "md", ...props }, ref) => (
     <button
       ref={ref}
       className={cn(
-        "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-primary/45 disabled:cursor-not-allowed disabled:opacity-60",
-        "min-h-11 rounded-md tracking-[0.01em] focus:ring-primary/45",
+        "inline-flex min-w-11 items-center justify-center gap-2 rounded-md text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-55",
+        size === "sm" && "min-h-10 px-3 py-2",
+        size === "md" && "min-h-11 px-4 py-2.5",
+        size === "lg" && "min-h-12 px-5 py-3",
         variant === "default" &&
-          "bg-primary text-white shadow-[0_16px_34px_-22px_hsl(var(--primary))] hover:bg-primary/90",
+          "bg-primary text-white shadow-sm hover:bg-primary/90 dark:text-slate-950",
+        variant === "secondary" &&
+          "bg-secondary text-white shadow-sm hover:bg-secondary/90 dark:text-slate-950",
         variant === "outline" &&
-          "border border-border/80 bg-card/70 text-foreground hover:border-primary/45 hover:bg-primary/5 dark:bg-white/5 dark:hover:bg-white/10",
-        variant === "ghost" && "text-foreground/78 hover:bg-primary/8",
+          "border border-border bg-card text-foreground shadow-sm hover:border-primary/45 hover:bg-muted",
+        variant === "ghost" && "text-foreground/80 hover:bg-muted hover:text-foreground",
         className
       )}
       {...props}
