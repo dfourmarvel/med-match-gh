@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { serverSupabase } from "@/lib/supabase";
+import { hasSupabaseServiceRole, serverSupabase } from "@/lib/supabase";
+
+interface QuizResultRow {
+  scores?: {
+    fullResult?: unknown;
+  };
+}
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -14,15 +20,21 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
     return NextResponse.json({ error: "Supabase is not configured." }, { status: 404 });
   }
 
-  const { data, error } = await serverSupabase
-    .from("quiz_results")
-    .select("scores")
-    .eq("id", parsedId.data)
-    .single();
+  const { data, error } = hasSupabaseServiceRole
+    ? await serverSupabase
+        .from("quiz_results")
+        .select("scores")
+        .eq("id", parsedId.data)
+        .single()
+    : await serverSupabase
+        .rpc("get_quiz_result", { p_result_id: parsedId.data })
+        .single();
 
-  if (error || !data || !data.scores?.fullResult) {
+  const result = data as QuizResultRow | null;
+
+  if (error || !result || !result.scores?.fullResult) {
     return NextResponse.json({ error: "Result not found." }, { status: 404 });
   }
 
-  return NextResponse.json(data.scores.fullResult);
+  return NextResponse.json(result.scores.fullResult);
 }

@@ -1,7 +1,141 @@
 import { NextResponse } from "next/server";
-import { fullAssessmentResultSchema, validationErrorResponse } from "@/lib/api-validation";
+import { z } from "zod";
+import { generateAIResponse } from "@/lib/ai/generateAIResponse";
+import { AI_SYSTEM_PROMPT } from "@/lib/ai/promptTemplates";
 import { rateLimit } from "@/lib/rate-limit";
-import { specialtiesById } from "@/lib/specialties";
+import { serverSupabase } from "@/lib/supabase";
+
+const answerPairSchema = z
+  .object({
+    questionId: z.union([z.string(), z.number()]).optional(),
+    question: z.string().trim().min(1).max(500).optional(),
+    answer: z.union([z.string().trim().min(1).max(500), z.number(), z.boolean()])
+  })
+  .passthrough()
+  .superRefine((value, context) => {
+    if (value.questionId === undefined && value.question === undefined) {
+      context.addIssue({
+        code: "custom",
+        path: ["question"],
+        message: "Each answer must include a question or questionId."
+      });
+    }
+  });
+
+const specialtySchema = z.union([
+  z.string().trim().min(1).max(120),
+  z
+    .object({
+      name: z.string().trim().min(1).max(120).optional(),
+      specialtyName: z.string().trim().min(1).max(120).optional(),
+      title: z.string().trim().min(1).max(120).optional(),
+      matchPercentage: z.number().min(0).max(100).optional(),
+      score: z.number().min(0).max(100).optional(),
+      strengths: z.array(z.string().trim().min(1).max(140)).max(8).optional(),
+      challenges: z.array(z.string().trim().min(1).max(140)).max(8).optional()
+    })
+    .passthrough()
+    .refine((value) => value.name || value.specialtyName || value.title, {
+      message: "Each specialty object must include name, specialtyName, or title."
+    })
+]);
+
+const aiExplanationRequestSchema = z.object({
+  userId: z.string().trim().min(1).max(120),
+  answers: z.array(answerPairSchema).min(1).max(50),
+  traitScores: z.record(z.string().trim().min(1).max(80), z.number().finite()).refine(
+    (scores) => Object.keys(scores).length > 0,
+    "At least one trait score is required."
+  ),
+  topSpecialties: z.array(specialtySchema).min(1).max(5)
+});
+
+type AiExplanationRequest = z.infer<typeof aiExplanationRequestSchema>;
+
+function validationErrorResponse(error: z.ZodError) {
+  return {
+    error: "Invalid request payload.",
+    issues: error.issues.map((issue) => ({
+      path: issue.path.join("."),
+      message: issue.message
+    }))
+  };
+}
+
+function specialtyName(specialty: AiExplanationRequest["topSpecialties"][number]) {
+  if (typeof specialty === "string") {
+    return specialty;
+  }
+
+  return specialty.name ?? specialty.specialtyName ?? specialty.title ?? "Recommended specialty";
+}
+
+function buildPrompt(payload: AiExplanationRequest) {
+  const topTraits = Object.entries(payload.traitScores)
+    .sort(([, left], [, right]) => right - left)
+    .slice(0, 6)
+    .map(([trait, score]) => `${trait}: ${score}`)
+    .join("\n");
+
+  const topSpecialties = payload.topSpecialties
+    .slice(0, 3)
+    .map((specialty, index) => `${index + 1}. ${specialtyName(specialty)}`)
+    .join("\n");
+
+  const answers = payload.answers
+    .slice(0, 12)
+    .map((item, index) => {
+      const question = item.question ?? `Question ${item.questionId ?? index + 1}`;
+      return `${question}: ${String(item.answer)}`;
+    })
+    .join("\n");
+
+  return `${AI_SYSTEM_PROMPT}
+
+Generate one personalized MedMatch explanation for user ${payload.userId}.
+
+Assessment answers:
+${answers}
+
+Highest trait scores:
+${topTraits}
+
+Top recommended specialties:
+${topSpecialties}
+
+Requirements:
+- Interpret the user's traits in supportive, non-deterministic language.
+- Explain why the top specialties may match those traits.
+- Keep the tone clear, supportive, medically neutral, and educational.
+- Do not diagnose, recommend treatment, or give patient-specific medical advice.
+- Do not imply the result is a final career decision.
+- Keep the response concise, around 200-300 words.
+- Return plain text only.`;
+}
+
+function fallbackExplanation(payload: AiExplanationRequest) {
+  const topTraits = Object.entries(payload.traitScores)
+    .sort(([, left], [, right]) => right - left)
+    .slice(0, 3)
+    .map(([trait]) => trait);
+  const topSpecialties = payload.topSpecialties.slice(0, 3).map(specialtyName);
+
+  return `Your results suggest strengths in ${topTraits.join(", ") || "several professional traits"}. These traits can be useful in clinical training because they point to how you may prefer to think, communicate, handle pressure, and work with patients or teams.
+
+Your top specialty matches are ${topSpecialties.join(", ")}. These recommendations should be read as exploratory career guidance: they suggest areas where your current preferences may align with the daily work, learning style, and professional demands of those fields. They are not a diagnosis, a guarantee of future performance, or a final career decision.
+
+Use this result as a starting point. Shadow clinicians in your top specialties, ask mentors what the work is really like, and compare your interest with training requirements, lifestyle, patient contact, and long-term growth. Real clinical exposure and thoughtful mentorship should guide your next step.`;
+}
+
+function limitWords(text: string, maxWords = 300) {
+  const words = text.trim().split(/\s+/);
+
+  if (words.length <= maxWords) {
+    return text.trim();
+  }
+
+  return `${words.slice(0, maxWords).join(" ")}...`;
+}
 
 export async function POST(request: Request) {
   const limit = rateLimit(request, { namespace: "ai-explanation", limit: 10, windowMs: 60_000 });
@@ -19,55 +153,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON request body." }, { status: 400 });
   }
 
-  const parsed = fullAssessmentResultSchema.safeParse(payload);
+  const parsed = aiExplanationRequestSchema.safeParse(payload);
   if (!parsed.success) {
     return NextResponse.json(validationErrorResponse(parsed.error), { status: 400 });
   }
 
-  const result = parsed.data;
-  const topMatches = result.topMatches.slice(0, 3).map((item) => specialtiesById[item.specialtyId].name);
+  const supabaseReadyContext = {
+    userId: parsed.data.userId,
+    table: "ai_explanations",
+    enabled: Boolean(serverSupabase)
+  };
 
-  const apiKey = process.env.GROQ_API_KEY;
-  const model = process.env.GROQ_MODEL ?? "llama-3.1-8b-instant";
-  if (!apiKey || apiKey.startsWith("replace-with")) {
-    return NextResponse.json({
-      explanation: `Your strongest current fit appears to be ${topMatches.join(", ")}. You show a profile with clear strengths in ${result.topMatches[0]?.strengths.join(", ").toLowerCase()}, which suggests you may thrive in specialties balancing those traits with Ghana's training realities. To deepen fit, shadow clinicians in your top 3 areas and compare how each specialty handles schedule control, emergency intensity, and patient continuity.`
-    });
+  try {
+    const explanation = await generateAIResponse(buildPrompt(parsed.data));
+    return NextResponse.json({ explanation: limitWords(explanation) });
+  } catch (error) {
+    console.error("AI explanation failed", { error, supabaseReadyContext });
+    return NextResponse.json({ explanation: limitWords(fallbackExplanation(parsed.data)) });
   }
-
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a warm, practical medical career advisor focused on Ghana. Keep advice educational, non-diagnostic, concise, and motivating. Avoid certainty; frame results as exploratory and encourage verification with mentors and official training bodies."
-        },
-        {
-          role: "user",
-          content: `Create a concise explanation for this MedMatch Ghana user. Top matches: ${topMatches.join(", ")}. Overall confidence: ${result.confidenceLevel}. Methodology note: ${result.methodologyNote}. Personality summary: ${result.personalitySummary}. Trait scores: ${JSON.stringify(result.traitScores)}. Suggested next steps should be Ghana-aware and reference shadowing, mentorship, and training reality.`
-        }
-      ],
-      temperature: 0.7
-    })
-  });
-
-  if (!response.ok) {
-    return NextResponse.json({
-      explanation: `Your strongest current fit appears to be ${topMatches.join(", ")}. Your profile suggests you combine analytical strengths with meaningful human-centered qualities, which can translate well into specialties that reward both clinical reasoning and communication. Use this result as a starting point for shadowing, mentorship, and real-world exposure in Ghana.`
-    });
-  }
-
-  const data = await response.json();
-  const explanation =
-    data.choices?.[0]?.message?.content ??
-    `Your strongest current fit appears to be ${topMatches.join(", ")}.`;
-
-  return NextResponse.json({ explanation });
 }

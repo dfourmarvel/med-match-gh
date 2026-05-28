@@ -8,6 +8,7 @@ export const browserSupabase =
   supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 export const supabase = browserSupabase;
+export const hasSupabaseServiceRole = Boolean(supabaseServiceRoleKey);
 
 export const serverSupabase =
   supabaseUrl && (supabaseServiceRoleKey || supabaseAnonKey)

@@ -12,12 +12,12 @@ export default async function SharedResultPage({ params }: { params: Promise<{ i
   const sharedResult = await getSharedResult(id);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Shared Result</p>
-        <h1 className="mt-3 text-4xl font-semibold">Shared MedMatch Ghana report</h1>
+        <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Shared Result</p>
+        <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold">Shared MedMatch Ghana report</h1>
       </div>
-      <ResultsClient sharedResult={sharedResult} />
+      <ResultsClient sharedResult={sharedResult} sharedResultId={id} />
     </div>
   );
 }
