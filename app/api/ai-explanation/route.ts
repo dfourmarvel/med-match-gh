@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
 import { z } from "zod";
 import { generateAIResponse } from "@/lib/ai/generateAIResponse";
 import { AI_SYSTEM_PROMPT } from "@/lib/ai/promptTemplates";
 import { rateLimit } from "@/lib/rate-limit";
 import { serverSupabase } from "@/lib/supabase";
+import { apiError, apiSuccess } from "@/lib/apiError";
 
 const answerPairSchema = z
   .object({
@@ -52,16 +52,6 @@ const aiExplanationRequestSchema = z.object({
 
 type AiExplanationRequest = z.infer<typeof aiExplanationRequestSchema>;
 
-function validationErrorResponse(error: z.ZodError) {
-  return {
-    error: "Invalid request payload.",
-    issues: error.issues.map((issue) => ({
-      path: issue.path.join("."),
-      message: issue.message
-    }))
-  };
-}
-
 function specialtyName(specialty: AiExplanationRequest["topSpecialties"][number]) {
   if (typeof specialty === "string") {
     return specialty;
@@ -90,7 +80,7 @@ function buildPrompt(payload: AiExplanationRequest) {
     })
     .join("\n");
 
-  return `${AI_SYSTEM_PROMPT}
+  return `${AI_SYSTEM_PROMPT}Locally tailored clinical compatibility insight.
 
 Generate one personalized MedMatch explanation for user ${payload.userId}.
 
@@ -113,20 +103,6 @@ Requirements:
 - Return plain text only.`;
 }
 
-function fallbackExplanation(payload: AiExplanationRequest) {
-  const topTraits = Object.entries(payload.traitScores)
-    .sort(([, left], [, right]) => right - left)
-    .slice(0, 3)
-    .map(([trait]) => trait);
-  const topSpecialties = payload.topSpecialties.slice(0, 3).map(specialtyName);
-
-  return `Your results suggest strengths in ${topTraits.join(", ") || "several professional traits"}. These traits can be useful in clinical training because they point to how you may prefer to think, communicate, handle pressure, and work with patients or teams.
-
-Your top specialty matches are ${topSpecialties.join(", ")}. These recommendations should be read as exploratory career guidance: they suggest areas where your current preferences may align with the daily work, learning style, and professional demands of those fields. They are not a diagnosis, a guarantee of future performance, or a final career decision.
-
-Use this result as a starting point. Shadow clinicians in your top specialties, ask mentors what the work is really like, and compare your interest with training requirements, lifestyle, patient contact, and long-term growth. Real clinical exposure and thoughtful mentorship should guide your next step.`;
-}
-
 function limitWords(text: string, maxWords = 300) {
   const words = text.trim().split(/\s+/);
 
@@ -138,37 +114,49 @@ function limitWords(text: string, maxWords = 300) {
 }
 
 export async function POST(request: Request) {
-  const limit = rateLimit(request, { namespace: "ai-explanation", limit: 10, windowMs: 60_000 });
-  if (!limit.allowed) {
-    return NextResponse.json(
-      { error: "Too many AI guidance requests. Please try again shortly." },
-      { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } }
-    );
-  }
-
-  let payload: unknown;
   try {
-    payload = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON request body." }, { status: 400 });
-  }
+    const limit = rateLimit(request, { namespace: "ai-explanation", limit: 10, windowMs: 60_000 });
+    if (!limit.allowed) {
+      return apiError("Too many AI guidance requests. Please try again shortly.", 429, undefined, {
+        "Retry-After": String(limit.retryAfterSeconds)
+      });
+    }
 
-  const parsed = aiExplanationRequestSchema.safeParse(payload);
-  if (!parsed.success) {
-    return NextResponse.json(validationErrorResponse(parsed.error), { status: 400 });
-  }
+    let payload: unknown;
+    try {
+      payload = await request.json();
+    } catch (err: any) {
+      console.error("Malformed JSON in /api/ai-explanation", { error: err.message });
+      return apiError("Invalid JSON request body.", 400);
+    }
 
-  const supabaseReadyContext = {
-    userId: parsed.data.userId,
-    table: "ai_explanations",
-    enabled: Boolean(serverSupabase)
-  };
+    const parsed = aiExplanationRequestSchema.safeParse(payload);
+    if (!parsed.success) {
+      const validationErrors = parsed.error.issues.map((issue) => ({
+        path: issue.path.join("."),
+        message: issue.message
+      }));
+      return apiError("Invalid request payload.", 400, validationErrors);
+    }
 
-  try {
-    const explanation = await generateAIResponse(buildPrompt(parsed.data));
-    return NextResponse.json({ explanation: limitWords(explanation) });
-  } catch (error) {
-    console.error("AI explanation failed", { error, supabaseReadyContext });
-    return NextResponse.json({ explanation: limitWords(fallbackExplanation(parsed.data)) });
+    const supabaseReadyContext = {
+      userId: parsed.data.userId,
+      table: "ai_explanations",
+      enabled: Boolean(serverSupabase)
+    };
+
+    try {
+      const explanation = await generateAIResponse(buildPrompt(parsed.data));
+      return apiSuccess({ explanation: limitWords(explanation) });
+    } catch (error) {
+      console.error("AI explanation failed, returning fallback message", { error, supabaseReadyContext });
+      return apiSuccess({ explanation: "Unable to generate explanation at this time" });
+    }
+  } catch (globalError: any) {
+    console.error("Unhandled exception in POST /api/ai-explanation", {
+      message: globalError?.message,
+      stack: globalError?.stack
+    });
+    return apiError("Internal server error", 500);
   }
 }

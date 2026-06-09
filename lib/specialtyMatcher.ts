@@ -41,6 +41,9 @@ function normalizeTraitKey(key: string) {
 }
 
 function normalizeTraitScores(traits: TraitScores) {
+  if (!traits || typeof traits !== "object") {
+    return {};
+  }
   return Object.entries(traits).reduce<TraitScores>((normalized, [key, value]) => {
     if (Number.isFinite(value)) {
       normalized[normalizeTraitKey(key)] = value;
@@ -73,24 +76,43 @@ function weightedCosineSimilarity(userTraits: TraitScores, specialtyTraits: Trai
   }
 
   const similarity = dotProduct / (Math.sqrt(userMagnitude) * Math.sqrt(specialtyMagnitude));
-  return Math.max(0, Math.min(1, similarity));
+  const finalSimilarity = Number.isFinite(similarity) ? similarity : 0;
+  return Math.max(0, Math.min(1, finalSimilarity));
 }
 
 export function matchSpecialties(traits: TraitScores, topN = 5): SpecialtyMatchScore[] {
-  const normalizedTraits = normalizeTraitScores(traits);
-  const resultCount = Math.max(0, Math.floor(topN));
+  try {
+    if (!traits || typeof traits !== "object") {
+      return [];
+    }
+    const normalizedTraits = normalizeTraitScores(traits);
+    const resultCount = Math.max(0, Math.floor(topN));
 
-  return specialtyProfiles
-    .map((profile) => ({
-      specialty: profile.name,
-      score: Number(weightedCosineSimilarity(normalizedTraits, profile.traits).toFixed(4))
-    }))
-    .sort((left, right) => {
-      if (right.score !== left.score) {
-        return right.score - left.score;
-      }
+    if (!specialtyProfiles || !Array.isArray(specialtyProfiles) || specialtyProfiles.length === 0) {
+      return [];
+    }
 
-      return left.specialty.localeCompare(right.specialty);
-    })
-    .slice(0, resultCount);
+    const matched = specialtyProfiles
+      .map((profile) => {
+        const similarity = weightedCosineSimilarity(normalizedTraits, profile.traits);
+        const score = Number.isFinite(similarity) ? Number(similarity.toFixed(4)) : 0;
+        return {
+          specialty: profile.name,
+          score
+        };
+      })
+      .sort((left, right) => {
+        if (right.score !== left.score) {
+          return right.score - left.score;
+        }
+
+        return left.specialty.localeCompare(right.specialty);
+      })
+      .slice(0, resultCount);
+
+    return matched ?? [];
+  } catch (error) {
+    console.error("Error in matchSpecialties service:", error);
+    return [];
+  }
 }

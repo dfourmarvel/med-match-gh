@@ -1,27 +1,44 @@
-import { NextResponse } from "next/server";
-import { quizSubmissionSchema, validationErrorResponse } from "@/lib/api-validation";
+import { quizSubmissionSchema } from "@/lib/api-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { buildAssessmentResult } from "@/lib/scoring";
+import { apiError, apiSuccess } from "@/lib/apiError";
 
 export async function POST(request: Request) {
-  const limit = rateLimit(request, { namespace: "score", limit: 30, windowMs: 60_000 });
-  if (!limit.allowed) {
-    return NextResponse.json(
-      { error: "Too many scoring requests. Please try again shortly." },
-      { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } }
-    );
-  }
-
   try {
-    const parsed = quizSubmissionSchema.safeParse(await request.json());
+    const limit = rateLimit(request, { namespace: "score", limit: 30, windowMs: 60_000 });
+    if (!limit.allowed) {
+      return apiError(
+        "Too many scoring requests. Please try again shortly.",
+        429,
+        undefined,
+        { "Retry-After": String(limit.retryAfterSeconds) }
+      );
+    }
 
+    let payload: unknown;
+    try {
+      payload = await request.json();
+    } catch (err: any) {
+      console.error("Malformed JSON in /api/score", { error: err.message });
+      return apiError("Invalid JSON request body.", 400);
+    }
+
+    const parsed = quizSubmissionSchema.safeParse(payload);
     if (!parsed.success) {
-      return NextResponse.json(validationErrorResponse(parsed.error), { status: 400 });
+      const validationErrors = parsed.error.issues.map((issue) => ({
+        path: issue.path.join("."),
+        message: issue.message
+      }));
+      return apiError("Invalid request body", 400, validationErrors);
     }
 
     const result = buildAssessmentResult(parsed.data.audience, parsed.data.answers);
-    return NextResponse.json(result);
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON request body." }, { status: 400 });
+    return apiSuccess(result);
+  } catch (error: any) {
+    console.error("Unhandled exception in POST /api/score", {
+      message: error?.message,
+      stack: error?.stack
+    });
+    return apiError("Internal server error", 500);
   }
 }
