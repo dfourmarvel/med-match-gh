@@ -28,7 +28,7 @@ export function CompareTable({ matches }: { matches: MatchResult[] }) {
             <th scope="col" className="pb-4 pr-4">Metric</th>
             {topThree.map((specialty) => (
               <th key={specialty.id} scope="col" className="pb-4 pr-6 font-semibold text-foreground">
-                <Link href={`/specialties/${specialty.id}`} className="hover:text-sky-500 focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 rounded-sm">
+                <Link href={`/specialties/${specialty.id}`} className="transition-colors hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm">
                   {specialty.name}
                 </Link>
               </th>

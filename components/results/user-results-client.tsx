@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowLeft, Brain, Sparkles, LoaderCircle, Stethoscope, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { KenteStrip } from "@/components/ui/kente-strip";
+import { MatchRing } from "@/components/ui/match-ring";
 
 interface UserResultsClientProps {
   userId: string;
@@ -83,7 +85,7 @@ export function UserResultsClient({
     <div className="space-y-8">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 rounded-sm"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-secondary transition-colors hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
         aria-label="Back to home page"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -92,10 +94,10 @@ export function UserResultsClient({
 
       {/* Top Match Hero Card */}
       {topMatch && (
-        <Card className="relative overflow-hidden bg-slate-950 p-0 text-white" role="region" aria-label="Top Specialty Match">
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 via-sky-400 to-indigo-400" aria-hidden="true" />
+        <Card className="relative overflow-hidden border-transparent bg-[#12291f] p-0 text-[#f6f0e2]" role="region" aria-label="Top Specialty Match">
+          <KenteStrip />
           <div className="p-6 sm:p-8 lg:p-10">
-            <span className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-300">
+            <span className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-400">
               Top Recommended Match
             </span>
             <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -103,30 +105,13 @@ export function UserResultsClient({
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
                   {topMatch.specialtyName}
                 </h2>
-                <p className="mt-4 max-w-2xl text-sm sm:text-base leading-7 text-white/72">
+                <p className="mt-4 max-w-2xl text-sm sm:text-base leading-7 text-[#f6f0e2]/72">
                   {topMatch.description}
                 </p>
               </div>
-              <div
-                className="relative flex h-32 w-32 shrink-0 items-center justify-center rounded-full"
-                style={{
-                  background: `conic-gradient(hsl(var(--primary)) ${topMatch.matchPercentage * 3.6}deg, rgba(148,163,184,0.18) 0deg)`
-                }}
-                role="img"
-                aria-label={`${topMatch.matchPercentage}% compatibility score`}
-              >
-                <div className="absolute inset-2.5 rounded-full bg-slate-950" aria-hidden="true" />
-                <div className="relative text-center text-white">
-                  <p className="text-3xl font-bold" aria-hidden="true">
-                    {topMatch.matchPercentage}%
-                  </p>
-                  <p className="text-[9px] uppercase tracking-[0.15em] text-white/50 animate-pulse" aria-hidden="true">
-                    match
-                  </p>
-                </div>
-              </div>
+              <MatchRing target={topMatch.matchPercentage} size={160} onDark />
             </div>
-            <div className="mt-8 flex flex-wrap gap-4 text-xs text-white/60">
+            <div className="mt-8 flex flex-wrap gap-4 text-xs text-[#f6f0e2]/60">
               <span className="rounded-full bg-white/10 px-3 py-1.5 font-medium border border-white/5">
                 Audience: {audience === "medical-student" ? "Medical Student" : audience === "dental-student" ? "Dental Student" : "High School Student"}
               </span>
@@ -227,7 +212,7 @@ export function UserResultsClient({
               <div className="mt-4 flex justify-end">
                 <Link
                   href={`/specialties/${match.specialtyId}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-sky-500 transition focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 rounded-sm"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-accent transition focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
                   aria-label={`Explore ${match.specialtyName} in detail`}
                 >
                   Explore specialty

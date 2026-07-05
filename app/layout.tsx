@@ -1,8 +1,23 @@
 import type { Metadata } from "next";
+import { Fraunces, Outfit } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
+
+const fontSans = Outfit({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap"
+});
+
+const fontDisplay = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  axes: ["SOFT", "WONK", "opsz"]
+});
 
 export const metadata: Metadata = {
   title: "MedMatch Ghana",
@@ -11,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${fontSans.variable} ${fontDisplay.variable}`}>
       <body className="overflow-x-hidden">
         <ThemeProvider>
           <a href="#main-content" className="skip-link">
@@ -25,6 +40,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           >
             {children}
           </main>
+          <Footer />
           <SpeedInsights />
         </ThemeProvider>
       </body>
