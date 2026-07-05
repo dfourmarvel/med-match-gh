@@ -25,8 +25,8 @@ export default async function ResultsPage({
       return (
         <div className="space-y-4 sm:space-y-6">
           <div>
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Results</p>
-            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold">Your MedMatch Ghana profile</h1>
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.26em] text-secondary">Results</p>
+            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Your MedMatch Ghana profile</h1>
           </div>
           <Card className="min-h-[260px] border-orange-500/20 bg-orange-50/5">
             <h2 className="text-lg font-semibold text-orange-600 dark:text-orange-300">Invalid User ID</h2>
@@ -50,8 +50,8 @@ export default async function ResultsPage({
       return (
         <div className="space-y-4 sm:space-y-6">
           <div>
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Results</p>
-            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold">Your MedMatch Ghana profile</h1>
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.26em] text-secondary">Results</p>
+            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Your MedMatch Ghana profile</h1>
           </div>
           <Card className="min-h-[260px]">
             <h2 className="text-lg font-semibold">Supabase is not configured</h2>
@@ -85,8 +85,8 @@ export default async function ResultsPage({
         return (
           <div className="space-y-4 sm:space-y-6">
             <div>
-              <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Results</p>
-              <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold">Your MedMatch Ghana profile</h1>
+              <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.26em] text-secondary">Results</p>
+              <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Your MedMatch Ghana profile</h1>
             </div>
             <Card className="min-h-[260px] border-amber-500/20">
               <h2 className="text-lg font-semibold">No assessment result found</h2>
@@ -177,8 +177,8 @@ export default async function ResultsPage({
       return (
         <div className="space-y-4 sm:space-y-6">
           <div>
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Results</p>
-            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold">Your MedMatch Ghana profile</h1>
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.26em] text-secondary">Results</p>
+            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Your MedMatch Ghana profile</h1>
           </div>
           <UserResultsClient
             userId={parsedId.data}
@@ -194,8 +194,8 @@ export default async function ResultsPage({
       return (
         <div className="space-y-4 sm:space-y-6">
           <div>
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Results</p>
-            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold">Your MedMatch Ghana profile</h1>
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.26em] text-secondary">Results</p>
+            <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Your MedMatch Ghana profile</h1>
           </div>
           <Card className="min-h-[260px] border-red-500/20 bg-red-50/5">
             <h2 className="text-lg font-semibold text-red-600 dark:text-red-300">Failed to load results</h2>
@@ -217,8 +217,8 @@ export default async function ResultsPage({
   return (
     <div className="space-y-4 sm:space-y-6">
       <div>
-        <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.24em] text-sky-600 dark:text-sky-300">Results</p>
-        <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold">Your MedMatch Ghana profile</h1>
+        <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.26em] text-secondary">Results</p>
+        <h1 className="mt-2 sm:mt-3 text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">Your MedMatch Ghana profile</h1>
       </div>
       <ResultsClient showDemo={params.demo === "true"} />
     </div>

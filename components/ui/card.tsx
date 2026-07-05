@@ -6,7 +6,7 @@ export function Card({ className, role, ...props }: HTMLAttributes<HTMLDivElemen
     <div
       role={role}
       className={cn(
-        "rounded-lg border border-border bg-card p-4 shadow-sm sm:p-5 md:p-6",
+        "rounded-2xl border border-border/70 bg-card p-4 shadow-card transition-shadow duration-300 sm:p-5 md:p-6",
         className
       )}
       {...props}

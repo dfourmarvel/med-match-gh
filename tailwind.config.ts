@@ -14,21 +14,55 @@ const config: Config = {
         foreground: "hsl(var(--foreground))",
         card: "hsl(var(--card))",
         border: "hsl(var(--border))",
-        primary: "hsl(var(--primary))",
-        secondary: "hsl(var(--secondary))",
-        accent: "hsl(var(--accent))",
-        muted: "hsl(var(--muted))"
+        muted: "hsl(var(--muted))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))"
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))"
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))"
+        },
+        gold: "hsl(var(--gold))",
+        forest: "hsl(var(--forest))",
+        clay: "hsl(var(--clay))",
+        ink: "hsl(var(--ink))"
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"]
       },
       borderRadius: {
         xl: "1.25rem",
         "2xl": "1.75rem"
       },
       boxShadow: {
-        glow: "0 20px 80px -30px rgba(16, 185, 129, 0.35)"
+        card: "0 1px 2px hsl(var(--ink) / 0.06), 0 8px 24px -12px hsl(var(--ink) / 0.14)",
+        lift: "0 2px 4px hsl(var(--ink) / 0.08), 0 18px 40px -16px hsl(var(--ink) / 0.24)",
+        "glow-gold": "0 20px 70px -25px hsl(var(--gold) / 0.55)"
       },
-      backgroundImage: {
-        "mesh-gradient":
-          "radial-gradient(circle at top left, rgba(16,185,129,0.16), transparent 35%), radial-gradient(circle at top right, rgba(14,165,233,0.12), transparent 30%), radial-gradient(circle at bottom center, rgba(244,114,182,0.1), transparent 30%)"
+      keyframes: {
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(16px)" },
+          to: { opacity: "1", transform: "translateY(0)" }
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" }
+        },
+        "pulse-soft": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.55" }
+        }
+      },
+      animation: {
+        "fade-up": "fade-up 0.6s ease-out both",
+        float: "float 6s ease-in-out infinite",
+        "pulse-soft": "pulse-soft 2.4s ease-in-out infinite"
       }
     }
   },

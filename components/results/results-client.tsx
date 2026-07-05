@@ -24,6 +24,9 @@ import { MatchesBarChart } from "@/components/results/bar-chart";
 import { CompareTable } from "@/components/results/compare-table";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { KenteStrip } from "@/components/ui/kente-strip";
+import { MatchRing } from "@/components/ui/match-ring";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { SpecialtyCard } from "@/components/specialties/specialty-card";
 
 const demoResult = {
@@ -66,30 +69,11 @@ const demoResult = {
   generatedAt: new Date().toISOString()
 } satisfies FullAssessmentResult;
 
-function CompatibilityRing({ value }: { value: number }) {
-  return (
-    <div
-      className="relative flex h-40 w-40 shrink-0 items-center justify-center rounded-full"
-      style={{
-        background: `conic-gradient(hsl(var(--primary)) ${value * 3.6}deg, rgba(148,163,184,0.18) 0deg)`
-      }}
-      role="img"
-      aria-label={`${value}% specialty compatibility`}
-    >
-      <div className="absolute inset-3 rounded-full bg-slate-950" aria-hidden="true" />
-      <div className="relative text-center text-white">
-        <p className="text-4xl font-semibold" aria-hidden="true">{value}%</p>
-        <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/45" aria-hidden="true">compatibility</p>
-      </div>
-    </div>
-  );
-}
-
 function SignalPill({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.055] p-4">
-      <p className="text-[11px] uppercase tracking-[0.18em] text-white/42">{label}</p>
-      <p className="mt-2 text-lg font-semibold text-white" aria-label={`${label}: ${value}`}>{value}</p>
+    <div className="rounded-xl border border-white/10 bg-white/[0.055] p-4">
+      <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/45">{label}</p>
+      <p className="mt-2 text-lg font-semibold text-[#f6f0e2]" aria-label={`${label}: ${value}`}>{value}</p>
     </div>
   );
 }
@@ -224,7 +208,7 @@ export function ResultsClient({
   if (isLoadingResult) {
     return (
       <Card className="flex min-h-[320px] items-center justify-center" role="status" aria-busy="true" aria-live="polite">
-        <LoaderCircle className="h-8 w-8 animate-spin text-sky-500" aria-hidden="true" />
+        <LoaderCircle className="h-8 w-8 animate-spin text-accent" aria-hidden="true" />
         <span className="sr-only">Loading your results…</span>
       </Card>
     );
@@ -233,7 +217,7 @@ export function ResultsClient({
   if (!result) {
     return (
       <Card className="min-h-[260px]">
-        <p className="text-lg font-semibold">
+        <p className="font-display text-lg font-semibold">
           {sharedResultId ? "Shared result not found" : "No assessment result yet"}
         </p>
         <p className="mt-3 max-w-2xl text-sm leading-7 text-foreground/65">
@@ -243,7 +227,7 @@ export function ResultsClient({
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/assessment">
-            <Button>Start Assessment</Button>
+            <Button variant="gold">Start Assessment</Button>
           </Link>
           <Link href="/results?demo=true">
             <Button variant="outline">View Sample Results</Button>
@@ -257,96 +241,107 @@ export function ResultsClient({
     <div className="space-y-10">
       {/* Hero section: top specialty + AI guidance */}
       <section className="grid gap-6 xl:grid-cols-[1.35fr_0.65fr]" aria-label="Top match overview">
-        <Card className="relative overflow-hidden bg-slate-950 p-0 text-white">
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400" aria-hidden="true" />
-          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">Your specialty intelligence report</p>
-              <h2 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-balance sm:text-5xl">
-                {topSpecialty?.name ?? "Top specialty"} is your strongest current signal.
-              </h2>
-              <p className="mt-5 max-w-2xl text-sm leading-7 text-white/68">{result.personalitySummary}</p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                <SignalPill label="Confidence" value={result.confidenceLevel} />
-                <SignalPill label="Top match" value={topSpecialty?.name ?? "Pending"} />
-                <SignalPill label="Report date" value={new Date(result.generatedAt).toLocaleDateString()} />
+        <Reveal mode="mount">
+          <Card className="relative h-full overflow-hidden border-transparent bg-[#12291f] p-0 text-[#f6f0e2]">
+            <KenteStrip />
+            <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-400">Your specialty intelligence report</p>
+                <h2 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-tight text-balance sm:text-5xl">
+                  {topSpecialty?.name ?? "Top specialty"} is your strongest current signal.
+                </h2>
+                <p className="mt-5 max-w-2xl text-sm leading-7 text-[#f6f0e2]/70">{result.personalitySummary}</p>
+                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                  <SignalPill label="Confidence" value={result.confidenceLevel} />
+                  <SignalPill label="Top match" value={topSpecialty?.name ?? "Pending"} />
+                  <SignalPill label="Report date" value={new Date(result.generatedAt).toLocaleDateString()} />
+                </div>
               </div>
+              {topMatch ? (
+                <div className="flex items-center justify-center">
+                  <MatchRing target={topMatch.matchPercentage} size={176} label="compatibility" onDark />
+                </div>
+              ) : null}
             </div>
-            {topMatch ? <CompatibilityRing value={topMatch.matchPercentage} /> : null}
-          </div>
-          <div className="border-t border-white/10 bg-white/[0.035] p-6 sm:p-8">
-            <h3 className="sr-only">Top 5 specialty matches</h3>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5" role="list" aria-label="Top 5 matched specialties">
-              {result.topMatches.map((match, index) => {
-                const specialty = specialtiesById[match.specialtyId];
-                return (
-                  <Link
-                    href={`/specialties/${specialty.id}`}
-                    key={match.specialtyId}
-                    className="rounded-lg border border-white/10 bg-white/[0.055] p-4 transition hover:border-cyan-200/45 hover:bg-white/[0.08] focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-                    role="listitem"
-                    aria-label={`#${index + 1} match: ${specialty.name}, ${match.matchPercentage}% compatibility, ${match.confidenceLevel} confidence`}
-                  >
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-white/42" aria-hidden="true">#{index + 1} match</p>
-                    <p className="mt-3 min-h-12 text-base font-semibold leading-snug">{specialty.name}</p>
-                    <div
-                      className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"
-                      role="progressbar"
-                      aria-valuenow={match.matchPercentage}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-label={`${specialty.name} match: ${match.matchPercentage}%`}
-                    >
-                      <div className="h-full rounded-full bg-cyan-300" style={{ width: `${match.matchPercentage}%` }} />
-                    </div>
-                    <div className="mt-3 flex items-center justify-between text-sm">
-                      <span className="font-semibold text-cyan-200" aria-hidden="true">{match.matchPercentage}%</span>
-                      <span className="text-xs uppercase tracking-[0.14em] text-white/42" aria-hidden="true">{match.confidenceLevel}</span>
-                    </div>
-                  </Link>
-                );
-              })}
+            <div className="border-t border-white/10 bg-white/[0.035] p-6 sm:p-8">
+              <h3 className="sr-only">Top 5 specialty matches</h3>
+              <Stagger mode="mount" className="grid gap-4 md:grid-cols-2 xl:grid-cols-5" role="list" aria-label="Top 5 matched specialties">
+                {result.topMatches.map((match, index) => {
+                  const specialty = specialtiesById[match.specialtyId];
+                  return (
+                    <StaggerItem key={match.specialtyId} role="listitem">
+                      <Link
+                        href={`/specialties/${specialty.id}`}
+                        className="block h-full rounded-xl border border-white/10 bg-white/[0.055] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/50 hover:bg-white/[0.09] focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12291f]"
+                        aria-label={`#${index + 1} match: ${specialty.name}, ${match.matchPercentage}% compatibility, ${match.confidenceLevel} confidence`}
+                      >
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/45" aria-hidden="true">#{index + 1} match</p>
+                        <p className="mt-3 min-h-12 text-base font-semibold leading-snug">{specialty.name}</p>
+                        <div
+                          className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"
+                          role="progressbar"
+                          aria-valuenow={match.matchPercentage}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-label={`${specialty.name} match: ${match.matchPercentage}%`}
+                        >
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-amber-300 to-amber-400"
+                            style={{ width: `${match.matchPercentage}%` }}
+                          />
+                        </div>
+                        <div className="mt-3 flex items-center justify-between text-sm">
+                          <span className="font-semibold text-amber-300" aria-hidden="true">{match.matchPercentage}%</span>
+                          <span className="text-xs uppercase tracking-[0.14em] text-[#f6f0e2]/45" aria-hidden="true">{match.confidenceLevel}</span>
+                        </div>
+                      </Link>
+                    </StaggerItem>
+                  );
+                })}
+              </Stagger>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </Reveal>
 
         {/* AI Guidance */}
-        <Card className="flex flex-col" role="region" aria-label="AI guidance">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-primary/10 p-3 text-primary" aria-hidden="true">
-              <Sparkles className="h-5 w-5" />
+        <Reveal mode="mount" delay={0.15}>
+          <Card className="flex h-full flex-col" role="region" aria-label="AI guidance">
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-accent/12 p-3 text-accent" aria-hidden="true">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">AI Guidance</h2>
+                <p className="text-xs text-foreground/55">Personalized, Ghana-aware next steps</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">AI Guidance</h2>
-              <p className="text-xs text-foreground/55">Personalized, Ghana-aware next steps</p>
+            <div aria-live="polite" aria-busy={isPending} className="mt-5 text-sm leading-7 text-foreground/72">
+              {isPending ? "Generating your personalized explanation…" : aiSummary}
             </div>
-          </div>
-          <div aria-live="polite" aria-busy={isPending} className="mt-5 text-sm leading-7 text-foreground/72">
-            {isPending ? "Generating your personalized explanation…" : aiSummary}
-          </div>
-          <div className="mt-6 rounded-lg bg-primary/8 p-4 text-sm leading-6 text-foreground/72" role="note">
-            {result.methodologyNote}
-          </div>
-          <div className="mt-auto flex flex-wrap gap-3 pt-6">
-            <Button onClick={() => window.print()} aria-label="Export results as PDF">
-              <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-              Export PDF
-            </Button>
-            <Button variant="outline" onClick={saveAndShare} aria-label="Save and share your results">
-              <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />
-              Save
-            </Button>
-            <Link href="/assessment">
-              <Button variant="outline">Retake</Button>
-            </Link>
-          </div>
-          {(shareUrl || saveMessage) && (
-            <div className="mt-4 rounded-lg border border-border/60 p-4 text-sm text-foreground/75" role="status" aria-live="polite">
-              <p>{saveMessage}</p>
-              {shareUrl ? <p className="mt-2 break-all font-medium text-primary">{shareUrl}</p> : null}
+            <div className="mt-6 rounded-xl bg-primary/10 p-4 text-sm leading-6 text-foreground/72" role="note">
+              {result.methodologyNote}
             </div>
-          )}
-        </Card>
+            <div className="mt-auto flex flex-wrap gap-3 pt-6">
+              <Button onClick={() => window.print()} aria-label="Export results as PDF">
+                <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                Export PDF
+              </Button>
+              <Button variant="outline" onClick={saveAndShare} aria-label="Save and share your results">
+                <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />
+                Save
+              </Button>
+              <Link href="/assessment">
+                <Button variant="outline">Retake</Button>
+              </Link>
+            </div>
+            {(shareUrl || saveMessage) && (
+              <div className="mt-4 rounded-xl border border-border/60 p-4 text-sm text-foreground/75" role="status" aria-live="polite">
+                <p>{saveMessage}</p>
+                {shareUrl ? <p className="mt-2 break-all font-medium text-accent">{shareUrl}</p> : null}
+              </div>
+            )}
+          </Card>
+        </Reveal>
       </section>
 
       {errorMessage ? (
@@ -357,170 +352,186 @@ export function ResultsClient({
 
       {/* Trait profile + Compatibility spread */}
       <section className="grid gap-6 lg:grid-cols-2" aria-label="Clinical analysis">
-        <Card role="region" aria-label="Clinical trait profile">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="rounded-lg bg-primary/10 p-3 text-primary" aria-hidden="true">
-              <Brain className="h-5 w-5" />
+        <Reveal>
+          <Card className="h-full" role="region" aria-label="Clinical trait profile">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-xl bg-primary/10 p-3 text-primary" aria-hidden="true">
+                <Brain className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="font-display text-lg font-semibold">Clinical trait profile</h2>
+                <p className="text-sm text-foreground/58">How your answers map across the specialty-fit dimensions.</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold">Clinical trait profile</h2>
-              <p className="text-sm text-foreground/58">How your answers map across the specialty-fit dimensions.</p>
+            <TraitRadarChart scores={result.traitScores} />
+          </Card>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Card className="h-full" role="region" aria-label="Compatibility spread">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-xl bg-secondary/10 p-3 text-secondary" aria-hidden="true">
+                <TrendingUp className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="font-display text-lg font-semibold">Compatibility spread</h2>
+                <p className="text-sm text-foreground/58">Close scores mean you should compare tradeoffs before committing.</p>
+              </div>
             </div>
-          </div>
-          <TraitRadarChart scores={result.traitScores} />
-        </Card>
-        <Card role="region" aria-label="Compatibility spread">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="rounded-lg bg-blue-500/10 p-3 text-blue-500" aria-hidden="true">
-              <TrendingUp className="h-5 w-5" />
-            </div>
-            <div>
-              <h2 className="text-lg font-semibold">Compatibility spread</h2>
-              <p className="text-sm text-foreground/58">Close scores mean you should compare tradeoffs before committing.</p>
-            </div>
-          </div>
-          <MatchesBarChart matches={result.topMatches} />
-        </Card>
+            <MatchesBarChart matches={result.topMatches} />
+          </Card>
+        </Reveal>
       </section>
 
       {/* Compare table + Why these matches */}
       <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]" aria-label="Detailed comparison">
-        <Card role="region" aria-label="Compare your top 3 specialties">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-sky-500/10 p-3 text-sky-600 dark:text-sky-300" aria-hidden="true">
-              <Stethoscope className="h-5 w-5" />
+        <Reveal>
+          <Card className="h-full" role="region" aria-label="Compare your top 3 specialties">
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-primary/10 p-3 text-primary" aria-hidden="true">
+                <Stethoscope className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="font-display text-lg font-semibold">Compare your top 3</h2>
+                <p className="mt-1 text-sm text-foreground/65">
+                  Lifestyle, training, patient interaction, and competitiveness side by side.
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold">Compare your top 3</h2>
-              <p className="mt-1 text-sm text-foreground/65">
-                Lifestyle, training, patient interaction, and competitiveness side by side.
-              </p>
+            <div className="mt-6">
+              <CompareTable matches={result.topMatches} />
             </div>
-          </div>
-          <div className="mt-6">
-            <CompareTable matches={result.topMatches} />
-          </div>
-        </Card>
-        <Card role="region" aria-label="Match explanations">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-primary/10 p-3 text-primary" aria-hidden="true">
-              <ShieldCheck className="h-5 w-5" />
+          </Card>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Card className="h-full" role="region" aria-label="Match explanations">
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-forest/10 p-3 text-forest" aria-hidden="true">
+                <ShieldCheck className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="font-display text-lg font-semibold">Why these matches surfaced</h2>
+                <p className="mt-1 text-sm text-foreground/58">Aligned traits and stretch areas to test in real clinical settings.</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold">Why these matches surfaced</h2>
-              <p className="mt-1 text-sm text-foreground/58">Aligned traits and stretch areas to test in real clinical settings.</p>
+            <div className="mt-5 space-y-4">
+              {result.topMatches.slice(0, 3).map((match) => (
+                <article key={match.specialtyId} className="rounded-xl border border-border/50 bg-muted/40 p-4" aria-label={`${specialtiesById[match.specialtyId].name} match explanation`}>
+                  <h3 className="font-semibold">{specialtiesById[match.specialtyId].name}</h3>
+                  <div className="mt-3 grid gap-2 text-sm text-foreground/70">
+                    <p><span className="font-medium text-primary">Aligned:</span> {match.strengths.join(", ")}</p>
+                    <p><span className="font-medium text-secondary">Test next:</span> {match.challenges.join(", ")}</p>
+                  </div>
+                </article>
+              ))}
             </div>
-          </div>
-          <div className="mt-5 space-y-4">
-            {result.topMatches.slice(0, 3).map((match) => (
-              <article key={match.specialtyId} className="rounded-lg border border-border/50 bg-muted/25 p-4" aria-label={`${specialtiesById[match.specialtyId].name} match explanation`}>
-                <h3 className="font-semibold">{specialtiesById[match.specialtyId].name}</h3>
-                <div className="mt-3 grid gap-2 text-sm text-foreground/70">
-                  <p><span className="font-medium text-foreground">Aligned:</span> {match.strengths.join(", ")}</p>
-                  <p><span className="font-medium text-foreground">Test next:</span> {match.challenges.join(", ")}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </Card>
+          </Card>
+        </Reveal>
       </section>
 
       {/* Next actions + Specialty explorer */}
       <section className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]" aria-label="Actions and exploration">
-        <Card role="region" aria-label="Next best actions">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-amber-500/10 p-3 text-amber-600" aria-hidden="true">
-              <Clock3 className="h-5 w-5" />
+        <Reveal>
+          <Card className="h-full" role="region" aria-label="Next best actions">
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-accent/12 p-3 text-accent" aria-hidden="true">
+                <Clock3 className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="font-display text-lg font-semibold">Next best actions</h2>
+                <p className="mt-1 text-sm text-foreground/58">Turn the score into real-world specialty exploration.</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold">Next best actions</h2>
-              <p className="mt-1 text-sm text-foreground/58">Turn the score into real-world specialty exploration.</p>
+            <ol className="mt-5 space-y-3" aria-label="Recommended next steps">
+              {result.suggestedNextSteps.map((step, index) => (
+                <li key={step} className="flex gap-3 rounded-xl bg-muted/50 p-4 text-sm text-foreground/75">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-accent text-xs font-semibold text-accent-foreground" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </Card>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Card className="h-full" role="region" aria-label="Specialty explorer">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="font-display text-lg font-semibold">Specialty Explorer</h2>
+                <p className="mt-2 text-sm text-foreground/65">Search all included medical and dental specialties.</p>
+              </div>
+              <label className="flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-3 focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-background">
+                <Search className="h-4 w-4 text-foreground/45" aria-hidden="true" />
+                <span className="sr-only">Search specialties</span>
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search specialties"
+                  aria-label="Search specialties"
+                  className="bg-transparent text-sm outline-none"
+                />
+              </label>
             </div>
-          </div>
-          <ol className="mt-5 space-y-3" aria-label="Recommended next steps">
-            {result.suggestedNextSteps.map((step, index) => (
-              <li key={step} className="flex gap-3 rounded-lg bg-slate-50 p-4 text-sm text-foreground/75 dark:bg-white/5">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-semibold text-white" aria-hidden="true">
-                  {index + 1}
-                </span>
-                {step}
-              </li>
-            ))}
-          </ol>
-        </Card>
-        <Card role="region" aria-label="Specialty explorer">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 className="text-lg font-semibold">Specialty Explorer</h2>
-              <p className="mt-2 text-sm text-foreground/65">Search all included medical and dental specialties.</p>
+            <div className="mt-6 grid gap-4 md:grid-cols-2" role="list" aria-label="Specialty cards">
+              {filteredSpecialties.slice(0, 6).map((specialty) => {
+                const matched = result.topMatches.find((item) => item.specialtyId === specialty.id);
+                return (
+                  <div key={specialty.id} role="listitem">
+                    <SpecialtyCard
+                      specialty={specialty}
+                      matchPercentage={matched?.matchPercentage}
+                    />
+                  </div>
+                );
+              })}
             </div>
-            <label className="flex items-center gap-2 rounded-lg border border-border/60 bg-card/70 px-4 py-3 focus-within:ring-2 focus-within:ring-primary/70 focus-within:ring-offset-2 focus-within:ring-offset-background">
-              <Search className="h-4 w-4 text-foreground/45" aria-hidden="true" />
-              <span className="sr-only">Search specialties</span>
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search specialties"
-                aria-label="Search specialties"
-                className="bg-transparent text-sm outline-none"
-              />
-            </label>
-          </div>
-          <div className="mt-6 grid gap-4 md:grid-cols-2" role="list" aria-label="Specialty cards">
-            {filteredSpecialties.slice(0, 6).map((specialty) => {
-              const matched = result.topMatches.find((item) => item.specialtyId === specialty.id);
-              return (
-                <div key={specialty.id} role="listitem">
-                  <SpecialtyCard
-                    specialty={specialty}
-                    matchPercentage={matched?.matchPercentage}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </Card>
+          </Card>
+        </Reveal>
       </section>
 
       {/* Profile signals + Career activities */}
       <section className="grid gap-6 lg:grid-cols-2" aria-label="Profile signals and career building">
-        <Card role="region" aria-label="Profile signals">
-          <div className="flex items-center gap-3">
-            <Award className="h-5 w-5 text-amber-500" aria-hidden="true" />
-            <h2 className="text-lg font-semibold">Profile signals</h2>
-          </div>
-          <ul className="mt-5 grid gap-3 sm:grid-cols-3" aria-label="Earned profile badges">
-            {[
-              "Diagnostic Thinker",
-              "Patient Connector",
-              "Ghana Health Explorer"
-            ].map((badge) => (
-              <li key={badge} className="rounded-lg bg-amber-50 p-4 text-sm font-medium text-amber-900 dark:bg-amber-500/10 dark:text-amber-100">
-                {badge}
-              </li>
-            ))}
-          </ul>
-        </Card>
-        <Card role="region" aria-label="Career-building activities">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-primary/10 p-3 text-primary" aria-hidden="true">
-              <Wallet className="h-5 w-5" />
+        <Reveal>
+          <Card className="h-full" role="region" aria-label="Profile signals">
+            <div className="flex items-center gap-3">
+              <Award className="h-5 w-5 text-accent" aria-hidden="true" />
+              <h2 className="font-display text-lg font-semibold">Profile signals</h2>
             </div>
-            <h2 className="text-lg font-semibold">Career-building activities</h2>
-          </div>
-          <ul className="mt-5 space-y-3" aria-label="Suggested career activities">
-            {[
-              "Arrange a shadowing visit at Korle Bu Teaching Hospital or Komfo Anokye Teaching Hospital.",
-              "Join a clinical skills, anatomy, or oral health outreach group on campus.",
-              "Keep a reflection journal comparing what energizes you in clinic, theatre, and community work.",
-              "Explore student research, public health projects, or case presentations tied to your top matches."
-            ].map((item) => (
-              <li key={item} className="rounded-lg bg-slate-50 p-4 text-sm text-foreground/75 dark:bg-white/5">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </Card>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-3" aria-label="Earned profile badges">
+              {[
+                "Diagnostic Thinker",
+                "Patient Connector",
+                "Ghana Health Explorer"
+              ].map((badge) => (
+                <li key={badge} className="rounded-xl border border-accent/25 bg-accent/10 p-4 text-sm font-medium text-foreground">
+                  {badge}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Card className="h-full" role="region" aria-label="Career-building activities">
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-primary/10 p-3 text-primary" aria-hidden="true">
+                <Wallet className="h-5 w-5" />
+              </div>
+              <h2 className="font-display text-lg font-semibold">Career-building activities</h2>
+            </div>
+            <ul className="mt-5 space-y-3" aria-label="Suggested career activities">
+              {[
+                "Arrange a shadowing visit at Korle Bu Teaching Hospital or Komfo Anokye Teaching Hospital.",
+                "Join a clinical skills, anatomy, or oral health outreach group on campus.",
+                "Keep a reflection journal comparing what energizes you in clinic, theatre, and community work.",
+                "Explore student research, public health projects, or case presentations tied to your top matches."
+              ].map((item) => (
+                <li key={item} className="rounded-xl bg-muted/50 p-4 text-sm text-foreground/75">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </Reveal>
       </section>
     </div>
   );

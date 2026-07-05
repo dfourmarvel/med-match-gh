@@ -16,9 +16,9 @@ export function TraitRadarChart({ scores }: { scores: TraitVector }) {
     <div className="h-[320px] w-full" role="img" aria-label={`Radar chart of clinical trait scores. ${summaryText}`}>
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={data}>
-          <PolarGrid stroke="rgba(148,163,184,0.25)" />
+          <PolarGrid stroke="hsl(var(--foreground) / 0.15)" />
           <PolarAngleAxis dataKey="trait" tick={{ fill: "currentColor", fontSize: 11 }} />
-          <Radar dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.35} />
+          <Radar dataKey="value" stroke="hsl(var(--gold))" fill="hsl(var(--gold))" fillOpacity={0.3} />
         </RadarChart>
       </ResponsiveContainer>
     </div>
