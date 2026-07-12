@@ -31,7 +31,7 @@ function createPostRequest(body: unknown) {
 describe("POST /api/ai-explanation", () => {
   beforeEach(() => {
     mockedGenerateAIResponse.mockReset();
-    mockedRateLimit.mockReturnValue({ allowed: true });
+    mockedRateLimit.mockResolvedValue({ allowed: true });
   });
 
   it("returns 200 and an explanation for a valid request", async () => {
@@ -123,7 +123,7 @@ describe("POST /api/ai-explanation", () => {
   });
 
   it("returns 429 when the route is rate limited", async () => {
-    mockedRateLimit.mockReturnValue({ allowed: false, retryAfterSeconds: 30 });
+    mockedRateLimit.mockResolvedValue({ allowed: false, retryAfterSeconds: 30 });
 
     const response = await POST(
       createPostRequest({

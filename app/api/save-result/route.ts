@@ -7,7 +7,7 @@ import { apiError, apiSuccess } from "@/lib/apiError";
 
 export async function POST(request: Request) {
   try {
-    const limit = rateLimit(request, { namespace: "save-result", limit: 12, windowMs: 60_000 });
+    const limit = await rateLimit(request, { namespace: "save-result", limit: 12, windowMs: 60_000 });
     if (!limit.allowed) {
       return apiError(
         "Too many share-link requests. Please try again shortly.",
