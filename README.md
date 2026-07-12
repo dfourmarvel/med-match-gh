@@ -39,12 +39,17 @@ app/
   results/
   share/[id]/
   specialties/[slug]/
+  layout.tsx
+  page.tsx
 components/
+  home/
   layout/
+  motion/
   quiz/
   results/
   specialties/
   ui/
+  theme-provider.tsx
 lib/
   assessment.ts
   scoring.ts
@@ -54,6 +59,7 @@ lib/
 supabase/
   schema.sql
   seed.sql
+AUDIT.md      # phased audit & fix playbook
 ```
 
 ## Getting started
@@ -88,8 +94,8 @@ npm run dev
 ## Supabase setup
 
 1. Create a new Supabase project.
-2. Run [supabase/schema.sql](/c:/Users/hp/OneDrive/Documents/med%20match%20gh/supabase/schema.sql).
-3. Optionally run [supabase/seed.sql](/c:/Users/hp/OneDrive/Documents/med%20match%20gh/supabase/seed.sql).
+2. Run [supabase/schema.sql](supabase/schema.sql).
+3. Optionally run [supabase/seed.sql](supabase/seed.sql).
 4. Enable email or magic-link auth if you want persistent user accounts.
 
 ## Notes on Ghana-specific data
@@ -101,3 +107,7 @@ npm run dev
 ## Disclaimer
 
 This tool is designed for educational and career exploration purposes only and should not replace professional academic or career counseling.
+
+## License
+
+Released under the [MIT License](LICENSE).
