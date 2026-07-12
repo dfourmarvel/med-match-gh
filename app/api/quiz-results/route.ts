@@ -41,7 +41,7 @@ function buildQuizResultRow(body: z.infer<typeof quizResultPayloadSchema>, id = 
 
 export async function POST(request: Request) {
   try {
-    const limit = rateLimit(request, { namespace: "quiz-results", limit: 20, windowMs: 60_000 });
+    const limit = await rateLimit(request, { namespace: "quiz-results", limit: 20, windowMs: 60_000 });
     if (!limit.allowed) {
       return apiError(
         "Too many save requests. Please try again shortly.",

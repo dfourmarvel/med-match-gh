@@ -274,16 +274,25 @@
 
 ## Recommended fix order
 
-| Phase | Contents | Why first |
-|-------|----------|-----------|
-| **1. Hygiene** | HYG-1, HYG-3, HYG-4, HYG-5 | Small, zero-risk, unblocks CI |
-| **2. CI** | TEST-4 | Safety net for everything after |
-| **3. API consistency + tests** | API-2, API-5, TEST-1, TEST-3, SEC-4 | One coherent change-set; turns the suite green |
-| **4. Security** | SEC-1, SEC-2, SEC-3, SEC-5 | Production readiness |
-| **5. Data layer** | API-1, API-3, API-4, FE-2 (share 404) | Fixes save/share correctness |
-| **6. UX critical** | UX-1, A11Y-1, A11Y-2 | Biggest user-facing wins |
-| **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | Feature completeness |
-| **8. SEO** | SEO-1..4 | Discoverability |
-| **9. Perf + coverage** | PERF-1, PERF-2, TEST-2, UX-5, A11Y-3, HYG-2 | Polish |
+| Phase | Contents | Status | Why first |
+|-------|----------|--------|-----------|
+| **1. Hygiene** | HYG-1, HYG-3, HYG-4, HYG-5 | ✅ Done | Small, zero-risk, unblocks CI |
+| **2. CI** | TEST-4 | ✅ Done | Safety net for everything after |
+| **3. API consistency + tests** | API-2, API-5, TEST-1, TEST-3, SEC-4 | ✅ Done | One coherent change-set; turns the suite green |
+| **4. Security** | SEC-1, SEC-2, SEC-3, SEC-5 | ✅ Done (2026-07-12) | Production readiness |
+| **5. Data layer** | API-1, API-3, API-4, FE-2 (share 404) | ⬜ Pending | Fixes save/share correctness |
+| **6. UX critical** | UX-1, A11Y-1, A11Y-2 | ⬜ Pending | Biggest user-facing wins |
+| **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | ⬜ Pending | Feature completeness |
+| **8. SEO** | SEO-1..4 | ⬜ Pending | Discoverability |
+| **9. Perf + coverage** | PERF-1, PERF-2, TEST-2, UX-5, A11Y-3, HYG-2 | ⬜ Pending | Polish |
+
+### Phase 4 — Security (completed 2026-07-12)
+
+- **SEC-1** — `lib/supabase.ts`: removed the anon-key fallback; `serverSupabase` is now `null` when `SUPABASE_SERVICE_ROLE_KEY` is absent, with a one-time `console.warn` at module load.
+- **SEC-2** — `lib/rate-limit.ts`: added `@upstash/ratelimit` + `@upstash/redis` sliding-window limiter (used when `UPSTASH_REDIS_REST_*` env vars are set), falling back to a hardened in-memory limiter (expired-bucket pruning) locally. `rateLimit()` is now async; all four API call sites `await` it.
+- **SEC-3** — `app/api/ai-explanation/route.ts`: tightened question/answer caps to 300 chars, wrapped user-supplied content in a `<user_data>` delimiter with a data-only system instruction, and sanitized delimiter-breakout attempts.
+- **SEC-5** — `next.config.ts`: added `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin` on `/:path*` (verified in `next start`). CSP deferred as a follow-up.
+
+Verification: `npx tsc --noEmit` clean · `npm test` 14/14 green · `npm run build` passes · headers confirmed live.
 
 **Known pre-existing state for verification baselines:** `npm run build` ✅ passes · `npm test` ❌ 7 failures (TEST-1) · `npm run lint` ❌ no config (HYG-3) · 0 npm audit vulnerabilities.
