@@ -91,7 +91,7 @@ export default async function ResultsPage({
             <Card className="min-h-[260px] border-amber-500/20">
               <h2 className="text-lg font-semibold">No assessment result found</h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-foreground/75">
-                We couldn't find a completed quiz attempt for this User ID in our database. Ensure the assessment is complete.
+                We couldn&apos;t find a completed quiz attempt for this User ID in our database. Ensure the assessment is complete.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/assessment">
