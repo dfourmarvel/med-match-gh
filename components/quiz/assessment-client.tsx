@@ -87,30 +87,30 @@ export function AssessmentClient() {
           body: JSON.stringify({ audience, answers: answerRecord })
         });
 
-        if (!response.ok) {
-          const data = await response.json().catch(() => null);
-          setErrorMessage(data?.error ?? "Could not score your assessment. Please check your answers and try again.");
+        const scored = await response.json().catch(() => null);
+        if (!response.ok || !scored?.success) {
+          setErrorMessage(scored?.error?.message ?? "Could not score your assessment. Please check your answers and try again.");
           return;
         }
 
-        const data = await response.json();
+        const result = scored.data;
         const saveResponse = await fetch("/api/quiz-results", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ answers, result: data })
+          body: JSON.stringify({ answers, result })
         });
         const saved = await saveResponse.json().catch(() => null);
 
-        localStorage.setItem("medmatch-last-result", JSON.stringify(data));
-        if (saveResponse.ok && saved?.id) {
-          localStorage.setItem("medmatch-last-result-id", saved.id);
+        localStorage.setItem("medmatch-last-result", JSON.stringify(result));
+        if (saveResponse.ok && saved?.success && saved.data?.id) {
+          localStorage.setItem("medmatch-last-result-id", saved.data.id);
           localStorage.removeItem("medmatch-save-warning");
         } else {
           localStorage.removeItem("medmatch-last-result-id");
           localStorage.setItem(
             "medmatch-save-warning",
-            saved?.error
-              ? `Result shown locally, but Supabase save failed: ${saved.error}`
+            saved?.error?.message
+              ? `Result shown locally, but Supabase save failed: ${saved.error.message}`
               : "Result shown locally, but Supabase save failed."
           );
         }

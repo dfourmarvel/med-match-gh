@@ -103,6 +103,20 @@ Requirements:
 - Return plain text only.`;
 }
 
+function buildFallbackExplanation(payload: AiExplanationRequest) {
+  const names = payload.topSpecialties.slice(0, 3).map(specialtyName);
+  const list = names.join(", ");
+
+  return (
+    `Based on your assessment, your strongest specialty matches are ${list}. ` +
+    `These reflect how your interests, work-style preferences, and lifestyle priorities ` +
+    `align with each field. They are not a diagnosis or a final career decision — treat ` +
+    `them as a starting point for shadowing, mentorship, and further exploration with ` +
+    `training programs in Ghana. Our personalized AI narrative is temporarily unavailable, ` +
+    `so please revisit shortly for a fuller explanation.`
+  );
+}
+
 function limitWords(text: string, maxWords = 300) {
   const words = text.trim().split(/\s+/);
 
@@ -150,7 +164,7 @@ export async function POST(request: Request) {
       return apiSuccess({ explanation: limitWords(explanation) });
     } catch (error) {
       console.error("AI explanation failed, returning fallback message", { error, supabaseReadyContext });
-      return apiSuccess({ explanation: "Unable to generate explanation at this time" });
+      return apiSuccess({ explanation: buildFallbackExplanation(parsed.data) });
     }
   } catch (globalError: any) {
     console.error("Unhandled exception in POST /api/ai-explanation", {

@@ -4,7 +4,9 @@ async function getSharedResult(id: string) {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const response = await fetch(`${base}/api/results/${id}`, { cache: "no-store" });
   if (!response.ok) return null;
-  return response.json();
+  const json = await response.json().catch(() => null);
+  if (!json?.success) return null;
+  return json.data;
 }
 
 export default async function SharedResultPage({ params }: { params: Promise<{ id: string }> }) {

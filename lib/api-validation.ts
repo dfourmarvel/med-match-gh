@@ -72,13 +72,3 @@ export const fullAssessmentResultSchema = z.object({
   suggestedNextSteps: z.array(z.string().max(400)).min(1).max(8),
   generatedAt: z.string().datetime()
 }) satisfies z.ZodType<FullAssessmentResult>;
-
-export function validationErrorResponse(error: z.ZodError) {
-  return {
-    error: "Invalid request payload.",
-    issues: error.issues.map((issue) => ({
-      path: issue.path.join("."),
-      message: issue.message
-    }))
-  };
-}

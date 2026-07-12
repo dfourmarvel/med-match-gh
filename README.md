@@ -91,6 +91,27 @@ npm run dev
 
 4. Open `http://localhost:3000`
 
+## Testing
+
+Run the suite with:
+
+```bash
+npm test
+```
+
+Jest uses the `jsdom` environment by default (so React component tests work).
+**API route tests must opt into the Node environment** with a docblock at the
+top of the file, because route handlers use the Web `Request`/`Response` APIs:
+
+```ts
+/**
+ * @jest-environment node
+ */
+```
+
+See `app/api/ai-explanation/__tests__/route.test.ts` for an example. Without
+this docblock, route tests run under jsdom and fail in confusing ways.
+
 ## Supabase setup
 
 1. Create a new Supabase project.

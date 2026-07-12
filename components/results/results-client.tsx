@@ -148,12 +148,12 @@ export function ResultsClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(result)
       });
-      if (!response.ok) {
+      const json = await response.json().catch(() => null);
+      if (!response.ok || !json?.success || !json.data?.explanation) {
         setAiSummary("Personalized AI guidance is temporarily unavailable. Use the match details below as a starting point for shadowing and mentorship.");
         return;
       }
-      const data = await response.json();
-      setAiSummary(data.explanation);
+      setAiSummary(json.data.explanation);
     });
   }, [result]);
 
@@ -176,11 +176,12 @@ export function ResultsClient({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(result)
         });
-        const data = await response.json();
-        if (!response.ok) {
-          setSaveMessage(data.error ?? "Could not create a share link right now.");
+        const json = await response.json().catch(() => null);
+        if (!response.ok || !json?.success) {
+          setSaveMessage(json?.error?.message ?? "Could not create a share link right now.");
           return;
         }
+        const data = json.data;
         const absoluteUrl = `${window.location.origin}${data.url}`;
         setSavedResultId(data.id ?? "");
         localStorage.setItem("medmatch-last-result-id", data.id ?? "");
