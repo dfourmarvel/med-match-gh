@@ -62,12 +62,12 @@ export function UserResultsClient({
           })
         });
 
-        if (!response.ok) {
+        const json = await response.json().catch(() => null);
+        if (!response.ok || !json?.success) {
           throw new Error("Could not retrieve personalized guidance.");
         }
 
-        const data = await response.json();
-        setAiExplanation(data.explanation || "");
+        setAiExplanation(json.data?.explanation || "");
       } catch (err: any) {
         console.error("Failed to fetch AI explanation:", err);
         setExplanationError(

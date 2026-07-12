@@ -1,7 +1,6 @@
 import {
   fullAssessmentResultSchema,
-  quizSubmissionSchema,
-  validationErrorResponse
+  quizSubmissionSchema
 } from "@/lib/api-validation";
 import { assessmentQuestions } from "@/lib/assessment";
 
@@ -26,9 +25,11 @@ describe("api validation schemas", () => {
     expect(result.success).toBe(false);
 
     if (!result.success) {
-      const response = validationErrorResponse(result.error);
-      expect(response.error).toBe("Invalid request payload.");
-      expect(response.issues[0]).toEqual(
+      const issues = result.error.issues.map((issue) => ({
+        path: issue.path.join("."),
+        message: issue.message
+      }));
+      expect(issues[0]).toEqual(
         expect.objectContaining({
           message: expect.stringContaining("Question")
         })

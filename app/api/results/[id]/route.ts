@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { z } from "zod";
 import { hasSupabaseServiceRole, serverSupabase } from "@/lib/supabase";
+import { apiError, apiSuccess } from "@/lib/apiError";
 
 interface QuizResultRow {
   scores?: {
@@ -13,11 +13,11 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   const parsedId = z.string().uuid().safeParse(id);
 
   if (!parsedId.success) {
-    return NextResponse.json({ error: "Invalid result id." }, { status: 400 });
+    return apiError("Invalid result id.", 400);
   }
 
   if (!serverSupabase) {
-    return NextResponse.json({ error: "Supabase is not configured." }, { status: 404 });
+    return apiError("Supabase is not configured.", 404);
   }
 
   const { data, error } = hasSupabaseServiceRole
@@ -33,8 +33,18 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   const result = data as QuizResultRow | null;
 
   if (error || !result || !result.scores?.fullResult) {
-    return NextResponse.json({ error: "Result not found." }, { status: 404 });
+    if (error) {
+      // SEC-4: log detail server-side, return a generic 404 to the client.
+      console.error("Supabase select quiz_results failed", {
+        route: "/api/results/[id]",
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        id: parsedId.data
+      });
+    }
+    return apiError("Result not found.", 404);
   }
 
-  return NextResponse.json(result.scores.fullResult);
+  return apiSuccess(result.scores.fullResult);
 }

@@ -53,7 +53,8 @@ describe("POST /api/ai-explanation", () => {
 
     expect(response.status).toBe(200);
     expect(body).toEqual({
-      explanation: "Your profile suggests a thoughtful specialty fit."
+      success: true,
+      data: { explanation: "Your profile suggests a thoughtful specialty fit." }
     });
     expect(mockedGenerateAIResponse).toHaveBeenCalledTimes(1);
     expect(mockedGenerateAIResponse.mock.calls[0][0]).toContain("Do not diagnose");
@@ -69,8 +70,9 @@ describe("POST /api/ai-explanation", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe("Invalid request payload.");
-    expect(body.issues).toEqual(
+    expect(body.success).toBe(false);
+    expect(body.error.message).toBe("Invalid request payload.");
+    expect(body.error.details).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           path: "traitScores"
@@ -95,7 +97,7 @@ describe("POST /api/ai-explanation", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.issues).toEqual(
+    expect(body.error.details).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           path: "answers.0.question"
@@ -114,7 +116,10 @@ describe("POST /api/ai-explanation", () => {
     );
 
     expect(response.status).toBe(400);
-    await expect(response.json()).resolves.toEqual({ error: "Invalid JSON request body." });
+    await expect(response.json()).resolves.toEqual({
+      success: false,
+      error: { message: "Invalid JSON request body." }
+    });
   });
 
   it("returns 429 when the route is rate limited", async () => {
@@ -132,7 +137,8 @@ describe("POST /api/ai-explanation", () => {
     expect(response.status).toBe(429);
     expect(response.headers.get("Retry-After")).toBe("30");
     await expect(response.json()).resolves.toEqual({
-      error: "Too many AI guidance requests. Please try again shortly."
+      success: false,
+      error: { message: "Too many AI guidance requests. Please try again shortly." }
     });
   });
 
@@ -159,8 +165,9 @@ describe("POST /api/ai-explanation", () => {
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body.explanation).toContain("Psychiatry, Internal Medicine, Family Medicine");
-    expect(body.explanation).toContain("They are not a diagnosis");
+    expect(body.success).toBe(true);
+    expect(body.data.explanation).toContain("Psychiatry, Internal Medicine, Family Medicine");
+    expect(body.data.explanation).toContain("They are not a diagnosis");
 
     consoleErrorSpy.mockRestore();
   });
@@ -179,7 +186,7 @@ describe("POST /api/ai-explanation", () => {
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body.explanation.split(/\s+/)).toHaveLength(300);
-    expect(body.explanation).toMatch(/\.\.\.$/);
+    expect(body.data.explanation.split(/\s+/)).toHaveLength(300);
+    expect(body.data.explanation).toMatch(/\.\.\.$/);
   });
 });
