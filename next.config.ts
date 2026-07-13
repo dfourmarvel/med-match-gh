@@ -11,6 +11,11 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
+  // PERF-2: tree-shake barrel imports from these icon/chart packages.
+  // (framer-motion is already optimized by Next 15's defaults.)
+  experimental: {
+    optimizePackageImports: ["lucide-react", "recharts"]
+  },
   async headers() {
     return [
       {

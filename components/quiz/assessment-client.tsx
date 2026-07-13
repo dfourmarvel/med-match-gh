@@ -308,7 +308,7 @@ export function AssessmentClient() {
             ].map(([value, label]) => (
               <div key={label} className="rounded-xl border border-white/10 bg-white/[0.06] p-3">
                 <p className="font-display text-xl font-semibold text-amber-300" aria-label={`${value} ${label}`}>{value}</p>
-                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/45" aria-hidden="true">{label}</p>
+                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/70" aria-hidden="true">{label}</p>
               </div>
             ))}
           </div>

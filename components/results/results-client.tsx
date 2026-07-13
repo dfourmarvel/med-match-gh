@@ -72,7 +72,7 @@ const demoResult = {
 function SignalPill({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.055] p-4">
-      <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/45">{label}</p>
+      <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/70">{label}</p>
       <p className="mt-2 text-lg font-semibold text-[#f6f0e2]" aria-label={`${label}: ${value}`}>{value}</p>
     </div>
   );
@@ -276,7 +276,7 @@ export function ResultsClient({
                         className="block h-full rounded-xl border border-white/10 bg-white/[0.055] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/50 hover:bg-white/[0.09] focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12291f]"
                         aria-label={`#${index + 1} match: ${specialty.name}, ${match.matchPercentage}% compatibility, ${match.confidenceLevel} confidence`}
                       >
-                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/45" aria-hidden="true">#{index + 1} match</p>
+                        <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/70" aria-hidden="true">#{index + 1} match</p>
                         <p className="mt-3 min-h-12 text-base font-semibold leading-snug">{specialty.name}</p>
                         <div
                           className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10"
@@ -293,7 +293,7 @@ export function ResultsClient({
                         </div>
                         <div className="mt-3 flex items-center justify-between text-sm">
                           <span className="font-semibold text-amber-300" aria-hidden="true">{match.matchPercentage}%</span>
-                          <span className="text-xs uppercase tracking-[0.14em] text-[#f6f0e2]/45" aria-hidden="true">{match.confidenceLevel}</span>
+                          <span className="text-xs uppercase tracking-[0.14em] text-[#f6f0e2]/70" aria-hidden="true">{match.confidenceLevel}</span>
                         </div>
                       </Link>
                     </StaggerItem>

@@ -284,7 +284,7 @@
 | **6. UX critical** | UX-1, A11Y-1, A11Y-2 | ✅ Done (2026-07-13) | Biggest user-facing wins |
 | **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | ✅ Done (2026-07-13) | Feature completeness |
 | **8. SEO** | SEO-1..4 | ✅ Done (2026-07-13) | Discoverability |
-| **9. Perf + coverage** | PERF-1, PERF-2, TEST-2, UX-5, A11Y-3, HYG-2 | ⬜ Pending | Polish |
+| **9. Perf + coverage** | PERF-1, PERF-2, TEST-2, UX-5, A11Y-3, HYG-2 | ✅ Done (2026-07-13) | Polish |
 
 ### Phase 4 — Security (completed 2026-07-12)
 
@@ -332,5 +332,22 @@ Verification: `npx tsc --noEmit` clean · `npm test` 19/19 green · `npm run bui
 - **SEO-4** — `app/icon.svg` (gold heart-pulse on forest rounded square, matching the navbar mark), `app/apple-icon.tsx` (180×180 via `next/og`), and `app/manifest.ts` (design-system theme/background colors, icons).
 
 Verification: `npx tsc --noEmit` clean · `npm run build` passes (specialty routes SSG ●) · live-checked in `next start`: `/robots.txt`, `/sitemap.xml` (23 URLs, 20 specialties), `/manifest.webmanifest`, home `<head>` (title template, OG/Twitter tags, icon/apple-touch-icon/manifest links), and a specialty page title (`Pediatrics | MedMatch Ghana`) + canonical. Note: production URLs require `NEXT_PUBLIC_SITE_URL` to be set in Vercel (falls back to `http://localhost:3000` otherwise).
+
+### Phase 9 — Perf + coverage (completed 2026-07-13)
+
+- **PERF-1** — split both charts into impl + `next/dynamic` wrappers (`ssr: false`, sized skeletons). `/results` First Load JS dropped **307 → 200 kB** and `/share/[id]` **304 → 197 kB** (recharts now in an async chunk).
+- **PERF-2** — added `experimental.optimizePackageImports: ["lucide-react", "recharts"]` to `next.config.ts` (framer-motion already optimized by Next 15).
+- **TEST-2** — expanded `collectCoverageFrom` to `lib/**` + `app/api/**` (excluding the LLM wrapper/prompt strings, the deprecated adapter, and the seed-only `lib/scoring/`), and set realistic per-metric thresholds as a regression floor. Added meaningful tests: `lib/__tests__/scoring.test.ts` (production scorer — trait scoring, ranking, schema-contract), `components/quiz/__tests__/assessment-client.test.tsx` (A11Y-1 keyboard radios), and `app/api/score/__tests__/route.test.ts`. `npm test` (32 tests) and `npm run test:coverage` both pass. Follow-up to raise the floor: DB-backed route tests (save-result, quiz-results, results/[id]) with Supabase mocked.
+- **UX-5** — verified: `next-themes` (`attribute="class"` + `<html suppressHydrationWarning>`) already injects its blocking anti-flash script. No change made — adding another would double-apply.
+- **A11Y-3** — bumped low-opacity cream text on the fixed `bg-[#12291f]` panels (`text-[#f6f0e2]/45` → `/70`, `text-white/50` → `/70` in match-ring) from ~3.5:1 to ~7:1 (passes AA).
+- **HYG-2** — deleted the dead `lib/utils/dataValidation.ts` (zero imports) and added an `@deprecated` tag to `lib/scoring-engine.ts`. **Correction to the audit:** `lib/scoring/` is *not* unused — it powers the seed-generation tooling (`data/mock` → `scripts/generateSeedJson.ts`) and produces a different `AssessmentResult` shape, so it was kept rather than risk a cross-type migration of dev-only tooling.
+
+Verification: `npx tsc --noEmit` clean · `npm run lint` no errors · `npm test` 32/32 + `npm run test:coverage` pass · `npm run build` passes with the bundle reductions above.
+
+---
+
+## ✅ Audit complete — all 9 phases done (2026-07-13)
+
+Every phase in the fix order has been executed, verified, committed, and pushed to `main`. Remaining known follow-ups (out of the original audit scope): set `NEXT_PUBLIC_SITE_URL` and the Supabase/Groq/Upstash env vars in Vercel (see [PRODUCTION_SETUP.md](PRODUCTION_SETUP.md)); add Supabase-mocked tests for the DB-backed API routes to raise the coverage floor; optionally add a Content-Security-Policy (deferred from SEC-5).
 
 **Known pre-existing state for verification baselines:** `npm run build` ✅ passes · `npm test` ❌ 7 failures (TEST-1) · `npm run lint` ❌ no config (HYG-3) · 0 npm audit vulnerabilities.

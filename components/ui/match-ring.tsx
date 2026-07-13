@@ -84,7 +84,7 @@ export function MatchRing({
         <p className="font-display text-5xl font-semibold" aria-hidden="true">
           {display}%
         </p>
-        <p className={`mt-1 text-[11px] uppercase tracking-[0.2em] ${onDark ? "text-white/50" : "text-foreground/55"}`} aria-hidden="true">
+        <p className={`mt-1 text-[11px] uppercase tracking-[0.2em] ${onDark ? "text-white/70" : "text-foreground/55"}`} aria-hidden="true">
           {label}
         </p>
       </div>

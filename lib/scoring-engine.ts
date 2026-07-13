@@ -3,6 +3,9 @@
  *
  * The canonical application scorer lives in `@/lib/scoring`. Keep this file
  * thin so the project does not maintain two independent recommendation models.
+ *
+ * @deprecated Use `@/lib/scoring` (`buildAssessmentResult`) for all new code.
+ * This adapter exists only for `data/seed-data.ts` and legacy demo tooling.
  */
 
 import {
