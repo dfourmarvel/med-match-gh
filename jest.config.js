@@ -27,13 +27,12 @@ const customJestConfig = {
   coverageReporters: ["text", "lcov"],
   coverageThreshold: {
     // Regression floor at current real coverage of the logic surface (lib + api
-    // routes). Raise these as the DB-backed API routes (save-result,
-    // quiz-results, results/[id]) get their own tests with Supabase mocked.
+    // routes, with the LLM/prompt/deprecated/seed-only modules excluded above).
     global: {
-      statements: 48,
-      branches: 38,
-      functions: 60,
-      lines: 48
+      statements: 65,
+      branches: 55,
+      functions: 72,
+      lines: 65
     }
   }
 };
