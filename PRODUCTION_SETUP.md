@@ -21,6 +21,23 @@ Do **Part 1** first — SEO in Part 2 depends on it.
 
 An "environment variable" is a secret setting (a key/value) you store in Vercel instead of in the code. The app reads them at runtime. They are **not** in the code and must be added by hand in the Vercel dashboard.
 
+### At a glance — you will add up to 8 variables
+
+Add these in **Vercel → med-match-gh → Settings → Environment Variables**. Tick **Production + Preview + Development** for each, then **Redeploy**.
+
+| # | Variable | From which service | Needed for |
+|---|----------|--------------------|-----------|
+| 1 | `NEXT_PUBLIC_SITE_URL` | Vercel (your domain) | SEO + share links **(required)** |
+| 2 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase | Saving results / share **(required)** |
+| 3 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase | Saving results / share **(required)** |
+| 4 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase | Saving results / share **(required, secret)** |
+| 5 | `GROQ_API_KEY` | Groq | AI explanations (optional) |
+| 6 | `GROQ_MODEL` | fixed value `llama-3.1-8b-instant` | AI explanations (optional) |
+| 7 | `UPSTASH_REDIS_REST_URL` | Upstash | Durable rate limiting (recommended) |
+| 8 | `UPSTASH_REDIS_REST_TOKEN` | Upstash | Durable rate limiting (recommended) |
+
+Detailed instructions for getting each value follow in sections 1.1–1.4.
+
 ## 1.0 How to add an environment variable in Vercel (the mechanic — you'll repeat this)
 
 1. Go to **vercel.com** → sign in → open the **med-match-gh** project.
