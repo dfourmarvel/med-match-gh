@@ -280,7 +280,7 @@
 | **2. CI** | TEST-4 | ✅ Done | Safety net for everything after |
 | **3. API consistency + tests** | API-2, API-5, TEST-1, TEST-3, SEC-4 | ✅ Done | One coherent change-set; turns the suite green |
 | **4. Security** | SEC-1, SEC-2, SEC-3, SEC-5 | ✅ Done (2026-07-12) | Production readiness |
-| **5. Data layer** | API-1, API-3, API-4, FE-2 (share 404) | ⬜ Pending | Fixes save/share correctness |
+| **5. Data layer** | API-1, API-3, API-4, FE-2 (share 404) | ✅ Done (2026-07-13) | Fixes save/share correctness |
 | **6. UX critical** | UX-1, A11Y-1, A11Y-2 | ⬜ Pending | Biggest user-facing wins |
 | **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | ⬜ Pending | Feature completeness |
 | **8. SEO** | SEO-1..4 | ⬜ Pending | Discoverability |
@@ -294,5 +294,13 @@
 - **SEC-5** — `next.config.ts`: added `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin` on `/:path*` (verified in `next start`). CSP deferred as a follow-up.
 
 Verification: `npx tsc --noEmit` clean · `npm test` 14/14 green · `npm run build` passes · headers confirmed live.
+
+### Phase 5 — Data layer (completed 2026-07-13)
+
+- **API-1** — `supabase/migrations/20260521_enable_rls_quiz_results.sql`: rewrote the RLS policies to match the anonymous-first design (insert allowed only with `user_id IS NULL`, public read-by-id for share links), kept the per-user policies commented for a future authenticated mode, and made the migration idempotent (`drop policy if exists` guards) so it can be re-applied to an existing database. Added a schema/policy comment block to both insert routes (`save-result`, `quiz-results`).
+- **API-3 / FE-2** — extracted the result lookup into `lib/results.ts#getResultById` (UUID validation + Supabase read, returns a discriminated `ok | invalid-id | not-found`). `app/api/results/[id]/route.ts` now calls it (400/404/200), and `app/share/[id]/page.tsx` calls it directly instead of HTTP-fetching its own API, calling `notFound()` on miss — share links to unknown/malformed ids now return real HTTP 404.
+- **API-4** — moved the DB-id ↔ canonical-key trait map into `lib/trait-mapping.ts` (single source of truth) with a `toCanonicalTraitScores(rows)` helper; `app/results/page.tsx` and `lib/scoring-engine.ts` both consume it (removed the two duplicate inline copies). Added `lib/__tests__/trait-mapping.test.ts` asserting every dataset trait id maps to a valid canonical key.
+
+Verification: `npx tsc --noEmit` clean · `npm test` 19/19 green (+5 new) · `npm run build` passes · share/API 404s confirmed live (malformed → 400 on API, 404 on page; unknown id → 404).
 
 **Known pre-existing state for verification baselines:** `npm run build` ✅ passes · `npm test` ❌ 7 failures (TEST-1) · `npm run lint` ❌ no config (HYG-3) · 0 npm audit vulnerabilities.
