@@ -29,6 +29,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/specialties" className="text-foreground/75 transition-colors hover:text-accent">
+                Browse specialties
+              </Link>
+            </li>
+            <li>
               <Link href="/results?demo=true" className="text-foreground/75 transition-colors hover:text-accent">
                 Sample report
               </Link>
