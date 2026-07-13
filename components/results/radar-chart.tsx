@@ -1,26 +1,18 @@
 "use client";
 
-import { Radar, RadarChart, PolarAngleAxis, PolarGrid, ResponsiveContainer } from "recharts";
-import { traitLabels } from "@/lib/assessment";
-import { TraitKey, TraitVector } from "@/lib/types";
+import dynamic from "next/dynamic";
+import { TraitVector } from "@/lib/types";
+
+// PERF-1: recharts is heavy, so load the chart implementation in its own async
+// chunk (ssr: false) with a sized skeleton to avoid layout shift.
+const TraitRadarChartImpl = dynamic(
+  () => import("./radar-chart-impl").then((mod) => mod.TraitRadarChartImpl),
+  {
+    ssr: false,
+    loading: () => <div className="h-[320px] w-full animate-pulse rounded-xl bg-muted" aria-hidden="true" />
+  }
+);
 
 export function TraitRadarChart({ scores }: { scores: TraitVector }) {
-  const data = Object.entries(scores).map(([trait, value]) => ({
-    trait: traitLabels[trait as TraitKey],
-    value
-  }));
-
-  const summaryText = data.map(d => `${d.trait}: ${d.value}`).join(", ");
-
-  return (
-    <div className="h-[320px] w-full" role="img" aria-label={`Radar chart of clinical trait scores. ${summaryText}`}>
-      <ResponsiveContainer width="100%" height="100%">
-        <RadarChart data={data}>
-          <PolarGrid stroke="hsl(var(--foreground) / 0.15)" />
-          <PolarAngleAxis dataKey="trait" tick={{ fill: "currentColor", fontSize: 11 }} />
-          <Radar dataKey="value" stroke="hsl(var(--gold))" fill="hsl(var(--gold))" fillOpacity={0.3} />
-        </RadarChart>
-      </ResponsiveContainer>
-    </div>
-  );
+  return <TraitRadarChartImpl scores={scores} />;
 }
