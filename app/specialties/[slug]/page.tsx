@@ -1,11 +1,38 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock3, Flame, Hospital, Wallet } from "lucide-react";
-import { specialtiesById } from "@/lib/specialties";
+import { specialties, specialtiesById } from "@/lib/specialties";
 import { formatCurrencyRange } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { KenteStrip } from "@/components/ui/kente-strip";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
+
+// SEO-2: statically generate every specialty page at build time.
+export function generateStaticParams() {
+  return specialties.map((specialty) => ({ slug: specialty.id }));
+}
+
+// SEO-2: per-specialty title/description; handle unknown slugs.
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const specialty = specialtiesById[slug];
+
+  if (!specialty) {
+    return { title: "Specialty not found" };
+  }
+
+  return {
+    title: specialty.name,
+    description: specialty.description,
+    alternates: { canonical: `/specialties/${specialty.id}` },
+    openGraph: {
+      title: `${specialty.name} | MedMatch Ghana`,
+      description: specialty.description,
+      url: `/specialties/${specialty.id}`
+    }
+  };
+}
 
 export default async function SpecialtyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
