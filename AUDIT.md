@@ -283,7 +283,7 @@
 | **5. Data layer** | API-1, API-3, API-4, FE-2 (share 404) | ✅ Done (2026-07-13) | Fixes save/share correctness |
 | **6. UX critical** | UX-1, A11Y-1, A11Y-2 | ✅ Done (2026-07-13) | Biggest user-facing wins |
 | **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | ✅ Done (2026-07-13) | Feature completeness |
-| **8. SEO** | SEO-1..4 | ⬜ Pending | Discoverability |
+| **8. SEO** | SEO-1..4 | ✅ Done (2026-07-13) | Discoverability |
 | **9. Perf + coverage** | PERF-1, PERF-2, TEST-2, UX-5, A11Y-3, HYG-2 | ⬜ Pending | Polish |
 
 ### Phase 4 — Security (completed 2026-07-12)
@@ -323,5 +323,14 @@ Verification: `npx tsc --noEmit` clean · `npm run lint` clean · `npm test` 19/
 - **UX-4** — `@media print` block in `globals.css`: hides header/footer/toolbars/buttons/`.skip-link`, lightens the fixed `bg-[#12291f]` panels to white with dark text, avoids page breaks inside cards/charts, and sets `@page` margins.
 
 Verification: `npx tsc --noEmit` clean · `npm test` 19/19 green · `npm run build` passes (all 12 routes; `/specialties` and `/_not-found` static) · live-checked `/specialties` (200, search/filter, cards link through) and branded 404s for garbage URLs and unknown specialty slugs (HTTP 404). Interactive UX-2/UX-3 pieces verified via typecheck + build (dev preview still contended by the other session). Remaining `no-explicit-any` lint warnings in `user-results-client` are pre-existing codebase style, out of scope here.
+
+### Phase 8 — SEO (completed 2026-07-13)
+
+- **SEO-1** — expanded root metadata in `app/layout.tsx`: `metadataBase` (from `NEXT_PUBLIC_SITE_URL` via new `lib/site.ts`), title template `"%s | MedMatch Ghana"`, `openGraph` + `twitter` blocks, `keywords`, `robots`, canonical, and a `viewport` `themeColor`. Added a branded 1200×630 OG image via `app/opengraph-image.tsx` (`next/og` — cream background, kente strip, gold heart, wordmark), auto-applied to all routes.
+- **SEO-2** — `app/specialties/[slug]/page.tsx` gained `generateMetadata` (per-specialty title/description + canonical + OG; handles unknown slug) and `generateStaticParams`. Build now prerenders all 20 specialty pages as SSG (●).
+- **SEO-3** — `app/sitemap.ts` (home, `/assessment`, `/specialties`, every specialty slug — 23 URLs) and `app/robots.ts` (allow all, disallow `/api/`, sitemap + host). Base URL from `lib/site.ts`.
+- **SEO-4** — `app/icon.svg` (gold heart-pulse on forest rounded square, matching the navbar mark), `app/apple-icon.tsx` (180×180 via `next/og`), and `app/manifest.ts` (design-system theme/background colors, icons).
+
+Verification: `npx tsc --noEmit` clean · `npm run build` passes (specialty routes SSG ●) · live-checked in `next start`: `/robots.txt`, `/sitemap.xml` (23 URLs, 20 specialties), `/manifest.webmanifest`, home `<head>` (title template, OG/Twitter tags, icon/apple-touch-icon/manifest links), and a specialty page title (`Pediatrics | MedMatch Ghana`) + canonical. Note: production URLs require `NEXT_PUBLIC_SITE_URL` to be set in Vercel (falls back to `http://localhost:3000` otherwise).
 
 **Known pre-existing state for verification baselines:** `npm run build` ✅ passes · `npm test` ❌ 7 failures (TEST-1) · `npm run lint` ❌ no config (HYG-3) · 0 npm audit vulnerabilities.
