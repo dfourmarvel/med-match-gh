@@ -26,6 +26,11 @@ export function Navbar() {
           </div>
         </Link>
         <div className="flex shrink-0 items-center gap-2 md:gap-3">
+          <Link href="/specialties" className="hidden md:inline-flex">
+            <Button variant="ghost" className="h-auto px-3 py-2 sm:px-4 sm:py-3">
+              Specialties
+            </Button>
+          </Link>
           <Link href="/results?demo=true" className="hidden md:inline-flex">
             <Button variant="ghost" className="h-auto px-3 py-2 sm:px-4 sm:py-3">
               Sample Report

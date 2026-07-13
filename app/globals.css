@@ -187,3 +187,53 @@ textarea:focus-visible,
   white-space: nowrap;
   border-width: 0;
 }
+
+/* UX-4: print stylesheet — a clean, light, single-palette report.
+   Drops navigation chrome and toolbars, lightens the fixed dark panels, and
+   keeps cards/charts from splitting across pages. */
+@media print {
+  @page {
+    margin: 1.5cm;
+  }
+
+  /* Hide app chrome and interactive controls. */
+  header,
+  footer,
+  .skip-link,
+  button,
+  [role="toolbar"] {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #14231c !important;
+  }
+
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  /* Lighten the fixed deep-green hero/sidebar panels for readable ink. */
+  .bg-\[\#12291f\] {
+    background: #ffffff !important;
+    color: #14231c !important;
+    box-shadow: none !important;
+    border: 1px solid #d8d0be !important;
+  }
+  .bg-\[\#12291f\] * {
+    color: #14231c !important;
+  }
+
+  /* Keep cards and chart containers whole across page breaks. */
+  [role="region"],
+  [role="article"],
+  [role="listitem"],
+  section,
+  svg {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

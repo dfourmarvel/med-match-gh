@@ -282,7 +282,7 @@
 | **4. Security** | SEC-1, SEC-2, SEC-3, SEC-5 | ✅ Done (2026-07-12) | Production readiness |
 | **5. Data layer** | API-1, API-3, API-4, FE-2 (share 404) | ✅ Done (2026-07-13) | Fixes save/share correctness |
 | **6. UX critical** | UX-1, A11Y-1, A11Y-2 | ✅ Done (2026-07-13) | Biggest user-facing wins |
-| **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | ⬜ Pending | Feature completeness |
+| **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | ✅ Done (2026-07-13) | Feature completeness |
 | **8. SEO** | SEO-1..4 | ⬜ Pending | Discoverability |
 | **9. Perf + coverage** | PERF-1, PERF-2, TEST-2, UX-5, A11Y-3, HYG-2 | ⬜ Pending | Polish |
 
@@ -312,5 +312,16 @@ All in `components/quiz/assessment-client.tsx`:
 - **A11Y-2** — on step change, focus moves to the new question heading (`h3` with `tabIndex={-1}`) via a callback ref that fires when the entering step mounts under AnimatePresence — no timeouts, no animation race.
 
 Verification: `npx tsc --noEmit` clean · `npm run lint` clean · `npm test` 19/19 green · `npm run build` passes · production SSR of `/assessment` confirmed to render `role="radiogroup"`, roving `tabindex` 0/-1, and `aria-checked` state. (Live in-browser keyboard/persistence check was blocked by a concurrent dev server from another session holding this folder's `.next` cache; verified via the production build instead.)
+
+### Phase 7 — Missing surfaces (completed 2026-07-13)
+
+- **FE-1** — new `/specialties` index: `app/specialties/page.tsx` (server, static) + `components/specialties/specialties-explorer.tsx` (client: search by name/description, All/Medical/Dental filter, `SpecialtyCard` grid with `Stagger` entrance, live result count). Added "Specialties" links to the navbar and footer. `next build` lists `/specialties` as static (○).
+- **FE-2** — branded `app/not-found.tsx`, `app/error.tsx` (client, `reset` button), and self-contained `app/global-error.tsx`. Garbage URLs and unknown specialty slugs now return real HTTP 404 with the branded page (verified live).
+- **FE-3** — `app/results/loading.tsx` and `app/share/[id]/loading.tsx` skeletons (`Card` + `animate-pulse`).
+- **UX-2** — `user-results-client.tsx` now renders a "Clinical trait profile" Card with `TraitRadarChart` (canonical-key–filtered scores) and a collapsible "Your answers" Card; removed the unused `Stethoscope`/`Button` imports.
+- **UX-3** — review step in `assessment-client.tsx`: the last question's primary button reads "Review answers" and opens a panel listing all 25 questions + chosen answers, each with an Edit jump-back, plus the final "See Results" submit.
+- **UX-4** — `@media print` block in `globals.css`: hides header/footer/toolbars/buttons/`.skip-link`, lightens the fixed `bg-[#12291f]` panels to white with dark text, avoids page breaks inside cards/charts, and sets `@page` margins.
+
+Verification: `npx tsc --noEmit` clean · `npm test` 19/19 green · `npm run build` passes (all 12 routes; `/specialties` and `/_not-found` static) · live-checked `/specialties` (200, search/filter, cards link through) and branded 404s for garbage URLs and unknown specialty slugs (HTTP 404). Interactive UX-2/UX-3 pieces verified via typecheck + build (dev preview still contended by the other session). Remaining `no-explicit-any` lint warnings in `user-results-client` are pre-existing codebase style, out of scope here.
 
 **Known pre-existing state for verification baselines:** `npm run build` ✅ passes · `npm test` ❌ 7 failures (TEST-1) · `npm run lint` ❌ no config (HYG-3) · 0 npm audit vulnerabilities.

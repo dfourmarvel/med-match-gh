@@ -34,6 +34,7 @@ export function AssessmentClient() {
   const [answers, setAnswers] = useState<StoredAnswer[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [showResumeNote, setShowResumeNote] = useState(false);
+  const [showReview, setShowReview] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const totalSteps = assessmentQuestions.length;
@@ -388,6 +389,61 @@ export function AssessmentClient() {
           </div>
         ) : null}
 
+        {showReview ? (
+          <div className="px-5 py-7 sm:px-8 sm:py-9" role="region" aria-label="Review your answers">
+            <h3 tabIndex={-1} className="font-display text-2xl font-semibold leading-tight outline-none sm:text-3xl">
+              Review your answers
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-foreground/60">
+              Check your responses below. Select any question to jump back and change it.
+            </p>
+            <ul className="mt-6 space-y-3" role="list">
+              {assessmentQuestions.map((question, index) => {
+                const value = answerRecord[question.id];
+                return (
+                  <li
+                    key={question.id}
+                    className="flex items-start justify-between gap-4 rounded-xl border border-border/50 bg-card/60 p-4"
+                    role="listitem"
+                  >
+                    <div>
+                      <p className="text-xs font-semibold text-foreground/45">Question {index + 1}</p>
+                      <p className="mt-1 text-sm font-medium">{question.prompt}</p>
+                      <p className="mt-1 text-sm text-foreground/60">
+                        {value !== undefined ? `Answer: ${value} / 5` : "Not answered yet"}
+                      </p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setShowReview(false);
+                        goToStep(() => index + 1);
+                      }}
+                      aria-label={`Edit question ${index + 1}`}
+                    >
+                      Edit
+                    </Button>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+              <Button variant="outline" onClick={() => setShowReview(false)} aria-label="Back to questions">
+                <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
+                Back to questions
+              </Button>
+              <Button
+                variant="gold"
+                onClick={submit}
+                disabled={answeredCount < totalSteps || isPending}
+                aria-label={isPending ? "Scoring your assessment" : "See results"}
+              >
+                {isPending ? "Scoring..." : "See Results"}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <>
         <AnimatePresence mode="wait">
           {isAudienceStep ? (
             <motion.div
@@ -502,12 +558,15 @@ export function AssessmentClient() {
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
             ) : (
-              <Button variant="gold" onClick={submit} disabled={!canAdvance || isPending} aria-label={isPending ? "Scoring your assessment" : "Submit and see results"}>
-                {isPending ? "Scoring..." : "See Results"}
+              <Button variant="gold" onClick={() => setShowReview(true)} disabled={!canAdvance} aria-label="Review your answers before submitting">
+                Review answers
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
             )}
           </div>
         </div>
+          </>
+        )}
 
         {errorMessage ? (
           <div

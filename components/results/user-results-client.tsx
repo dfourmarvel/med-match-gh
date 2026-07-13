@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import { ArrowLeft, Brain, Sparkles, LoaderCircle, Stethoscope, ChevronRight } from "lucide-react";
+import { ArrowLeft, Brain, ChevronDown, Sparkles, LoaderCircle, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { KenteStrip } from "@/components/ui/kente-strip";
 import { MatchRing } from "@/components/ui/match-ring";
+import { TraitRadarChart } from "@/components/results/radar-chart";
+import { traitLabels } from "@/lib/assessment";
+import { TraitVector } from "@/lib/types";
 
 interface UserResultsClientProps {
   userId: string;
@@ -36,7 +38,19 @@ export function UserResultsClient({
   const [aiExplanation, setAiExplanation] = useState<string>("");
   const [isLoadingExplanation, setIsLoadingExplanation] = useState<boolean>(true);
   const [explanationError, setExplanationError] = useState<string>("");
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  // traitScores carries both DB ids and canonical keys; the radar only wants the
+  // canonical trait keys (those present in traitLabels) so labels resolve cleanly.
+  const canonicalScores = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(traitScores).filter(([key]) => key in traitLabels)
+      ) as TraitVector,
+    [traitScores]
+  );
+  const hasTraitScores = Object.keys(canonicalScores).length > 0;
 
   useEffect(() => {
     startTransition(async () => {
@@ -152,6 +166,24 @@ export function UserResultsClient({
         </Card>
       </section>
 
+      {/* Clinical trait profile (UX-2) */}
+      {hasTraitScores ? (
+        <section role="region" aria-label="Clinical trait profile">
+          <Card>
+            <div className="mb-4 flex items-center gap-3">
+              <div className="rounded-xl bg-primary/10 p-3 text-primary" aria-hidden="true">
+                <Brain className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-display text-lg font-semibold">Clinical trait profile</h3>
+                <p className="text-sm text-foreground/58">How your answers map across the specialty-fit dimensions.</p>
+              </div>
+            </div>
+            <TraitRadarChart scores={canonicalScores} />
+          </Card>
+        </section>
+      ) : null}
+
       {/* List of matches */}
       <section role="region" aria-label="All recommended matches">
         <div className="flex items-center justify-between">
@@ -223,6 +255,38 @@ export function UserResultsClient({
           ))}
         </div>
       </section>
+
+      {/* Your answers — collapsible review (UX-2) */}
+      {answers.length > 0 ? (
+        <section role="region" aria-label="Your answers">
+          <Card>
+            <button
+              type="button"
+              onClick={() => setShowAnswers((value) => !value)}
+              aria-expanded={showAnswers}
+              aria-controls="user-answers-panel"
+              className="flex w-full items-center justify-between gap-4 rounded-sm text-left focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            >
+              <span className="text-lg font-semibold">Your answers ({answers.length})</span>
+              <ChevronDown
+                className={`h-5 w-5 shrink-0 text-foreground/60 transition-transform duration-200 ${showAnswers ? "rotate-180" : ""}`}
+                aria-hidden="true"
+              />
+            </button>
+            {showAnswers ? (
+              <ul id="user-answers-panel" className="mt-5 space-y-3" role="list">
+                {answers.map((item, index) => (
+                  <li key={item.questionId} className="rounded-xl border border-border/50 bg-card/60 p-4" role="listitem">
+                    <p className="text-xs font-semibold text-foreground/45">Question {index + 1}</p>
+                    <p className="mt-1 text-sm font-medium">{item.questionPrompt}</p>
+                    <p className="mt-1 text-sm text-foreground/60">Your answer: {item.answer} / 5</p>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </Card>
+        </section>
+      ) : null}
     </div>
   );
 }
