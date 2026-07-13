@@ -2,6 +2,8 @@
 
 MedMatch Ghana is a modern full-stack web platform for helping medical students, high school students interested in medicine, and dental students explore which specialty may best fit their personality, interests, work style, and lifestyle goals.
 
+> 🚀 **Deploying / going live?** Follow **[PRODUCTION_SETUP.md](PRODUCTION_SETUP.md)** — a detailed, step-by-step guide to set the Vercel environment variables (Supabase, Groq, Upstash, site URL) and get the site indexed on Google.
+
 ## Stack
 
 - Next.js 15
