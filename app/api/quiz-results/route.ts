@@ -77,6 +77,10 @@ export async function POST(request: Request) {
 
     const row = buildQuizResultRow(parsed.data);
 
+    // API-1: quiz_results is anonymous-first. RLS (see
+    // supabase/migrations/20260521_enable_rls_quiz_results.sql) permits inserts
+    // only with user_id IS NULL and public read-by-id for share links. We write
+    // via the service role (which bypasses RLS) and deliberately never set user_id.
     try {
       const { error } = await serverSupabase.from("quiz_results").insert(row);
       if (error) {

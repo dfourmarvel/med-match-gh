@@ -4,6 +4,7 @@ import { serverSupabase } from "@/lib/supabase";
 import { matchSpecialties } from "@/lib/specialtyMatcher";
 import { specialtiesById } from "@/lib/specialties";
 import { assessmentQuestions } from "@/lib/assessment";
+import { toCanonicalTraitScores } from "@/lib/trait-mapping";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { slugify } from "@/lib/utils";
@@ -122,33 +123,8 @@ export default async function ResultsPage({
 
       if (answersError) throw answersError;
 
-      // 4. Map trait scores
-      const traitScores: Record<string, number> = {};
-      const dataToCanonicalTrait: Record<string, string> = {
-        patientInteraction: "patientInteraction",
-        proceduralInterest: "proceduralInterest",
-        diagnosticThinking: "diagnosticReasoning",
-        fastPacedPreference: "fastPacedPreference",
-        workLifeBalancePriority: "workLifePriority",
-        emotionalResilience: "emotionalResilience",
-        teamwork: "teamCollaboration",
-        precisionOrientation: "precisionOrientation",
-        longTermRelationships: "longTermRelationships",
-        researchInterest: "researchCuriosity",
-        leadershipPreference: "leadershipPreference",
-        longTrainingTolerance: "trainingTolerance",
-        emergencyComfort: "emergencyComfort",
-        communicationEmpathy: "communicationEmpathy",
-        schedulePredictability: "predictableSchedulePreference"
-      };
-
-      dbScores.forEach((row) => {
-        // Multiply by 10 since DB scores are on a 1-10 scale and specialty profiles are on a 1-100 scale.
-        const val = Number(row.score) * 10;
-        traitScores[row.trait_id] = val;
-        const canonicalKey = dataToCanonicalTrait[row.trait_id] ?? row.trait_id;
-        traitScores[canonicalKey] = val;
-      });
+      // 4. Map trait scores (naming domains + 1-10 -> 1-100 scaling live in lib/trait-mapping.ts)
+      const traitScores = toCanonicalTraitScores(dbScores);
 
       // 5. Match specialties
       const matchScores = matchSpecialties(traitScores, 5);

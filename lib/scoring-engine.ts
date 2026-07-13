@@ -14,28 +14,7 @@ import { specialtiesById } from "@/lib/specialties";
 import { QuizResponse, SpecialtyMatchResult, TraitId, TraitScores } from "@/data/types";
 import { traitLabels } from "@/lib/assessment";
 import { TraitKey, TraitVector } from "@/lib/types";
-
-const dataToCanonicalTrait: Record<TraitId, TraitKey> = {
-  patientInteraction: "patientInteraction",
-  proceduralInterest: "proceduralInterest",
-  diagnosticThinking: "diagnosticReasoning",
-  fastPacedPreference: "fastPacedPreference",
-  workLifeBalancePriority: "workLifePriority",
-  emotionalResilience: "emotionalResilience",
-  teamwork: "teamCollaboration",
-  precisionOrientation: "precisionOrientation",
-  longTermRelationships: "longTermRelationships",
-  researchInterest: "researchCuriosity",
-  leadershipPreference: "leadershipPreference",
-  longTrainingTolerance: "trainingTolerance",
-  emergencyComfort: "emergencyComfort",
-  communicationEmpathy: "communicationEmpathy",
-  schedulePredictability: "predictableSchedulePreference"
-};
-
-const canonicalToDataTrait = Object.fromEntries(
-  Object.entries(dataToCanonicalTrait).map(([dataTrait, canonicalTrait]) => [canonicalTrait, dataTrait])
-) as Record<TraitKey, TraitId>;
+import { canonicalToDataTrait, dataToCanonicalTrait } from "@/lib/trait-mapping";
 
 function responsesToAnswerRecord(responses: QuizResponse[]) {
   return Object.fromEntries(responses.map((response) => [response.questionId, response.answer]));
