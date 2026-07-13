@@ -1,16 +1,20 @@
 export async function generateAIResponse(prompt: string): Promise<string> {
-  const apiKey = process.env.GROQ_API_KEY;
-  const model = process.env.GROQ_MODEL ?? "llama-3.1-8b-instant";
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  const model = process.env.OPENROUTER_MODEL ?? "meta-llama/llama-3.1-8b-instruct";
 
   if (!apiKey || apiKey.startsWith("replace-with")) {
     throw new Error("AI provider is not configured.");
   }
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`
+      Authorization: `Bearer ${apiKey}`,
+      // Optional OpenRouter attribution headers (shown on your OpenRouter dashboard).
+      ...(process.env.NEXT_PUBLIC_SITE_URL
+        ? { "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL, "X-Title": "MedMatch Ghana" }
+        : {})
     },
     body: JSON.stringify({
       model,
