@@ -281,7 +281,7 @@
 | **3. API consistency + tests** | API-2, API-5, TEST-1, TEST-3, SEC-4 | ✅ Done | One coherent change-set; turns the suite green |
 | **4. Security** | SEC-1, SEC-2, SEC-3, SEC-5 | ✅ Done (2026-07-12) | Production readiness |
 | **5. Data layer** | API-1, API-3, API-4, FE-2 (share 404) | ✅ Done (2026-07-13) | Fixes save/share correctness |
-| **6. UX critical** | UX-1, A11Y-1, A11Y-2 | ⬜ Pending | Biggest user-facing wins |
+| **6. UX critical** | UX-1, A11Y-1, A11Y-2 | ✅ Done (2026-07-13) | Biggest user-facing wins |
 | **7. Missing surfaces** | FE-1, FE-2, FE-3, UX-2, UX-3, UX-4 | ⬜ Pending | Feature completeness |
 | **8. SEO** | SEO-1..4 | ⬜ Pending | Discoverability |
 | **9. Perf + coverage** | PERF-1, PERF-2, TEST-2, UX-5, A11Y-3, HYG-2 | ⬜ Pending | Polish |
@@ -302,5 +302,15 @@ Verification: `npx tsc --noEmit` clean · `npm test` 14/14 green · `npm run bui
 - **API-4** — moved the DB-id ↔ canonical-key trait map into `lib/trait-mapping.ts` (single source of truth) with a `toCanonicalTraitScores(rows)` helper; `app/results/page.tsx` and `lib/scoring-engine.ts` both consume it (removed the two duplicate inline copies). Added `lib/__tests__/trait-mapping.test.ts` asserting every dataset trait id maps to a valid canonical key.
 
 Verification: `npx tsc --noEmit` clean · `npm test` 19/19 green (+5 new) · `npm run build` passes · share/API 404s confirmed live (malformed → 400 on API, 404 on page; unknown id → 404).
+
+### Phase 6 — UX critical (completed 2026-07-13)
+
+All in `components/quiz/assessment-client.tsx`:
+
+- **UX-1** — persist `{ step, audience, answers }` to `localStorage["medmatch-in-progress"]` on change (skipping the first write so restore isn't clobbered), restore on mount with validation (step bounds, well-formed answers, known audience; malformed JSON is discarded), and clear the key on successful submit. A dismissible "Resumed your saved progress" note shows when prior progress is restored.
+- **A11Y-1** — roving-tabindex radio pattern for both the question options and the audience selector (now `role="radiogroup"`): the selected/first option has `tabIndex={0}`, others `-1`; Arrow keys wrap and move focus + selection together; Space/Enter select; number keys 1–9 jump to an option. Uses refs, not `querySelectorAll`.
+- **A11Y-2** — on step change, focus moves to the new question heading (`h3` with `tabIndex={-1}`) via a callback ref that fires when the entering step mounts under AnimatePresence — no timeouts, no animation race.
+
+Verification: `npx tsc --noEmit` clean · `npm run lint` clean · `npm test` 19/19 green · `npm run build` passes · production SSR of `/assessment` confirmed to render `role="radiogroup"`, roving `tabindex` 0/-1, and `aria-checked` state. (Live in-browser keyboard/persistence check was blocked by a concurrent dev server from another session holding this folder's `.next` cache; verified via the production build instead.)
 
 **Known pre-existing state for verification baselines:** `npm run build` ✅ passes · `npm test` ❌ 7 failures (TEST-1) · `npm run lint` ❌ no config (HYG-3) · 0 npm audit vulnerabilities.
