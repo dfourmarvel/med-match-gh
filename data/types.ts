@@ -43,9 +43,8 @@ export interface TraitDefinition {
 
 export type TraitScores = Record<TraitId, number>;
 
-export interface TraitVector extends TraitScores {
-  // Ensures all 15 traits must be present
-}
+// All 15 traits must be present; TraitScores already enforces that via TraitId.
+export type TraitVector = TraitScores;
 
 // ============================================================================
 // QUIZ QUESTIONS

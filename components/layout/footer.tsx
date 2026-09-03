@@ -51,6 +51,10 @@ export function Footer() {
             Educational career guidance only — not a final specialty decision. Built with Ghana&apos;s training
             pathways in mind.
           </p>
+          <p className="mt-3 text-xs leading-5 text-foreground/50">
+            Your answers and scores are stored so your results page can be shared by link. Do not include personal
+            details in free-text answers.
+          </p>
         </div>
       </div>
       <KenteStrip className="opacity-80" />

@@ -1,12 +1,25 @@
 import type { NextConfig } from "next";
 
-// SEC-5: baseline security headers applied to every response. Kept intentionally
-// minimal (no CSP yet) so they can't break Next inline styles or framer-motion;
-// a Content-Security-Policy is a recommended follow-up that needs browser testing.
+// SEC-5: baseline security headers applied to every response.
+// CSP allows 'unsafe-inline' for script-src because Next's inline bootstrap
+// script has no nonce plumbing in this app; every other source is pinned to
+// what the app actually loads (self, Vercel Speed Insights, Supabase).
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com",
+  "frame-ancestors 'none'"
+].join("; ");
+
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
-  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" }
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "geolocation=(), microphone=(), camera=()" },
+  { key: "Content-Security-Policy", value: contentSecurityPolicy }
 ];
 
 const nextConfig: NextConfig = {

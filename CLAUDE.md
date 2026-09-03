@@ -7,7 +7,7 @@ Next.js 15 / React 19 / TypeScript app — symptom-to-specialty matching. Tailwi
 - `components/` — UI components (shadcn/Radix-based, see `components.json`)
 - `lib/` — shared logic/utilities
 - `data/` — static/reference data
-- `AUDIT.md` — existing audit notes; check before large refactors
+- `docs/archive/` — historical audit notes (superseded); not day-to-day reference
 - `coverage/` — Jest coverage output (generated, don't edit)
 
 ## Commands

@@ -319,6 +319,9 @@ export function ResultsClient({
             <div aria-live="polite" aria-busy={isPending} className="mt-5 text-sm leading-7 text-foreground/72">
               {isPending ? "Generating your personalized explanation…" : aiSummary}
             </div>
+            <p className="mt-3 text-xs text-foreground/55">
+              AI-generated summary. It can be wrong. Check it against a mentor or supervisor before acting on it.
+            </p>
             <div className="mt-6 rounded-xl bg-primary/10 p-4 text-sm leading-6 text-foreground/72" role="note">
               {result.methodologyNote}
             </div>
