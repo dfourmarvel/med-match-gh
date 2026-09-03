@@ -2,7 +2,7 @@
 
 MedMatch Ghana is a modern full-stack web platform for helping medical students, high school students interested in medicine, and dental students explore which specialty may best fit their personality, interests, work style, and lifestyle goals.
 
-> 🚀 **Deploying / going live?** Follow **[PRODUCTION_SETUP.md](PRODUCTION_SETUP.md)** — a detailed, step-by-step guide to set the Vercel environment variables (Supabase, Groq, Upstash, site URL) and get the site indexed on Google.
+> 🚀 **Deploying / going live?** Follow **[PRODUCTION_SETUP.md](PRODUCTION_SETUP.md)** — a detailed, step-by-step guide to set the Vercel environment variables (Supabase, OpenRouter, Upstash, site URL) and get the site indexed on Google.
 
 ## Stack
 
@@ -14,7 +14,7 @@ MedMatch Ghana is a modern full-stack web platform for helping medical students,
 - Recharts
 - Lucide React
 - Supabase
-- Groq API
+- OpenRouter API
 
 ## Features included
 
@@ -61,7 +61,7 @@ lib/
 supabase/
   schema.sql
   seed.sql
-AUDIT.md      # phased audit & fix playbook
+docs/archive/ # historical audit notes (superseded)
 ```
 
 ## Getting started
@@ -78,8 +78,8 @@ npm install
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-GROQ_API_KEY=your-groq-api-key
-GROQ_MODEL=llama-3.1-8b-instant
+OPENROUTER_API_KEY=your-openrouter-api-key
+OPENROUTER_MODEL=meta-llama/llama-3.1-8b-instruct
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
@@ -118,8 +118,9 @@ this docblock, route tests run under jsdom and fail in confusing ways.
 
 1. Create a new Supabase project.
 2. Run [supabase/schema.sql](supabase/schema.sql).
-3. Optionally run [supabase/seed.sql](supabase/seed.sql).
-4. Enable email or magic-link auth if you want persistent user accounts.
+3. Run the RLS migrations in `supabase/migrations/` (in filename order).
+4. Optionally run [supabase/seed.sql](supabase/seed.sql).
+5. Enable email or magic-link auth if you want persistent user accounts.
 
 ## Notes on Ghana-specific data
 

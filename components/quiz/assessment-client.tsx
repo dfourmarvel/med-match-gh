@@ -468,6 +468,9 @@ export function AssessmentClient() {
               <p className="mt-4 max-w-2xl text-sm leading-7 text-foreground/65">
                 Your education stage changes how the recommendation engine frames specialty pathways, training reality, and next steps.
               </p>
+              <p className="mt-3 max-w-2xl text-xs text-foreground/50">
+                MedMatch is a study and reflection tool, not career or medical advice.
+              </p>
             </motion.div>
           ) : currentQuestion ? (
             <motion.div

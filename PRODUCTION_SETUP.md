@@ -1,7 +1,7 @@
 # MedMatch Ghana — Production Setup & Go-Live Guide
 
 > A step-by-step, click-by-click guide to finish taking MedMatch Ghana live:
-> environment variables (Supabase, Groq, Upstash, site URL) and SEO (getting on Google).
+> environment variables (Supabase, OpenRouter, Upstash, site URL) and SEO (getting on Google).
 > Written to be followed top-to-bottom by someone who has **not** done this before.
 
 ## Where things stand today
@@ -9,7 +9,7 @@
 - ✅ The app is **live on Vercel** (`dfourmarvels-projects/med-match-gh`) and every push to `main` auto-deploys. All recent builds are green.
 - ⚠️ **No environment variables are set in Vercel yet.** Until you add them, on the live site:
   - **Save / share / "my results"** don't persist (no Supabase → guest/local mode only).
-  - **AI explanations** show generic fallback text (no Groq key).
+  - **AI explanations** show generic fallback text (no OpenRouter key).
   - **Rate limiting** is in-memory only (fine, but not durable on serverless — no Upstash).
   - **SEO URLs are broken** — the sitemap and page links say `http://localhost:3000` instead of your real domain (no `NEXT_PUBLIC_SITE_URL`). **Google cannot use localhost URLs**, so this must be fixed before SEO can work.
 
@@ -31,8 +31,8 @@ Add these in **Vercel → med-match-gh → Settings → Environment Variables**.
 | 2 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase | Saving results / share **(required)** |
 | 3 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase | Saving results / share **(required)** |
 | 4 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase | Saving results / share **(required, secret)** |
-| 5 | `GROQ_API_KEY` | Groq | AI explanations (optional) |
-| 6 | `GROQ_MODEL` | fixed value `llama-3.1-8b-instant` | AI explanations (optional) |
+| 5 | `OPENROUTER_API_KEY` | OpenRouter | AI explanations (optional) |
+| 6 | `OPENROUTER_MODEL` | e.g. `meta-llama/llama-3.1-8b-instruct` | AI explanations (optional) |
 | 7 | `UPSTASH_REDIS_REST_URL` | Upstash | Durable rate limiting (recommended) |
 | 8 | `UPSTASH_REDIS_REST_TOKEN` | Upstash | Durable rate limiting (recommended) |
 
@@ -72,9 +72,8 @@ Supabase is the database. Without it, results aren't saved and share links don't
 2. In Supabase: left sidebar → **SQL Editor** → **New query**.
 3. Run these files **in this exact order** — open each file in the repo, copy its entire contents into the SQL editor, and click **Run**:
    1. [`supabase/schema.sql`](supabase/schema.sql) — creates the `quiz_results` table + the `get_quiz_result` function (share links).
-   2. [`supabase/medmatch_dataset_schema.sql`](supabase/medmatch_dataset_schema.sql) — creates the fuller dataset tables (`users`, `quiz_attempts`, `quiz_answers`, `trait_scores`, `specialties`, …) used by `/results?userId=`.
+   2. [`supabase/migrations/20260521_enable_rls_quiz_results.sql`](supabase/migrations/20260521_enable_rls_quiz_results.sql) — applies the **anonymous-first** security policies (anyone can save a result; results are readable by their unguessable link ID). Safe to re-run.
    3. [`supabase/seed.sql`](supabase/seed.sql) — fills in the specialties reference data.
-   4. [`supabase/migrations/20260521_enable_rls_quiz_results.sql`](supabase/migrations/20260521_enable_rls_quiz_results.sql) — applies the **anonymous-first** security policies (anyone can save a result; results are readable by their unguessable link ID). Safe to re-run.
 
 **C. Get the three keys**
 4. Supabase → **Project Settings** (gear icon) → **API**.
@@ -90,14 +89,14 @@ Supabase is the database. Without it, results aren't saved and share links don't
 6. **Redeploy.**
 7. Test: on the live site, complete the assessment → **See Results** → **Save** → open the share link it gives you. It should load the saved report.
 
-## 1.3 Groq — AI-written explanations
+## 1.3 OpenRouter — AI-written explanations
 
 Without this, the "Personalized AI guidance" section shows a sensible fallback paragraph (the app still works).
 
-1. Go to **console.groq.com** → sign in → **API Keys** → **Create API Key** → copy it.
+1. Go to **openrouter.ai/keys** → sign in → **Create Key** → copy it.
 2. Add to Vercel:
-   - `GROQ_API_KEY` = the key you copied
-   - `GROQ_MODEL` = `llama-3.1-8b-instant`  *(this exact value is a good default)*
+   - `OPENROUTER_API_KEY` = the key you copied
+   - `OPENROUTER_MODEL` = a model id from **openrouter.ai/models**, e.g. `meta-llama/llama-3.1-8b-instruct`
 3. **Redeploy.**
 
 ## 1.4 Upstash — durable rate limiting (optional but recommended for production)
@@ -118,12 +117,12 @@ Without this, the rate limiter still works but resets per serverless instance (s
 | `NEXT_PUBLIC_SUPABASE_URL` | ✅ For save/share | Supabase → Settings → API | Yes |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ For save/share | Supabase → Settings → API | Yes |
 | `SUPABASE_SERVICE_ROLE_KEY` | ✅ For save/share | Supabase → Settings → API | **No — secret** |
-| `GROQ_API_KEY` | ⬜ Optional | console.groq.com → API Keys | **No — secret** |
-| `GROQ_MODEL` | ⬜ Optional | Use `llama-3.1-8b-instant` | **No** |
+| `OPENROUTER_API_KEY` | ⬜ Optional | openrouter.ai/keys | **No — secret** |
+| `OPENROUTER_MODEL` | ⬜ Optional | Pick one at openrouter.ai/models | **No** |
 | `UPSTASH_REDIS_REST_URL` | ⬜ Recommended | console.upstash.com → Redis → REST | **No — secret** |
 | `UPSTASH_REDIS_REST_TOKEN` | ⬜ Recommended | console.upstash.com → Redis → REST | **No — secret** |
 
-> After adding secrets, **never** paste `SUPABASE_SERVICE_ROLE_KEY`, `GROQ_API_KEY`, or the Upstash token into the code, a public chat, or the browser. They belong only in Vercel's Environment Variables screen.
+> After adding secrets, **never** paste `SUPABASE_SERVICE_ROLE_KEY`, `OPENROUTER_API_KEY`, or the Upstash token into the code, a public chat, or the browser. They belong only in Vercel's Environment Variables screen.
 
 ---
 
@@ -182,9 +181,9 @@ Google Search Console (free) is how you tell Google "this site is mine, please i
 
 Environment (Part 1):
 - [ ] `NEXT_PUBLIC_SITE_URL` set in Vercel + redeployed
-- [ ] Supabase project created; all 4 SQL files run in order
+- [ ] Supabase project created; all 3 SQL files run in order
 - [ ] `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` set
-- [ ] `GROQ_API_KEY` (+ `GROQ_MODEL`) set (optional)
+- [ ] `OPENROUTER_API_KEY` (+ `OPENROUTER_MODEL`) set (optional)
 - [ ] `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` set (recommended)
 - [ ] Redeployed after adding everything
 - [ ] Live test: assessment → See Results → Save → open share link works
