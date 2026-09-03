@@ -5,7 +5,7 @@ url: '{{baseUrl}}/api/ai-explanation'
 description: |-
   Submit a full assessment result to receive an AI-generated career guidance explanation tailored to Ghana's medical training context.
 
-  Uses the Groq LLM (llama-3.1-8b-instant by default). Falls back to a static explanation if GROQ_API_KEY is not configured.
+  Uses OpenRouter (model from OPENROUTER_MODEL). Falls back to a static explanation if OPENROUTER_API_KEY is not configured.
 
   Rate limit: 10 requests per minute.
 headers:
