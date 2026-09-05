@@ -22,6 +22,7 @@ import { specialtiesById, specialties } from "@/lib/specialties";
 import { TraitRadarChart } from "@/components/results/radar-chart";
 import { MatchesBarChart } from "@/components/results/bar-chart";
 import { CompareTable } from "@/components/results/compare-table";
+import { SpecialtyRundown } from "@/components/results/specialty-rundown";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { KenteStrip } from "@/components/ui/kente-strip";
@@ -383,6 +384,19 @@ export function ResultsClient({
             </div>
             <MatchesBarChart matches={result.topMatches} />
           </Card>
+        </Reveal>
+      </section>
+
+      {/* What each specialty takes */}
+      <section aria-label="What each specialty takes">
+        <Reveal>
+          <div className="grid gap-6 md:grid-cols-3">
+            {result.topMatches.slice(0, 3).map((match) => {
+              const specialty = specialtiesById[match.specialtyId];
+              if (!specialty) return null;
+              return <SpecialtyRundown key={match.specialtyId} match={match} specialty={specialty} />;
+            })}
+          </div>
         </Reveal>
       </section>
 
