@@ -12,8 +12,19 @@ const AUDIENCE_DESCRIPTIONS: Record<Audience, string> = {
 // SEC-3: neutralize attempts to break out of the <user_data> delimiter by
 // smuggling the closing tag inside user-supplied text.
 function sanitizeUserText(text: string) {
-  return text.replace(/<\/?user_data>/gi, "");
+  // Loop until stable: a single pass is defeated by nesting, because removing
+  // the inner tag in "</user_<user_data>data>" re-forms a closing delimiter
+  // out of the surrounding characters. Callers pass attacker-controllable
+  // strings on a public route, so this has to converge, not just run once.
+  let previous: string;
+  let current = text;
+  do {
+    previous = current;
+    current = current.replace(/<\/?user_data>/gi, "");
+  } while (current !== previous);
+  return current;
 }
+
 
 export interface ExplanationMatchInput {
   specialty: SpecialtyProfile;

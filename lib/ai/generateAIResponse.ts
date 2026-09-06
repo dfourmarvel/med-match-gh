@@ -30,7 +30,13 @@ export async function generateAIResponse(prompt: string): Promise<string> {
     });
 
     if (!response.ok) {
-      throw new Error("AI provider request failed.");
+      // Keep the status and a short body excerpt: without them a 401 (bad key),
+      // 402 (out of credits) and 404 (unknown model id) are indistinguishable
+      // in the logs, and the user sees the same generic fallback either way.
+      const detail = await response.text().catch(() => "");
+      throw new Error(
+        `AI provider request failed (HTTP ${response.status}): ${detail.slice(0, 200)}`
+      );
     }
 
     const data = await response.json();

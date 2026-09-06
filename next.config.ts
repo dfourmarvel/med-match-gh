@@ -4,13 +4,18 @@ import type { NextConfig } from "next";
 // CSP allows 'unsafe-inline' for script-src because Next's inline bootstrap
 // script has no nonce plumbing in this app; every other source is pinned to
 // what the app actually loads (self, Vercel Speed Insights, Supabase).
+// Next's dev bundler (React Fast Refresh) evaluates strings, so without
+// 'unsafe-eval' in development the client never hydrates and every page hangs
+// on its loading state. Production stays strict — this branch is dev-only.
+const isDev = process.env.NODE_ENV === "development";
+
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com",
+  `connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com${isDev ? " ws://localhost:* http://localhost:*" : ""}`,
   "frame-ancestors 'none'"
 ].join("; ");
 
