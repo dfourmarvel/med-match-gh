@@ -7,7 +7,8 @@ import { z } from "zod";
 /**
  * Trait scores validation schema
  */
-export const TraitScoresSchema = z.record(z.string(), z.number().min(1).max(100));
+// Trait scores are clamped to 0-100 by the scorer; 0 is a legitimate value.
+export const TraitScoresSchema = z.record(z.string(), z.number().min(0).max(100));
 
 /**
  * Quiz response validation schema

@@ -40,8 +40,13 @@ export const quizSubmissionSchema = z.object({
     })
 });
 
+// Floor is 0, not 1: calculateTraitScores clamps with the default min of 0
+// (lib/utils clamp), and a real submission reaches it — answering "Strongly
+// Disagree" to all 25 questions drives eleven traits to exactly 0. With a
+// floor of 1 those users could not save or share their result, and the
+// results page discarded its own saved copy on their next visit.
 const traitVectorSchema = z.object(
-  Object.fromEntries(traitKeys.map((key) => [key, z.number().min(1).max(100)])) as Record<
+  Object.fromEntries(traitKeys.map((key) => [key, z.number().min(0).max(100)])) as Record<
     TraitKey,
     z.ZodNumber
   >
