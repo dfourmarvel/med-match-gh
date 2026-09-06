@@ -3,6 +3,7 @@ import {
   quizSubmissionSchema
 } from "@/lib/api-validation";
 import { assessmentQuestions } from "@/lib/assessment";
+import { buildAssessmentResult } from "@/lib/scoring";
 
 describe("api validation schemas", () => {
   it("accepts a complete quiz submission", () => {
@@ -80,5 +81,21 @@ describe("api validation schemas", () => {
     });
 
     expect(result.success).toBe(false);
+  });
+
+  // Regression: a user who answers "Strongly Disagree" to all 25 questions
+  // gets eleven trait scores of exactly 0. The schema used to require >= 1,
+  // so those users could not save or share, and the results page threw away
+  // its own stored copy on their next visit.
+  it("accepts a real all-lowest-answers result, whose traits legitimately hit 0", () => {
+    const answers = Object.fromEntries(assessmentQuestions.map((question) => [question.id, 1]));
+
+    // buildAssessmentResult takes the raw answers and scores them itself.
+    const result = buildAssessmentResult("medical-student", answers);
+
+    const zeroed = Object.values(result.traitScores).filter((score) => score === 0);
+    expect(zeroed.length).toBeGreaterThan(0);
+
+    expect(fullAssessmentResultSchema.safeParse(result).success).toBe(true);
   });
 });
