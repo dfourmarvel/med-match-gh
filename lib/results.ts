@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { hasSupabaseServiceRole, serverSupabase } from "@/lib/supabase";
+import { serverSupabase } from "@/lib/supabase";
 import { FullAssessmentResult } from "@/lib/types";
 
 interface QuizResultRow {
@@ -31,9 +31,15 @@ export async function getResultById(id: string): Promise<ResultLookup> {
     return { status: "not-found" };
   }
 
-  const { data, error } = hasSupabaseServiceRole
-    ? await serverSupabase.from("quiz_results").select("scores").eq("id", parsedId.data).single()
-    : await serverSupabase.rpc("get_quiz_result", { p_result_id: parsedId.data }).single();
+  // Always the direct select. The old ternary fell back to the get_quiz_result
+  // RPC when hasSupabaseServiceRole was false — a branch that could never run,
+  // because serverSupabase is only non-null when the service-role key is set,
+  // and the null case already returned above. It existed solely to be mocked.
+  const { data, error } = await serverSupabase
+    .from("quiz_results")
+    .select("scores")
+    .eq("id", parsedId.data)
+    .single();
 
   const row = data as QuizResultRow | null;
 

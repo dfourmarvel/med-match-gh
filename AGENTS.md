@@ -5,8 +5,10 @@ Next.js 15 / React 19 / TypeScript app — a trait-to-specialty career matcher f
 ## Structure
 - `app/` — Next.js App Router: `assessment/`, `results/`, `share/`, `specialties/`, `api/`
 - `components/` — UI components (shadcn/Radix-based, see `components.json`)
-- `lib/` — shared logic/utilities
-- `data/` — static/reference data
+- `lib/` — shared logic/utilities. `scoring.ts`, `specialties.ts` and
+  `assessment.ts` are the live data and engine; `ghana.ts` holds the cited
+  GCPS references. There is no `data/` directory — it held three parallel
+  unused catalogues and was deleted.
 - `docs/archive/` — historical audit notes (superseded); not day-to-day reference
 - `coverage/` — Jest coverage output (generated, don't edit)
 

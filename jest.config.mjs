@@ -22,13 +22,14 @@ const customJestConfig = {
   ],
   coverageReporters: ["text", "lcov"],
   coverageThreshold: {
-    // Regression floor at current real coverage of the logic surface (lib + api
-    // routes, with the LLM/prompt/deprecated/seed-only modules excluded above).
+    // Regression floor, re-baselined after the dead-code deletion took the real
+    // numbers to 78.4 / 62.0 / 88.7 / 79.1. Set a couple of points under each so
+    // an ordinary refactor does not trip it, but a genuine regression does.
     global: {
-      statements: 65,
-      branches: 55,
-      functions: 72,
-      lines: 65
+      statements: 76,
+      branches: 60,
+      functions: 86,
+      lines: 77
     }
   }
 };
