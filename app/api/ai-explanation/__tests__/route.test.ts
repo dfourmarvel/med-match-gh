@@ -14,7 +14,17 @@ jest.mock("@/lib/rate-limit", () => ({
   rateLimit: jest.fn()
 }));
 
+jest.mock("@/lib/ai/explanationCache", () => ({
+  explanationCacheKey: jest.fn(() => "medmatch:ai-explanation:v1:test"),
+  getCachedExplanation: jest.fn(),
+  setCachedExplanation: jest.fn()
+}));
+
+import { getCachedExplanation, setCachedExplanation } from "@/lib/ai/explanationCache";
+
 const mockedGenerateAIResponse = jest.mocked(generateAIResponse);
+const mockedGetCached = jest.mocked(getCachedExplanation);
+const mockedSetCached = jest.mocked(setCachedExplanation);
 const mockedRateLimit = jest.mocked(rateLimit);
 
 const validTraitScores = {
@@ -67,6 +77,9 @@ function createPostRequest(body: unknown) {
 describe("POST /api/ai-explanation", () => {
   beforeEach(() => {
     mockedGenerateAIResponse.mockReset();
+    mockedGetCached.mockReset();
+    mockedSetCached.mockReset();
+    mockedGetCached.mockResolvedValue(null);
     mockedRateLimit.mockResolvedValue({ allowed: true });
   });
 
@@ -79,7 +92,7 @@ describe("POST /api/ai-explanation", () => {
     expect(response.status).toBe(200);
     expect(body).toEqual({
       success: true,
-      data: { explanation: "Your profile suggests a thoughtful specialty fit." }
+      data: { explanation: "Your profile suggests a thoughtful specialty fit.", cached: false }
     });
     expect(mockedGenerateAIResponse).toHaveBeenCalledTimes(1);
     const prompt = mockedGenerateAIResponse.mock.calls[0][0];
@@ -121,6 +134,33 @@ describe("POST /api/ai-explanation", () => {
       expect.arrayContaining([expect.objectContaining({ path: "traitScores" })])
     );
     expect(mockedGenerateAIResponse).not.toHaveBeenCalled();
+  });
+
+  it("serves a cache hit without calling the model at all", async () => {
+    // This is the whole point of the cache: /results and /share/[id] each fired
+    // a fresh 70B call on every render, so a share link doing the rounds in a
+    // class group billed once per view.
+    mockedGetCached.mockResolvedValue("A previously generated explanation.");
+
+    const response = await POST(createPostRequest(validBody()));
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.data).toEqual({ explanation: "A previously generated explanation.", cached: true });
+    expect(mockedGenerateAIResponse).not.toHaveBeenCalled();
+    expect(mockedSetCached).not.toHaveBeenCalled();
+  });
+
+  it("stores the TRIMMED text, so a hit and a miss return the same thing", async () => {
+    const longText = Array.from({ length: 400 }, (_, i) => `word${i}`).join(" ");
+    mockedGenerateAIResponse.mockResolvedValue(longText);
+
+    const body = await (await POST(createPostRequest(validBody()))).json();
+
+    expect(mockedSetCached).toHaveBeenCalledTimes(1);
+    const [, stored] = mockedSetCached.mock.calls[0];
+    expect(stored).toBe(body.data.explanation);
+    expect(stored.split(/\s+/).length).toBeLessThanOrEqual(301);
   });
 
   it("returns 400 for invalid JSON", async () => {

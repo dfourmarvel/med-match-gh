@@ -1,6 +1,11 @@
 import { z } from "zod";
 import { generateAIResponse } from "@/lib/ai/generateAIResponse";
 import { buildExplanationPrompt } from "@/lib/ai/promptTemplates";
+import {
+  explanationCacheKey,
+  getCachedExplanation,
+  setCachedExplanation
+} from "@/lib/ai/explanationCache";
 import { rateLimit } from "@/lib/rate-limit";
 import { specialtiesById } from "@/lib/specialties";
 import { serverSupabase } from "@/lib/supabase";
@@ -106,14 +111,36 @@ export async function POST(request: Request) {
         challenges: match.challenges
       }));
 
+      // The explanation is a pure function of these inputs, so a repeat view of
+      // the same results — or a share link opened by thirty classmates — must
+      // not bill thirty generations. Cache lookup happens after validation so a
+      // malformed payload can never poison the key space.
+      const cacheKey = explanationCacheKey({
+        audience: parsed.data.audience,
+        traitScores: parsed.data.traitScores,
+        matches: parsed.data.topMatches.map((match) => ({
+          specialtyId: match.specialtyId,
+          matchPercentage: match.matchPercentage,
+          strengths: match.strengths,
+          challenges: match.challenges
+        }))
+      });
+
+      const cached = await getCachedExplanation(cacheKey);
+      if (cached) {
+        return apiSuccess({ explanation: cached, cached: true });
+      }
+
       const prompt = buildExplanationPrompt({
         audience: parsed.data.audience,
         traitScores: parsed.data.traitScores,
         matches
       });
 
-      const explanation = await generateAIResponse(prompt);
-      return apiSuccess({ explanation: limitWords(explanation) });
+      const explanation = limitWords(await generateAIResponse(prompt));
+      // Store the trimmed text, so a cache hit and a miss return the same thing.
+      await setCachedExplanation(cacheKey, explanation);
+      return apiSuccess({ explanation, cached: false });
     } catch (error) {
       console.error("AI explanation failed, returning fallback message", {
         error,

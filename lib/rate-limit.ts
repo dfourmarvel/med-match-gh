@@ -1,5 +1,5 @@
 import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
+import { redis } from "@/lib/redis";
 
 type RateLimitResult = { allowed: true } | { allowed: false; retryAfterSeconds: number };
 
@@ -39,30 +39,7 @@ function inMemoryRateLimit(key: string, limit: number, windowMs: number): RateLi
 }
 
 // ── Upstash Redis limiter (durable across serverless instances) ───────────────
-const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
-const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-
-// A malformed URL is treated exactly like "not configured" rather than being
-// allowed to throw. `new Redis()` runs at module load, so an unparseable value
-// (e.g. the literal "[SENSITIVE]" that `vercel env pull` writes for secrets)
-// used to crash `next build` during page-data collection, not just at request
-// time. The warning matters: silently degrading to the per-instance in-memory
-// limiter in production would weaken rate limiting with no visible signal.
-function buildRedis(): Redis | null {
-  if (!redisUrl || !redisToken) return null;
-  try {
-    new URL(redisUrl);
-  } catch {
-    console.warn(
-      "UPSTASH_REDIS_REST_URL is not a valid URL — falling back to the in-memory rate limiter. " +
-        "This is per-instance only and is NOT sufficient on serverless."
-    );
-    return null;
-  }
-  return new Redis({ url: redisUrl, token: redisToken });
-}
-
-const redis = buildRedis();
+// The client itself lives in lib/redis.ts, shared with the AI explanation cache.
 
 // Cache one Ratelimit instance per (limit, windowMs) config so we don't rebuild
 // it on every request.

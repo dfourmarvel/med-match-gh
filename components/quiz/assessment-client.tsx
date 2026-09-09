@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, BrainCircuit, CheckCircle2, Save, Stethoscope, X } from "lucide-react";
+import { track } from "@vercel/analytics";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { assessmentQuestions } from "@/lib/assessment";
@@ -275,6 +276,17 @@ export function AssessmentClient() {
         } catch {
           /* ignore */
         }
+
+        // The one event worth having. Until now there was no way to answer
+        // "has anyone ever finished this?", which gates every decision about
+        // whether the assessment is worth improving. Audience and top match
+        // only — no answers, no scores, nothing that identifies a person.
+        track("assessment_completed", {
+          audience,
+          topSpecialty: result?.topMatches?.[0]?.specialtyId ?? "unknown",
+          saved: Boolean(saveResponse.ok && saved?.success)
+        });
+
         router.push("/results");
       } catch {
         setErrorMessage("Could not submit your assessment. Check your connection and try again.");
