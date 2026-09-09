@@ -1,6 +1,6 @@
 # med-match-gh (MedMatch Ghana)
 
-Next.js 15 / React 19 / TypeScript app — symptom-to-specialty matching. Tailwind CSS, Supabase (backend), Upstash Redis (rate limiting), Radix UI + Framer Motion.
+Next.js 15 / React 19 / TypeScript app — a trait-to-specialty career matcher for Ghanaian medical and dental students. Tailwind CSS, Supabase (backend), Upstash Redis (rate limiting), Radix UI + Framer Motion.
 
 ## Structure
 - `app/` — Next.js App Router: `assessment/`, `results/`, `share/`, `specialties/`, `api/`

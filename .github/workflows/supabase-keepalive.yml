@@ -1,10 +1,17 @@
 name: Supabase keep-alive
 
 # Free-tier Supabase projects pause after ~7 days without database activity.
-# This hits a route that performs a real database query so the project stays awake.
+# /api/health runs a real query, so calling it both keeps the project awake and
+# tells us whether the database is actually answering.
+#
+# The previous version called /api/results/<zero-uuid> and asserted 404. That
+# could never work: the results route returns 404 when the row is missing AND
+# when the Supabase client is unconfigured AND when the query errors — so it
+# reported success with the database completely unreachable, which is the exact
+# failure it was supposed to detect.
 on:
   schedule:
-    - cron: "0 6 * * 1,4"   # Mondays and Thursdays, 06:00 UTC
+    - cron: "0 6 * * 1,4" # Mondays and Thursdays, 06:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -13,7 +20,19 @@ jobs:
     steps:
       - name: Query the live app (touches the database)
         run: |
-          status=$(curl -sS -o /dev/null -w "%{http_code}" --max-time 60 "https://medmatchgh.vercel.app/api/results/00000000-0000-0000-0000-000000000000")
+          body=$(mktemp)
+          status=$(curl -sS -o "$body" -w "%{http_code}" --max-time 60 \
+            "https://medmatchgh.vercel.app/api/health")
           echo "HTTP $status"
-          # 404 is the normal answer for this route; anything else means the DB or app is unhealthy.
-          [ "$status" = "404" ] || { echo "::error::Expected 404, got $status — is the Supabase project paused?"; exit 1; }
+          cat "$body"
+          echo
+          if [ "$status" != "200" ]; then
+            echo "::error::Health check returned $status — the Supabase project is probably paused or the service-role key is missing."
+            exit 1
+          fi
+          # Belt and braces: a 200 whose body does not claim a reachable database
+          # would mean the contract changed without this workflow noticing.
+          grep -q '"db":"reachable"' "$body" || {
+            echo "::error::Got 200 but the body did not report db=reachable."
+            exit 1
+          }

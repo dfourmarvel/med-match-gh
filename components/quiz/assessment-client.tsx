@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, BrainCircuit, CheckCircle2, Save, Share2, Stethoscope, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, BrainCircuit, CheckCircle2, Save, Stethoscope, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { assessmentQuestions } from "@/lib/assessment";
@@ -547,14 +547,21 @@ export function AssessmentClient() {
             Back
           </Button>
           <div className="flex flex-wrap gap-3">
-            <Button variant="ghost" type="button" aria-label="Guest mode is enabled">
-              <Save className="mr-2 h-4 w-4" aria-hidden="true" />
-              Guest Mode On
-            </Button>
-            <Button variant="ghost" type="button" disabled title="Create a share link from the results page." aria-label="Share from results — available after completing assessment">
-              <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />
-              Share From Results
-            </Button>
+            {/*
+              These two were buttons: "Guest Mode On" had no onClick and no
+              disabled state, so it rendered as interactive and did nothing on
+              click, and "Share From Results" was permanently disabled with no
+              state that could ever enable it. Neither was a control — both were
+              status. They say so now, as text, which is also the only version a
+              screen reader can make sense of.
+            */}
+            <p className="flex items-center gap-2 text-sm text-foreground/60" role="status">
+              <Save className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span>
+                Guest mode &mdash; answers stay on this device. You can create a share link once you
+                reach your results.
+              </span>
+            </p>
             {step < totalSteps ? (
               <Button variant="gold" onClick={goNext} disabled={!canAdvance} aria-label="Go to next question">
                 Next
