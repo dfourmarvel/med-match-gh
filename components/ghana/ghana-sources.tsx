@@ -31,7 +31,9 @@ export function GhanaSources({ className, compact = false }: { className?: strin
               href={ref.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-start gap-1.5 text-sm font-medium text-accent underline-offset-4 hover:underline"
+              // py-1 is load-bearing: without it these links are 20px tall,
+              // under the 24px minimum target size in WCAG 2.2 AA (2.5.8).
+              className="group inline-flex min-h-[24px] items-start gap-1.5 py-1 text-sm font-medium text-accent underline-offset-4 hover:underline"
             >
               <span>{ref.label}</span>
               <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden="true" />
