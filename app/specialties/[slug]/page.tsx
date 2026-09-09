@@ -7,6 +7,7 @@ import { formatCurrencyRange } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { KenteStrip } from "@/components/ui/kente-strip";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
+import { GhanaSources } from "@/components/ghana/ghana-sources";
 
 // SEO-2: statically generate every specialty page at build time.
 export function generateStaticParams() {
@@ -97,6 +98,12 @@ export default async function SpecialtyDetailPage({ params }: { params: Promise<
                 <div>
                   <h2 className="font-semibold">Ghana relevance</h2>
                   <p className="text-sm text-foreground/70">{specialty.ghanaResidencyPathway}</p>
+                  <Link
+                    href="/pathways"
+                    className="mt-2 inline-block text-sm font-medium text-accent underline-offset-4 hover:underline"
+                  >
+                    General training pathways in Ghana &rarr;
+                  </Link>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -156,6 +163,12 @@ export default async function SpecialtyDetailPage({ params }: { params: Promise<
               </p>
             </div>
           </Card>
+        </Reveal>
+      </section>
+
+      <section aria-label="Sources">
+        <Reveal>
+          <GhanaSources compact />
         </Reveal>
       </section>
     </div>

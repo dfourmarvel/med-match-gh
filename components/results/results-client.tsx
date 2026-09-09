@@ -63,7 +63,7 @@ const demoResult = {
     "You look like an empathic analytical clinician who balances strong reasoning with meaningful patient connection.",
   suggestedNextSteps: [
     "Shadow an internal medicine or family medicine clinic.",
-    "Talk to a registrar or consultant at Korle Bu or Komfo Anokye about training realities.",
+    "Talk to a registrar or consultant at a GCPS-accredited training centre about training realities.",
     "Compare your top 3 specialties for lifestyle, continuity, and emergency intensity.",
     "Review how your fit changes after more clinical exposure."
   ],
@@ -538,7 +538,7 @@ export function ResultsClient({
             </div>
             <ul className="mt-5 space-y-3" aria-label="Suggested career activities">
               {[
-                "Arrange a shadowing visit at Korle Bu Teaching Hospital or Komfo Anokye Teaching Hospital.",
+                "Arrange a shadowing visit at a GCPS-accredited training centre near you.",
                 "Join a clinical skills, anatomy, or oral health outreach group on campus.",
                 "Keep a reflection journal comparing what energizes you in clinic, theatre, and community work.",
                 "Explore student research, public health projects, or case presentations tied to your top matches."
