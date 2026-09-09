@@ -36,14 +36,16 @@ MedMatch Ghana is a modern full-stack web platform for helping medical students,
 
 ```text
 app/
-  api/
+  api/           # score, save-result, quiz-results, results/[id], ai-explanation, health
   assessment/
   results/
   share/[id]/
   specialties/[slug]/
+  pathways/      # cited Ghana training context
   layout.tsx
   page.tsx
 components/
+  ghana/         # the GCPS citation block
   home/
   layout/
   motion/
@@ -53,14 +55,16 @@ components/
   ui/
   theme-provider.tsx
 lib/
-  assessment.ts
-  scoring.ts
-  specialties.ts
+  ai/            # OpenRouter call + prompt construction
+  assessment.ts  # the 25 questions and 15 trait labels
+  ghana.ts       # GCPS references, institutions, regions
+  scoring.ts     # the live scoring engine
+  specialties.ts # the live catalogue: 20 specialties
   supabase.ts
   types.ts
 supabase/
   schema.sql
-  seed.sql
+  migrations/
 docs/archive/ # historical audit notes (superseded)
 ```
 
@@ -119,14 +123,16 @@ this docblock, route tests run under jsdom and fail in confusing ways.
 1. Create a new Supabase project.
 2. Run [supabase/schema.sql](supabase/schema.sql).
 3. Run the RLS migrations in `supabase/migrations/` (in filename order).
-4. Optionally run [supabase/seed.sql](supabase/seed.sql).
-5. Enable email or magic-link auth if you want persistent user accounts.
+
+That is the whole setup. There is one table, `quiz_results`, and no auth — the
+app is deliberately account-free, and results are reached by unguessable share
+link rather than by login.
 
 ## Notes on Ghana-specific data
 
 - Salary figures are approximate directional ranges in Ghana cedis and should not be interpreted as official compensation data.
 - Residency pathways and opportunity notes are educational summaries meant to help users ask better follow-up questions with mentors and training programs.
-- The platform explicitly references institutions such as Korle Bu Teaching Hospital, Komfo Anokye Teaching Hospital, University of Ghana Medical School, and KNUST School of Medical Sciences for local context.
+- Training context is cited rather than asserted: [/pathways](https://medmatchgh.vercel.app/pathways) lists the recognised training environments (Korle-Bu, Komfo Anokye, Tamale, Cape Coast and Ho teaching hospitals, University of Ghana Medical School, KNUST School of Medical Sciences and others) and links to the official Ghana College of Physicians and Surgeons pages. Specialty pages link to it rather than claiming which hospital trains which discipline — the source data carries no such mapping.
 
 ## Disclaimer
 
