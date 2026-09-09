@@ -37,13 +37,23 @@ const traitWeighting: Record<TraitKey, number> = {
 export function calculateTraitScores(answers: Record<number, number>): TraitVector {
   const scores = emptyTraitVector();
 
+  // Accumulate raw, then clamp once. Clamping inside the loop made the result
+  // depend on question ORDER: once a trait hit 0 or 100 the excess was thrown
+  // away, so a later answer pushing the other way started from the rail instead
+  // of from the true running total. Two people giving the same answers to the
+  // same questions in a different order could score differently, and ~10% of all
+  // trait scores were landing on a rail where this bites.
   for (const question of assessmentQuestions) {
     const answer = answers[question.id] ?? 3;
     const normalized = (answer - 3) * 12.5;
     for (const [trait, weight] of Object.entries(question.weights)) {
       const key = trait as TraitKey;
-      scores[key] = clamp(scores[key] + normalized * (weight ?? 0));
+      scores[key] = scores[key] + normalized * (weight ?? 0);
     }
+  }
+
+  for (const trait of Object.keys(scores) as TraitKey[]) {
+    scores[trait] = clamp(scores[trait]);
   }
 
   return scores;
@@ -75,9 +85,17 @@ function strengthsAndChallenges(user: TraitVector, target: TraitVector) {
     .slice(0, 3)
     .map((item) => traitLabels[item.trait]);
 
+  // Only a SHORTFALL is a challenge. This used to rank by |delta|, so scoring
+  // far ABOVE what a specialty calls for was reported identically to falling
+  // short — a candidate with unusually strong diagnostic reasoning was told to
+  // "test it through shadowing" as though it were a weakness. Direction matters,
+  // so filter to deltas below the profile and rank by how far below.
+  //
+  // The list can legitimately come back short, or empty, when a candidate meets
+  // or exceeds the profile everywhere. That is a real result, not a gap to pad.
   const challenges = diffs
-    .slice()
-    .sort((a, b) => b.closeness - a.closeness)
+    .filter((item) => item.delta < 0)
+    .sort((a, b) => a.delta - b.delta)
     .slice(0, 2)
     .map((item) => traitLabels[item.trait]);
 
