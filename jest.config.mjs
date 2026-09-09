@@ -17,11 +17,9 @@ const customJestConfig = {
     "!**/*.d.ts",
     "!**/__tests__/**",
     "!**/*.test.{ts,tsx}",
-    // Not sensible unit-test targets: LLM call wrapper + prompt strings,
-    // the deprecated scoring adapter, and the seed-only parallel scorer.
+    // Not a sensible unit-test target: the LLM call wrapper, which is all
+    // network I/O, and the seed-only parallel scorer.
     "!lib/ai/**",
-    "!lib/ai-prompts.ts",
-    "!lib/scoring-engine.ts",
     "!lib/scoring/**"
   ],
   coverageReporters: ["text", "lcov"],
