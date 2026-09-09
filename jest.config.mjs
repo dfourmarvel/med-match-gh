@@ -8,7 +8,10 @@ const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testEnvironment: "jsdom",
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1"
+    "^@/(.*)$": "<rootDir>/$1",
+    // The real package is ESM that Jest cannot parse, and a test run should
+    // never emit real events into the stream the product is measured by.
+    "^@vercel/analytics$": "<rootDir>/test/mocks/vercelAnalytics.ts"
   },
   collectCoverage: true,
   collectCoverageFrom: [

@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Outfit } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+// Cookieless and no cross-site identifiers, so it needs no consent banner.
+// Installed because there was previously NO way to tell whether anyone had
+// ever completed the assessment.
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -87,6 +91,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </main>
           <Footer />
           <SpeedInsights />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
