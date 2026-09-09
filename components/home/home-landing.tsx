@@ -92,7 +92,7 @@ const steps = [
 const discoveries = [
   { icon: HeartPulse, title: "Top 5 specialty matches", body: "Ranked compatibility with confidence levels, strengths, and stretch areas." },
   { icon: Brain, title: "Your clinical trait radar", body: "See your profile across 15 dimensions, from diagnostic reasoning to emergency comfort." },
-  { icon: MapPin, title: "Ghana-aware pathways", body: "Residency routes, Korle Bu and Komfo Anokye realities, and local salary context." },
+  { icon: MapPin, title: "Ghana-aware pathways", body: "Residency routes, the GCPS-accredited training centres, and local salary context." },
   { icon: Sparkles, title: "AI-personalized guidance", body: "A tailored explanation of why your matches surfaced, and what to test next." },
   { icon: GraduationCap, title: "Built for your stage", body: "Framing adapts for medical students, dental students, and high schoolers." },
   { icon: Share2, title: "Share and export", body: "A share link for mentors and a print-ready report for your records." }
