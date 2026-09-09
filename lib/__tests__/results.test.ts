@@ -1,12 +1,8 @@
 let mockServerSupabase: unknown = null;
-let mockHasServiceRole = true;
 
 jest.mock("@/lib/supabase", () => ({
   get serverSupabase() {
     return mockServerSupabase;
-  },
-  get hasSupabaseServiceRole() {
-    return mockHasServiceRole;
   }
 }));
 
@@ -29,7 +25,6 @@ function supabaseReturning(result: { data: unknown; error: unknown }) {
 describe("getResultById", () => {
   beforeEach(() => {
     mockServerSupabase = null;
-    mockHasServiceRole = true;
   });
 
   it("returns invalid-id for a non-UUID", async () => {
