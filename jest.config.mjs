@@ -17,10 +17,8 @@ const customJestConfig = {
     "!**/*.d.ts",
     "!**/__tests__/**",
     "!**/*.test.{ts,tsx}",
-    // Not a sensible unit-test target: the LLM call wrapper, which is all
-    // network I/O, and the seed-only parallel scorer.
-    "!lib/ai/**",
-    "!lib/scoring/**"
+    // Not a sensible unit-test target: the LLM call wrapper is all network I/O.
+    "!lib/ai/**"
   ],
   coverageReporters: ["text", "lcov"],
   coverageThreshold: {
