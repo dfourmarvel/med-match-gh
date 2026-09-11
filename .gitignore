@@ -13,3 +13,6 @@ coverage/
 .vercel
 .env*
 .claude/
+
+# Scratch ledger written by the local fable-foreman fork.
+.foreman/

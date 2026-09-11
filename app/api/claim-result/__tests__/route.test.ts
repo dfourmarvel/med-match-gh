@@ -66,8 +66,9 @@ describe("POST /api/claim-result", () => {
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body.data.locked).toBeUndefined();
-    expect(body.data.topMatches.length).toBeGreaterThan(FREE_MATCH_COUNT);
+    expect(body.data.result.locked).toBeUndefined();
+    expect(body.data.result.topMatches.length).toBeGreaterThan(FREE_MATCH_COUNT);
+    expect(body.data.claimed).toBe(false);
   });
 
   it("claims a row when the submitted answers match the stored ones", async () => {
@@ -76,6 +77,17 @@ describe("POST /api/claim-result", () => {
     expect(update).toHaveBeenCalledWith({ user_id: "user-1" });
     expect(updateEq).toHaveBeenCalledWith("id", RESULT_ID);
     expect(is).toHaveBeenCalledWith("user_id", null);
+  });
+
+  it("reports claimed:true only when the write actually landed", async () => {
+    const ok = await POST(post({ audience: "medical-student", answers: validAnswers, resultId: RESULT_ID }));
+    expect((await ok.json()).data.claimed).toBe(true);
+
+    is.mockResolvedValue({ error: { message: "boom", code: "42501" } });
+    const failed = await POST(
+      post({ audience: "medical-student", answers: validAnswers, resultId: RESULT_ID })
+    );
+    expect((await failed.json()).data.claimed).toBe(false);
   });
 
   it("refuses to claim a row whose stored answers differ - a share-link holder cannot hijack it", async () => {
@@ -91,6 +103,8 @@ describe("POST /api/claim-result", () => {
 
     expect(response.status).toBe(200);
     expect(update).not.toHaveBeenCalled();
+    // The client uses this to forget a row it cannot publish.
+    expect((await response.json()).data.claimed).toBe(false);
   });
 
   it("refuses to claim a row that is only a partial answer match", async () => {
@@ -135,7 +149,7 @@ describe("POST /api/claim-result", () => {
     );
 
     expect(response.status).toBe(200);
-    expect((await response.json()).data.topMatches.length).toBeGreaterThan(FREE_MATCH_COUNT);
+    expect((await response.json()).data.result.topMatches.length).toBeGreaterThan(FREE_MATCH_COUNT);
   });
 
   it("rejects a malformed answer set rather than scoring it", async () => {
