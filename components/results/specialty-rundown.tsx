@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const DIFFICULTY_WORDS: Record<number, string> = {
   1: "Low",
   2: "Moderate",
-  3: "Competitive",
+  3: "Fairly high",
   4: "High",
   5: "Very high"
 };
@@ -30,7 +30,9 @@ function DotScale({ label, value, max = 5 }: { label: string; value: number; max
           />
         ))}
       </span>
-      <span className="sr-only">{`${value} out of ${max}`}</span>
+      {/* The dots carry their value in background colour alone, which browsers
+          drop when printing. Print falls back to the number. */}
+      <span className="sr-only print:not-sr-only print:static">{`${value} out of ${max}`}</span>
     </p>
   );
 }

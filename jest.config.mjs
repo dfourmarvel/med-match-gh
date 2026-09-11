@@ -21,7 +21,11 @@ const customJestConfig = {
     "!**/__tests__/**",
     "!**/*.test.{ts,tsx}",
     // Not a sensible unit-test target: the LLM call wrapper is all network I/O.
-    "!lib/ai/**"
+    "!lib/ai/**",
+    // Nor is the PDF writer: it is several hundred jsPDF drawing calls whose
+    // only meaningful assertion is "does the rendered page look right", which
+    // is a visual check, not a unit test.
+    "!lib/pdf-report.ts"
   ],
   coverageReporters: ["text", "lcov"],
   coverageThreshold: {

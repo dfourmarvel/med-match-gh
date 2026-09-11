@@ -186,15 +186,10 @@ export function scoreSpecialties(traitScores: TraitVector, audience: Audience = 
   return ranked
     .sort((a, b) => b.score - a.score)
     .map((match, index, matches) => {
-      // The last match has nothing below it. Falling back to the gap ABOVE it
-      // keeps confidence meaningful there — otherwise an undefined gap always
-      // scored as 0 and the bottom match was permanently, and falsely, "Low".
       const scoreGapFromNext =
         matches[index + 1] !== undefined
           ? match.matchPercentage - matches[index + 1].matchPercentage
-          : matches[index - 1] !== undefined
-            ? matches[index - 1].matchPercentage - match.matchPercentage
-            : undefined;
+          : undefined;
       const confidenceLevel = confidenceFromGap(match.matchPercentage, scoreGapFromNext);
 
       return {
