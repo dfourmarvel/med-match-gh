@@ -166,6 +166,10 @@ export function ResultsClient({
 
   useEffect(() => {
     if (!result) return;
+    // A locked result carries placeholder traits and three of five matches.
+    // Sending it would produce guidance derived from a fabricated profile and
+    // present it, unblurred, as "Personalized".
+    if (result.locked) return;
     startTransition(async () => {
       const response = await fetch("/api/ai-explanation", {
         method: "POST",
@@ -391,17 +395,18 @@ export function ResultsClient({
                 {locked
                   ? Array.from({ length: 5 - FREE_MATCH_COUNT }, (_, index) => (
                       <StaggerItem key={`locked-${index}`} role="listitem">
-                        <div
-                          className="flex h-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/[0.03] p-4 text-center"
-                          aria-label={`Match number ${FREE_MATCH_COUNT + index + 1} is locked. Sign in to see it.`}
-                        >
+                        <div className="flex h-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/[0.03] p-4 text-center">
                           <Lock className="h-4 w-4 text-[#f6f0e2]/50" aria-hidden="true" />
                           <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/50" aria-hidden="true">
                             #{FREE_MATCH_COUNT + index + 1} match
                           </p>
+                          {/* The label lives on the link, not on a bare div: an
+                              aria-label on an element with no role is ignored by
+                              assistive tech, which heard only "Sign in". */}
                           <Link
                             href={{ pathname: "/signin", query: { next: "/results" } }}
                             className="text-xs font-semibold text-amber-300 underline underline-offset-4"
+                            aria-label={`Match number ${FREE_MATCH_COUNT + index + 1} is locked. Sign in to see it.`}
                           >
                             Sign in
                           </Link>
@@ -426,12 +431,29 @@ export function ResultsClient({
                 <p className="text-xs text-foreground/55">Personalized, Ghana-aware next steps</p>
               </div>
             </div>
-            <div aria-live="polite" aria-busy={isPending} className="mt-5 text-sm leading-7 text-foreground/72">
-              {isPending ? "Generating your personalized explanation…" : aiSummary}
-            </div>
-            <p className="mt-3 text-xs text-foreground/55">
-              AI-generated summary. It can be wrong. Check it against a mentor or supervisor before acting on it.
-            </p>
+            {locked ? (
+              <div className="mt-5 text-sm leading-7 text-foreground/72">
+                <p>
+                  Your personalised guidance is written from your full trait profile, so it is part of
+                  the signed-in report.
+                </p>
+                <Link
+                  href={{ pathname: "/signin", query: { next: "/results" } }}
+                  className="mt-3 inline-flex text-sm font-semibold text-accent underline underline-offset-4"
+                >
+                  Sign in to read it
+                </Link>
+              </div>
+            ) : (
+              <>
+                <div aria-live="polite" aria-busy={isPending} className="mt-5 text-sm leading-7 text-foreground/72">
+                  {isPending ? "Generating your personalized explanation…" : aiSummary}
+                </div>
+                <p className="mt-3 text-xs text-foreground/55">
+                  AI-generated summary. It can be wrong. Check it against a mentor or supervisor before acting on it.
+                </p>
+              </>
+            )}
             <div className="mt-6 rounded-xl bg-primary/10 p-4 text-sm leading-6 text-foreground/72" role="note">
               {result.methodologyNote}
             </div>
@@ -533,13 +555,30 @@ export function ResultsClient({
       {/* What each specialty takes */}
       <section aria-label="What each specialty takes">
         <Reveal>
-          <div className="grid gap-6 md:grid-cols-3">
-            {result.topMatches.slice(0, 3).map((match) => {
-              const specialty = specialtiesById[match.specialtyId];
-              if (!specialty) return null;
-              return <SpecialtyRundown key={match.specialtyId} match={match} specialty={specialty} />;
-            })}
-          </div>
+          {locked ? (
+            <LockOverlay
+              title="Training and pay detail is locked"
+              body="Residency length, the Ghana pathway, competitiveness and expected pay for each of your matches. The cards below are a sample."
+            >
+              <div className="grid gap-6 md:grid-cols-3">
+                {demoResult.topMatches.slice(0, 3).map((match) => (
+                  <SpecialtyRundown
+                    key={match.specialtyId}
+                    match={match}
+                    specialty={specialtiesById[match.specialtyId]}
+                  />
+                ))}
+              </div>
+            </LockOverlay>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-3">
+              {result.topMatches.slice(0, 3).map((match) => {
+                const specialty = specialtiesById[match.specialtyId];
+                if (!specialty) return null;
+                return <SpecialtyRundown key={match.specialtyId} match={match} specialty={specialty} />;
+              })}
+            </div>
+          )}
         </Reveal>
       </section>
 
@@ -559,7 +598,16 @@ export function ResultsClient({
               </div>
             </div>
             <div className="mt-6">
-              <CompareTable matches={result.topMatches} />
+              {locked ? (
+                <LockOverlay
+                  title="The comparison is locked"
+                  body="Lifestyle, training, patient interaction and competitiveness for your own top three, side by side."
+                >
+                  <CompareTable matches={demoResult.topMatches.slice(0, 3)} />
+                </LockOverlay>
+              ) : (
+                <CompareTable matches={result.topMatches} />
+              )}
             </div>
           </Card>
         </Reveal>
@@ -574,6 +622,25 @@ export function ResultsClient({
                 <p className="mt-1 text-sm text-foreground/58">Aligned traits and stretch areas to test in real clinical settings.</p>
               </div>
             </div>
+            {locked ? (
+              <LockOverlay
+                className="mt-5"
+                title="The reasoning is locked"
+                body="Which of your traits each match aligns with, and which ones to test through shadowing. The cards below are a sample."
+              >
+                <div className="space-y-4">
+                  {demoResult.topMatches.slice(0, 3).map((match) => (
+                <article key={match.specialtyId} className="rounded-xl border border-border/50 bg-muted/40 p-4" aria-label={`${specialtiesById[match.specialtyId].name} match explanation`}>
+                  <h3 className="font-semibold">{specialtiesById[match.specialtyId].name}</h3>
+                  <div className="mt-3 grid gap-2 text-sm text-foreground/70">
+                    <p><span className="font-medium text-primary">Aligned:</span> {match.strengths.join(", ")}</p>
+                    <p><span className="font-medium text-secondary">Test next:</span> {match.challenges.join(", ")}</p>
+                  </div>
+                </article>
+              ))}
+                </div>
+              </LockOverlay>
+            ) : (
             <div className="mt-5 space-y-4">
               {result.topMatches.slice(0, 3).map((match) => (
                 <article key={match.specialtyId} className="rounded-xl border border-border/50 bg-muted/40 p-4" aria-label={`${specialtiesById[match.specialtyId].name} match explanation`}>
@@ -585,6 +652,7 @@ export function ResultsClient({
                 </article>
               ))}
             </div>
+            )}
           </Card>
         </Reveal>
       </section>

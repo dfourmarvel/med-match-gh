@@ -1,4 +1,4 @@
-import { FREE_MATCH_COUNT, lockResult, placeholderTraits } from "@/lib/gating";
+import { FREE_MATCH_COUNT, LOCKED_SUMMARY, lockResult, placeholderTraits } from "@/lib/gating";
 import { buildAssessmentResult } from "@/lib/scoring";
 import { assessmentQuestions } from "@/lib/assessment";
 import { fullAssessmentResultSchema } from "@/lib/api-validation";
@@ -38,11 +38,41 @@ describe("lockResult", () => {
     expect(full.locked).toBeUndefined();
   });
 
-  it("keeps the hero copy, methodology and next steps so the page is still usable", () => {
+  it("keeps the methodology and next steps so the page is still usable", () => {
     const locked = lockResult(full);
-    expect(locked.personalitySummary).toBe(full.personalitySummary);
     expect(locked.methodologyNote).toBe(full.methodologyNote);
     expect(locked.suggestedNextSteps).toEqual(full.suggestedNextSteps);
+  });
+
+  it("replaces the personality summary, which names the real top traits in prose", () => {
+    const locked = lockResult(full);
+    expect(locked.personalitySummary).toBe(LOCKED_SUMMARY);
+    expect(locked.personalitySummary).not.toBe(full.personalitySummary);
+  });
+
+  it("strips every trait-derived field from the free matches", () => {
+    const locked = lockResult(full);
+    for (const match of locked.topMatches) {
+      expect(match.strengths).toEqual([]);
+      expect(match.challenges).toEqual([]);
+      expect(match.explanationFactors.alignedTraits).toEqual([]);
+      expect(match.explanationFactors.stretchTraits).toEqual([]);
+      expect(match.reasoning).toBe("");
+    }
+  });
+
+  it("keeps the top match score gap, which the free confidence sentence is written from", () => {
+    const locked = lockResult(full);
+    expect(locked.topMatches[0].explanationFactors.scoreGapFromNext).toBe(
+      full.topMatches[0].explanationFactors.scoreGapFromNext
+    );
+  });
+
+  it("does not leak any trait label anywhere in the serialised payload", () => {
+    const wire = JSON.stringify(lockResult(full));
+    for (const label of full.topMatches[0].strengths.concat(full.topMatches[0].challenges)) {
+      expect(wire).not.toContain(label);
+    }
   });
 
   it("still validates against the wire schema", () => {

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { quizSubmissionSchema } from "@/lib/api-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { buildAssessmentResult } from "@/lib/scoring";
+import { answersToRecord } from "@/lib/assessment";
 import { serverSupabase } from "@/lib/supabase";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { apiError, apiSuccess } from "@/lib/apiError";
@@ -10,6 +11,28 @@ const claimSchema = quizSubmissionSchema.extend({
   /** The anonymous row created when the assessment was submitted, if there was one. */
   resultId: z.string().uuid().optional()
 });
+
+/**
+ * True when the stored answers on a row are exactly the answers being
+ * submitted. Compared as records so the two persisted shapes line up, and
+ * length-checked first so a subset can never pass.
+ */
+function answersMatch(stored: unknown, submitted: Record<number, number>): boolean {
+  if (!Array.isArray(stored)) return false;
+
+  let storedRecord: Record<number, number>;
+  try {
+    storedRecord = answersToRecord(stored as { questionId: string; selectedOption: string }[]);
+  } catch {
+    return false;
+  }
+
+  const storedKeys = Object.keys(storedRecord);
+  const submittedKeys = Object.keys(submitted);
+  if (storedKeys.length === 0 || storedKeys.length !== submittedKeys.length) return false;
+
+  return storedKeys.every((key) => storedRecord[Number(key)] === submitted[Number(key)]);
+}
 
 /**
  * Turns a guest result into an owned one after sign-in, and returns the full
@@ -55,21 +78,38 @@ export async function POST(request: Request) {
     const result = buildAssessmentResult(parsed.data.audience, parsed.data.answers);
 
     if (serverSupabase && parsed.data.resultId) {
-      // Claim only a row that nobody owns yet. A second sign-in on the same
-      // device is then a no-op rather than a silent transfer of ownership.
-      const { error } = await serverSupabase
+      // The submitted answers must match the ones stored on the row. Without
+      // this check the row id alone would be enough to claim it, and a row id
+      // travels in every /share/<id> link — so anyone handed a share link could
+      // take ownership of someone else's result and, via the owner RLS policy,
+      // read it with their own token.
+      const { data: row, error: readError } = await serverSupabase
         .from("quiz_results")
-        .update({ user_id: user.id })
+        .select("answers, user_id")
         .eq("id", parsed.data.resultId)
-        .is("user_id", null);
+        .maybeSingle();
 
-      if (error) {
-        console.error("Claiming quiz_results row failed", {
+      if (readError) {
+        console.error("Reading quiz_results row for claim failed", {
           route: "/api/claim-result",
-          message: error.message,
-          code: error.code
+          message: readError.message,
+          code: readError.code
         });
-        // Not fatal: the visitor still gets their unlocked result.
+      } else if (row && row.user_id === null && answersMatch(row.answers, parsed.data.answers)) {
+        const { error } = await serverSupabase
+          .from("quiz_results")
+          .update({ user_id: user.id })
+          .eq("id", parsed.data.resultId)
+          .is("user_id", null);
+
+        if (error) {
+          console.error("Claiming quiz_results row failed", {
+            route: "/api/claim-result",
+            message: error.message,
+            code: error.code
+          });
+          // Not fatal: the visitor still gets their unlocked result.
+        }
       }
     }
 
