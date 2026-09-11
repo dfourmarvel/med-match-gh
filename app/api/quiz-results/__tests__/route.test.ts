@@ -21,6 +21,8 @@ import { POST } from "@/app/api/quiz-results/route";
 import { rateLimit } from "@/lib/rate-limit";
 import { buildAssessmentResult } from "@/lib/scoring";
 import { assessmentQuestions } from "@/lib/assessment";
+import { lockResult } from "@/lib/gating";
+import { FREE_MATCH_COUNT, placeholderTraits } from "@/lib/gating";
 
 const mockedRateLimit = jest.mocked(rateLimit);
 const validPayload = {
@@ -82,5 +84,49 @@ describe("POST /api/quiz-results", () => {
 
     const response = await POST(post(validPayload));
     expect(response.status).toBe(429);
+  });
+});
+
+describe("POST /api/quiz-results with a locked payload", () => {
+  const answers = assessmentQuestions.map((question) => ({
+    questionId: `q${question.id}`,
+    selectedOption: "5"
+  }));
+
+  let inserted: Record<string, unknown> | null = null;
+
+  beforeEach(() => {
+    mockedRateLimit.mockResolvedValue({ allowed: true });
+    inserted = null;
+    mockServerSupabase = {
+      from: () => ({
+        insert: (row: Record<string, unknown>) => {
+          inserted = row;
+          return Promise.resolve({ error: null });
+        }
+      })
+    };
+  });
+
+  // A signed-out visitor's client holds a locked result. Persisting it would
+  // record placeholder traits as their real profile and make their share link
+  // render locked to every future viewer.
+  it("re-scores from the stored answers instead of storing the locked payload", async () => {
+    const locked = lockResult(
+      buildAssessmentResult(
+        "medical-student",
+        Object.fromEntries(assessmentQuestions.map((question) => [question.id, 5]))
+      )
+    );
+
+    const response = await POST(post({ answers, result: locked }));
+    expect(response.status).toBe(200);
+
+    const scores = (inserted as unknown as { scores: Record<string, unknown> }).scores;
+    const stored = scores.fullResult as { topMatches: unknown[]; locked?: boolean };
+
+    expect(stored.locked).toBeUndefined();
+    expect(stored.topMatches.length).toBeGreaterThan(FREE_MATCH_COUNT);
+    expect(scores.traitScores).not.toEqual(placeholderTraits());
   });
 });

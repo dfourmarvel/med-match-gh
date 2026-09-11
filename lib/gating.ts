@@ -35,22 +35,51 @@ export function placeholderTraits(): TraitVector {
 }
 
 /**
+ * What a signed-out visitor is told instead of their real personality summary.
+ * The real one names their top four traits in prose, which would have leaked
+ * the very profile the blurred radar beside it is meant to be withholding.
+ */
+export const LOCKED_SUMMARY =
+  "Your top three matches are below. The trait profile behind them, the reasoning for each match, and the side-by-side specialty comparisons unlock when you sign in.";
+
+/**
  * Trims a full result down to what a signed-out visitor may receive.
  *
  * This runs on the server and the trimmed object is what crosses the wire, so
- * the locked matches and the real trait scores are not merely hidden — they are
- * never sent. A blur that ships the real data underneath is a marketing gate,
- * not a gate.
+ * the locked content is not merely hidden — it is never sent. A blur that ships
+ * the real data underneath is a marketing gate, not a gate.
  *
- * Kept deliberately: the top-three matches with their full reasoning, the
- * personality summary (it is the hero copy, and an empty hero gives a visitor
- * no reason to sign in), the methodology note and the generic next steps.
+ * Kept: the three free matches by name, percentage and confidence level, the
+ * methodology note, and the generic next steps.
+ *
+ * Removed: matches four and five, the real trait scores, the personality
+ * summary, and every per-match field derived from the trait profile
+ * (strengths, challenges, aligned/stretch traits, reasoning prose). Those feed
+ * the locked "What it takes", "Compare your top 3" and "Why these matches
+ * surfaced" panels, which render placeholder content under the blur.
+ *
+ * `scoreGapFromNext` on the top match survives because the hero's confidence
+ * sentence is free and is written from it.
  */
 export function lockResult(result: FullAssessmentResult): FullAssessmentResult {
   return {
     ...result,
-    topMatches: result.topMatches.slice(0, FREE_MATCH_COUNT),
+    topMatches: result.topMatches.slice(0, FREE_MATCH_COUNT).map((match) => ({
+      specialtyId: match.specialtyId,
+      score: match.score,
+      matchPercentage: match.matchPercentage,
+      confidenceLevel: match.confidenceLevel,
+      strengths: [],
+      challenges: [],
+      explanationFactors: {
+        alignedTraits: [],
+        stretchTraits: [],
+        scoreGapFromNext: match.explanationFactors.scoreGapFromNext
+      },
+      reasoning: ""
+    })),
     traitScores: placeholderTraits(),
+    personalitySummary: LOCKED_SUMMARY,
     locked: true
   };
 }

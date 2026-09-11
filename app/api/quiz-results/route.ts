@@ -3,6 +3,8 @@ import { z } from "zod";
 import { fullAssessmentResultSchema } from "@/lib/api-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { specialtiesById } from "@/lib/specialties";
+import { buildAssessmentResult } from "@/lib/scoring";
+import { answersToRecord } from "@/lib/assessment";
 import { serverSupabase } from "@/lib/supabase";
 import { apiError, apiSuccess } from "@/lib/apiError";
 
@@ -17,10 +19,19 @@ const quizResultPayloadSchema = z.object({
 });
 
 function buildQuizResultRow(body: z.infer<typeof quizResultPayloadSchema>, id = randomUUID()) {
-  const topMatch = body.result.topMatches[0];
+  // A signed-out visitor's client holds a LOCKED result: three of five matches
+  // and placeholder trait scores. Storing that would persist placeholder values
+  // as the person's real profile and would make their /share/<id> link render
+  // locked to everyone, forever. Re-score from the stored answers instead, so
+  // the row always holds the true full result regardless of who is signed in.
+  const result = body.result.locked
+    ? buildAssessmentResult(body.result.audience, answersToRecord(body.answers))
+    : body.result;
+
+  const topMatch = result.topMatches[0];
   const topSpecialty = topMatch ? specialtiesById[topMatch.specialtyId] : null;
   const specialtyScores = Object.fromEntries(
-    body.result.topMatches.map((match) => [
+    result.topMatches.map((match) => [
       specialtiesById[match.specialtyId]?.name ?? match.specialtyId,
       match.matchPercentage
     ])
@@ -30,10 +41,10 @@ function buildQuizResultRow(body: z.infer<typeof quizResultPayloadSchema>, id = 
     id,
     answers: body.answers,
     scores: {
-      audience: body.result.audience,
-      traitScores: body.result.traitScores,
+      audience: result.audience,
+      traitScores: result.traitScores,
       specialtyScores,
-      fullResult: body.result
+      fullResult: result
     },
     top_specialty: topSpecialty?.name ?? topMatch?.specialtyId ?? "Unknown"
   };

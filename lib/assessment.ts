@@ -18,6 +18,20 @@ export const traitLabels: Record<TraitKey, string> = {
   predictableSchedulePreference: "Preference for Predictable Schedules"
 };
 
+/**
+ * Converts the stored answer shape ({ questionId: "q7", selectedOption: "4" })
+ * into the record the scoring engine takes ({ 7: 4 }). Both shapes describe the
+ * same answers; the array form is what gets persisted, the record form is what
+ * buildAssessmentResult consumes.
+ */
+export function answersToRecord(
+  answers: { questionId: string; selectedOption: string }[]
+): Record<number, number> {
+  return Object.fromEntries(
+    answers.map((answer) => [Number(answer.questionId.replace("q", "")), Number(answer.selectedOption)])
+  );
+}
+
 export const emptyTraitVector = (): TraitVector => ({
   patientInteraction: 50,
   proceduralInterest: 50,
