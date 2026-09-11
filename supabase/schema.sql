@@ -5,7 +5,11 @@ create table if not exists public.quiz_results (
   created_at timestamp default now(),
   answers jsonb,
   scores jsonb,
-  top_specialty text
+  top_specialty text,
+  -- Set when a result belongs to a signed-in account. Null for the anonymous
+  -- rows the assessment still creates for guests. Owner policies live in
+  -- 20260911d_quiz_results_owner_policies.sql.
+  user_id uuid
 );
 
 alter table public.quiz_results enable row level security;

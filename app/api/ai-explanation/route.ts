@@ -45,6 +45,10 @@ const aiExplanationRequestSchema = z
   .object({
     audience: z.enum(["medical-student", "high-school", "dental-student"]),
     traitScores: traitScoresSchema,
+    // Accepted so a locked payload validates, and refused below. The trait
+    // vector in one is placeholder data, so "personalized" guidance written
+    // from it would describe nobody.
+    locked: z.boolean().optional(),
     topMatches: z.array(topMatchSchema).min(1).max(5)
   })
   .passthrough();
@@ -99,6 +103,13 @@ export async function POST(request: Request) {
         message: issue.message
       }));
       return apiError("Invalid request payload.", 400, validationErrors);
+    }
+
+    // The client already declines to call this while a result is locked; this
+    // is the server-side half, so a locked payload cannot reach the model
+    // whichever caller sends it.
+    if (parsed.data.locked) {
+      return apiError("Sign in to get personalized guidance for your result.", 401);
     }
 
     try {

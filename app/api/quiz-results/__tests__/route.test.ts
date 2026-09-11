@@ -111,6 +111,24 @@ describe("POST /api/quiz-results with a locked payload", () => {
   // A signed-out visitor's client holds a locked result. Persisting it would
   // record placeholder traits as their real profile and make their share link
   // render locked to every future viewer.
+  // The flag is not in the trust path: this route is unauthenticated, so a
+  // caller could omit `locked` and have a hand-written payload stored verbatim.
+  it("re-scores even when the client omits the locked flag", async () => {
+    const handWritten = {
+      ...buildAssessmentResult(
+        "medical-student",
+        Object.fromEntries(assessmentQuestions.map((question) => [question.id, 1]))
+      ),
+      traitScores: placeholderTraits()
+    };
+
+    const response = await POST(post({ answers, result: handWritten }));
+    expect(response.status).toBe(200);
+
+    const scores = (inserted as unknown as { scores: Record<string, unknown> }).scores;
+    expect(scores.traitScores).not.toEqual(placeholderTraits());
+  });
+
   it("re-scores from the stored answers instead of storing the locked payload", async () => {
     const locked = lockResult(
       buildAssessmentResult(
