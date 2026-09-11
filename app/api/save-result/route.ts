@@ -1,10 +1,20 @@
 import { randomUUID } from "crypto";
+import { z } from "zod";
 import { fullAssessmentResultSchema } from "@/lib/api-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { specialtiesById } from "@/lib/specialties";
 import { serverSupabase } from "@/lib/supabase";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { apiError, apiSuccess } from "@/lib/apiError";
+
+/**
+ * The result to publish, plus optionally the id of the row the assessment
+ * already created for it. Publishing an existing row keeps one record per
+ * assessment instead of writing a duplicate every time Save is pressed.
+ */
+const saveResultSchema = fullAssessmentResultSchema.extend({
+  resultId: z.string().uuid().optional()
+});
 
 export async function POST(request: Request) {
   try {
@@ -26,7 +36,7 @@ export async function POST(request: Request) {
       return apiError("Invalid JSON request body.", 400);
     }
 
-    const parsed = fullAssessmentResultSchema.safeParse(payload);
+    const parsed = saveResultSchema.safeParse(payload);
     if (!parsed.success) {
       const validationErrors = parsed.error.issues.map((issue) => ({
         path: issue.path.join("."),
@@ -58,6 +68,53 @@ export async function POST(request: Request) {
       return apiError("Cannot create a share link from a locked result.", 400);
     }
 
+    // Publishing an existing row. Restricted to rows the caller already owns:
+    // a row id travels in share links, so allowing an unowned row to be
+    // published here would let anyone holding one expose a stranger's result.
+    // A guest's row becomes owned through /api/claim-result, which verifies
+    // their answers.
+    if (serverSupabase && parsed.data.resultId) {
+      const { data: row, error: readError } = await serverSupabase
+        .from("quiz_results")
+        .select("user_id")
+        .eq("id", parsed.data.resultId)
+        .maybeSingle();
+
+      if (readError) {
+        console.error("Reading quiz_results row for publish failed", {
+          route: "/api/save-result",
+          message: readError.message,
+          code: readError.code
+        });
+        return apiError("Could not create a share link right now.", 500);
+      }
+
+      if (!row || row.user_id !== user.id) {
+        return apiError("That result is not yours to share.", 403);
+      }
+
+      const { error: publishError } = await serverSupabase
+        .from("quiz_results")
+        .update({ published_at: new Date().toISOString() })
+        .eq("id", parsed.data.resultId)
+        .eq("user_id", user.id);
+
+      if (publishError) {
+        console.error("Publishing quiz_results row failed", {
+          route: "/api/save-result",
+          message: publishError.message,
+          code: publishError.code
+        });
+        return apiError("Could not create a share link right now.", 500);
+      }
+
+      return apiSuccess({
+        id: parsed.data.resultId,
+        url: `/share/${parsed.data.resultId}`,
+        message: "Sharable result ready."
+      });
+    }
+
     const id = randomUUID();
 
     if (!serverSupabase) {
@@ -87,6 +144,8 @@ export async function POST(request: Request) {
       const { error } = await serverSupabase.from("quiz_results").insert({
         id,
         user_id: user.id,
+        // Created by an explicit Save, so published immediately.
+        published_at: new Date().toISOString(),
         answers: [],
         scores: {
           audience: body.audience,

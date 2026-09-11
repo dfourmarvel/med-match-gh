@@ -39,7 +39,13 @@ export async function getResultById(id: string): Promise<ResultLookup> {
     .from("quiz_results")
     .select("scores")
     .eq("id", parsedId.data)
-    .single();
+    // Unpublished rows are invisible here. Every visitor's row is written the
+    // moment they finish the assessment and its id lands in their browser, so
+    // without this a signed-out visitor could read that id out of devtools and
+    // open their own unlocked report through the public share route. Publishing
+    // is a deliberate act by a signed-in user (see /api/save-result).
+    .not("published_at", "is", null)
+    .maybeSingle();
 
   const row = data as QuizResultRow | null;
 
