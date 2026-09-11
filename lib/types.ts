@@ -89,4 +89,11 @@ export interface FullAssessmentResult {
   personalitySummary: string;
   suggestedNextSteps: string[];
   generatedAt: string;
+  /**
+   * True when this payload has been trimmed for a signed-out visitor: only the
+   * top three matches are real and `traitScores` holds placeholder values. Set
+   * by the server; the client uses it to decide what to lock, never to decide
+   * what to hide (the real values are simply absent).
+   */
+  locked?: boolean;
 }

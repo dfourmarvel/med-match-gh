@@ -11,6 +11,7 @@ import {
   Search,
   Share2,
   ShieldCheck,
+  Lock,
   Sparkles,
   Stethoscope,
   TrendingUp,
@@ -20,6 +21,9 @@ import { fullAssessmentResultSchema } from "@/lib/api-validation";
 import { FullAssessmentResult } from "@/lib/types";
 import { specialtiesById, specialties } from "@/lib/specialties";
 import { confidenceRationale } from "@/lib/scoring";
+import { FREE_MATCH_COUNT } from "@/lib/gating";
+import { LockOverlay } from "@/components/results/lock-overlay";
+import { createClient } from "@/lib/supabase/browser";
 import { TraitRadarChart } from "@/components/results/radar-chart";
 import { MatchesBarChart } from "@/components/results/bar-chart";
 import { CompareTable } from "@/components/results/compare-table";
@@ -101,10 +105,26 @@ export function ResultsClient({
   const [isExporting, setIsExporting] = useState(false);
   const [exportMessage, setExportMessage] = useState("");
 
+  // Set by the server on a signed-out payload. The demo report is never locked:
+  // it is fabricated data whose whole purpose is to be looked at.
+  const locked = Boolean(result?.locked);
+
   useEffect(() => {
     if (sharedResult) {
       setResult(sharedResult);
       setSavedResultId(sharedResultId ?? "");
+      setIsLoadingResult(false);
+      return;
+    }
+
+    // The sample report is a marketing surface and must always show the full
+    // fabricated report. Previously a stored result won over ?demo=true, so
+    // anyone who had taken the assessment saw their own result here instead —
+    // which, now that a guest result is locked, meant the sample itself
+    // rendered locked.
+    if (showDemo) {
+      setResult(demoResult);
+      setSavedResultId("");
       setIsLoadingResult(false);
       return;
     }
@@ -161,8 +181,54 @@ export function ResultsClient({
     });
   }, [result]);
 
+  // Unlocks a guest result once the visitor signs in. Re-scores server-side
+  // from the answers kept on this device, which is also what authorises
+  // claiming the anonymous database row (a share-link holder has the row id but
+  // never the answers).
+  useEffect(() => {
+    if (!result?.locked || sharedResult || showDemo) return;
+
+    const rawAnswers = localStorage.getItem("medmatch-last-answers");
+    if (!rawAnswers) return;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const supabase = createClient();
+        const {
+          data: { user }
+        } = await supabase.auth.getUser();
+        if (!user || cancelled) return;
+
+        const body = JSON.parse(rawAnswers);
+        const response = await fetch("/api/claim-result", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...body,
+            resultId: localStorage.getItem("medmatch-last-result-id") || undefined
+          })
+        });
+        const json = await response.json().catch(() => null);
+        if (!response.ok || !json?.success || cancelled) return;
+
+        localStorage.setItem("medmatch-last-result", JSON.stringify(json.data));
+        setResult(json.data);
+      } catch {
+        // Leave the locked view in place; the visitor can retake or reload.
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [result?.locked, sharedResult, showDemo]);
+
   const exportPdf = async () => {
     if (!result || isExporting) return;
+    // Locked payloads carry placeholder traits and three of five matches; a PDF
+    // built from one would look like a real report and quietly not be.
+    if (result.locked) return;
     setIsExporting(true);
     setExportMessage("");
     try {
@@ -322,6 +388,27 @@ export function ResultsClient({
                     </StaggerItem>
                   );
                 })}
+                {locked
+                  ? Array.from({ length: 5 - FREE_MATCH_COUNT }, (_, index) => (
+                      <StaggerItem key={`locked-${index}`} role="listitem">
+                        <div
+                          className="flex h-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/[0.03] p-4 text-center"
+                          aria-label={`Match number ${FREE_MATCH_COUNT + index + 1} is locked. Sign in to see it.`}
+                        >
+                          <Lock className="h-4 w-4 text-[#f6f0e2]/50" aria-hidden="true" />
+                          <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/50" aria-hidden="true">
+                            #{FREE_MATCH_COUNT + index + 1} match
+                          </p>
+                          <Link
+                            href={{ pathname: "/signin", query: { next: "/results" } }}
+                            className="text-xs font-semibold text-amber-300 underline underline-offset-4"
+                          >
+                            Sign in
+                          </Link>
+                        </div>
+                      </StaggerItem>
+                    ))
+                  : null}
               </Stagger>
             </div>
           </Card>
@@ -349,6 +436,14 @@ export function ResultsClient({
               {result.methodologyNote}
             </div>
             <div className="mt-auto flex flex-wrap gap-3 pt-6">
+              {locked ? (
+                <Link href={{ pathname: "/signin", query: { next: "/results" } }}>
+                  <Button variant="gold" aria-label="Sign in to download your PDF report">
+                    <Lock className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Sign in to download
+                  </Button>
+                </Link>
+              ) : (
               <Button onClick={exportPdf} disabled={isExporting} aria-label="Download results as a PDF file">
                 {isExporting ? (
                   <LoaderCircle className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
@@ -357,6 +452,7 @@ export function ResultsClient({
                 )}
                 {isExporting ? "Preparing PDF…" : "Download PDF"}
               </Button>
+              )}
               <Button variant="outline" onClick={saveAndShare} aria-label="Save and share your results">
                 <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />
                 Save
@@ -397,7 +493,16 @@ export function ResultsClient({
                 <p className="text-sm text-foreground/58">How your answers map across the specialty-fit dimensions.</p>
               </div>
             </div>
-            <TraitRadarChart scores={result.traitScores} />
+            {locked ? (
+              <LockOverlay
+                title="Your trait profile is locked"
+                body="The chart below is placeholder data, not your answers. Sign in to see how you actually scored across all fifteen dimensions."
+              >
+                <TraitRadarChart scores={result.traitScores} />
+              </LockOverlay>
+            ) : (
+              <TraitRadarChart scores={result.traitScores} />
+            )}
           </Card>
         </Reveal>
         <Reveal delay={0.1}>
@@ -411,7 +516,16 @@ export function ResultsClient({
                 <p className="text-sm text-foreground/58">Close scores mean you should compare tradeoffs before committing.</p>
               </div>
             </div>
-            <MatchesBarChart matches={result.topMatches} />
+            {locked ? (
+              <LockOverlay
+                title="The full spread is locked"
+                body="You are seeing a sample chart. Sign in for all five of your matches and how close they really are."
+              >
+                <MatchesBarChart matches={demoResult.topMatches} />
+              </LockOverlay>
+            ) : (
+              <MatchesBarChart matches={result.topMatches} />
+            )}
           </Card>
         </Reveal>
       </section>

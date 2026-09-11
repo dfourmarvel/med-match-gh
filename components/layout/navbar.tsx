@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeartPulse } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AccountButton } from "@/components/auth/account-button";
 import { Button } from "@/components/ui/button";
 import { KenteStrip } from "@/components/ui/kente-strip";
 
@@ -41,6 +42,7 @@ export function Navbar() {
               Start Assessment
             </Button>
           </Link>
+          <AccountButton />
           <ThemeToggle />
         </div>
       </nav>

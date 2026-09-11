@@ -71,6 +71,7 @@ export const fullAssessmentResultSchema = z.object({
   audience: z.enum(["medical-student", "high-school", "dental-student"]),
   traitScores: traitVectorSchema,
   topMatches: z.array(matchResultSchema).min(1).max(5),
+  locked: z.boolean().optional(),
   confidenceLevel: z.enum(["Low", "Medium", "High"]),
   methodologyNote: z.string().max(1000),
   personalitySummary: z.string().max(1000),

@@ -2,6 +2,8 @@ import { quizSubmissionSchema } from "@/lib/api-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { buildAssessmentResult } from "@/lib/scoring";
 import { apiError, apiSuccess } from "@/lib/apiError";
+import { lockResult } from "@/lib/gating";
+import { getCurrentUser } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
   try {
@@ -33,7 +35,12 @@ export async function POST(request: Request) {
     }
 
     const result = buildAssessmentResult(parsed.data.audience, parsed.data.answers);
-    return apiSuccess(result);
+
+    // The gate lives here rather than in the UI: a signed-out caller is sent a
+    // trimmed payload, so the locked matches and the real trait scores never
+    // reach the browser at all.
+    const user = await getCurrentUser();
+    return apiSuccess(user ? result : lockResult(result));
   } catch (error: any) {
     console.error("Unhandled exception in POST /api/score", {
       message: error?.message,

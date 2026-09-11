@@ -258,6 +258,13 @@ export function AssessmentClient() {
         const saved = await saveResponse.json().catch(() => null);
 
         localStorage.setItem("medmatch-last-result", JSON.stringify(result));
+        // Kept so that signing in later can re-score and unlock this result.
+        // Possession of the answers is what authorises that unlock, so they
+        // never leave the device except in the claim request itself.
+        localStorage.setItem(
+          "medmatch-last-answers",
+          JSON.stringify({ audience, answers: answerRecord })
+        );
         if (saveResponse.ok && saved?.success && saved.data?.id) {
           localStorage.setItem("medmatch-last-result-id", saved.data.id);
           localStorage.removeItem("medmatch-save-warning");
