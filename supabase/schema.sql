@@ -10,12 +10,15 @@ create table if not exists public.quiz_results (
 
 alter table public.quiz_results enable row level security;
 
-drop policy if exists "Anyone can insert quiz results" on public.quiz_results;
-create policy "Anyone can insert quiz results"
-  on public.quiz_results
-  for insert
-  to anon, authenticated
-  with check (true);
+-- No permissive insert policy here. This file used to create
+-- "Anyone can insert quiz results" with check (true), which ORed with the
+-- stricter "Anonymous insert quiz results" (user_id is null) added by
+-- 20260521 and silently defeated it — Postgres ORs permissive policies.
+-- 20260903 was written to drop it but was NEVER APPLIED to production; the
+-- policy was still live on 2026-09-11, along with none of that migration's
+-- CHECK constraints. Creating it here at all is what made that drift possible,
+-- so it is gone rather than dropped-and-recreated. The RLS migrations own the
+-- insert policy now.
 
 revoke all on public.quiz_results from anon, authenticated;
 grant insert on public.quiz_results to anon, authenticated;
@@ -33,4 +36,8 @@ as $$
 $$;
 
 revoke all on function public.get_quiz_result(uuid) from public;
-grant execute on function public.get_quiz_result(uuid) to anon, authenticated;
+-- Deliberately NOT granted to anon/authenticated. This is SECURITY DEFINER, so
+-- a public grant made it an unauthenticated RPC returning any row's scores to
+-- anyone holding the UUID, with no rate limit in front of it. Nothing calls it:
+-- lib/results.ts reads through the service-role client, which bypasses RLS and
+-- needs no grant. Kept as a function for future authenticated use.
