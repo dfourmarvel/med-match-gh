@@ -19,6 +19,7 @@ import {
 import { fullAssessmentResultSchema } from "@/lib/api-validation";
 import { FullAssessmentResult } from "@/lib/types";
 import { specialtiesById, specialties } from "@/lib/specialties";
+import { confidenceRationale } from "@/lib/scoring";
 import { TraitRadarChart } from "@/components/results/radar-chart";
 import { MatchesBarChart } from "@/components/results/bar-chart";
 import { CompareTable } from "@/components/results/compare-table";
@@ -97,6 +98,7 @@ export function ResultsClient({
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const [query, setQuery] = useState("");
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     if (sharedResult) {
@@ -157,6 +159,20 @@ export function ResultsClient({
       setAiSummary(json.data.explanation);
     });
   }, [result]);
+
+  const exportPdf = async () => {
+    if (!result || isExporting) return;
+    setIsExporting(true);
+    setErrorMessage("");
+    try {
+      const { downloadResultsPdf } = await import("@/lib/pdf-report");
+      await downloadResultsPdf(result, aiSummary);
+    } catch {
+      setErrorMessage("Could not build the PDF. Try again, or use your browser's print-to-PDF option.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const saveAndShare = () => {
     if (!result) return;
@@ -258,6 +274,10 @@ export function ResultsClient({
                   <SignalPill label="Top match" value={topSpecialty?.name ?? "Pending"} />
                   <SignalPill label="Report date" value={new Date(result.generatedAt).toLocaleDateString()} />
                 </div>
+                <p className="mt-3 max-w-2xl text-xs leading-6 text-[#f6f0e2]/60">
+                  <span className="font-semibold text-[#f6f0e2]/80">{result.confidenceLevel} confidence.</span>{" "}
+                  {confidenceRationale(result.topMatches)}
+                </p>
               </div>
               {topMatch ? (
                 <div className="flex items-center justify-center">
@@ -327,9 +347,13 @@ export function ResultsClient({
               {result.methodologyNote}
             </div>
             <div className="mt-auto flex flex-wrap gap-3 pt-6">
-              <Button onClick={() => window.print()} aria-label="Export results as PDF">
-                <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-                Export PDF
+              <Button onClick={exportPdf} disabled={isExporting} aria-label="Download results as a PDF file">
+                {isExporting ? (
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+                )}
+                {isExporting ? "Preparing PDF…" : "Download PDF"}
               </Button>
               <Button variant="outline" onClick={saveAndShare} aria-label="Save and share your results">
                 <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />

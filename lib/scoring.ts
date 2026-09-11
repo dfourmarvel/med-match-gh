@@ -1,5 +1,5 @@
 import { assessmentQuestions, emptyTraitVector, traitLabels } from "@/lib/assessment";
-import { specialties } from "@/lib/specialties";
+import { specialties, specialtiesById } from "@/lib/specialties";
 import { FullAssessmentResult, MatchResult, TraitKey, TraitVector, Audience } from "@/lib/types";
 import { clamp } from "@/lib/utils";
 
@@ -113,6 +113,35 @@ function confidenceFromGap(matchPercentage: number, gapFromNext?: number): "Low"
   return "Low";
 }
 
+/**
+ * Plain-English reason for the confidence level. Confidence measures SEPARATION
+ * from the next match, not the size of the match percentage, so a high
+ * percentage can legitimately carry low confidence. Shown next to the level
+ * because the two numbers read as a contradiction without it.
+ */
+export function confidenceRationale(matches: MatchResult[]): string {
+  const top = matches[0];
+  if (!top) return "No matches were scored, so there is nothing to compare.";
+
+  const gap = top.explanationFactors.scoreGapFromNext;
+  const runnerUp = matches[1] ? specialtiesById[matches[1].specialtyId]?.name : undefined;
+
+  if (gap === undefined || runnerUp === undefined) {
+    return "Only one specialty was scored, so there is nothing to separate it from.";
+  }
+
+  if (top.confidenceLevel === "High") {
+    return `It sits ${gap} points clear of ${runnerUp}, so the ranking is a genuine signal rather than a coin toss.`;
+  }
+  if (top.confidenceLevel === "Medium") {
+    return `It leads ${runnerUp} by ${gap} points. That is a real lead, but close enough that both are worth exploring.`;
+  }
+  if (gap <= 1) {
+    return `${runnerUp} scored within ${gap === 0 ? "the same range" : `${gap} point`}, so your top matches are effectively tied. Confidence is about separation, not fit — treat all five as a shortlist to explore, not a ranking.`;
+  }
+  return `The scores are bunched together (${gap} points to ${runnerUp}) and no specialty pulls clearly ahead. Confidence is about separation, not fit — treat all five as a shortlist to explore, not a ranking.`;
+}
+
 function createReasoning(
   matchPercentage: number,
   confidenceLevel: "Low" | "Medium" | "High",
@@ -157,10 +186,15 @@ export function scoreSpecialties(traitScores: TraitVector, audience: Audience = 
   return ranked
     .sort((a, b) => b.score - a.score)
     .map((match, index, matches) => {
+      // The last match has nothing below it. Falling back to the gap ABOVE it
+      // keeps confidence meaningful there — otherwise an undefined gap always
+      // scored as 0 and the bottom match was permanently, and falsely, "Low".
       const scoreGapFromNext =
         matches[index + 1] !== undefined
           ? match.matchPercentage - matches[index + 1].matchPercentage
-          : undefined;
+          : matches[index - 1] !== undefined
+            ? matches[index - 1].matchPercentage - match.matchPercentage
+            : undefined;
       const confidenceLevel = confidenceFromGap(match.matchPercentage, scoreGapFromNext);
 
       return {
