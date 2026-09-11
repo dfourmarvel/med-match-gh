@@ -19,14 +19,20 @@ const quizResultPayloadSchema = z.object({
 });
 
 function buildQuizResultRow(body: z.infer<typeof quizResultPayloadSchema>, id = randomUUID()) {
+  // Always re-scored from the submitted answers, never taken from the client.
+  //
   // A signed-out visitor's client holds a LOCKED result: three of five matches
   // and placeholder trait scores. Storing that would persist placeholder values
   // as the person's real profile and would make their /share/<id> link render
-  // locked to everyone, forever. Re-score from the stored answers instead, so
-  // the row always holds the true full result regardless of who is signed in.
-  const result = body.result.locked
-    ? buildAssessmentResult(body.result.audience, answersToRecord(body.answers))
-    : body.result;
+  // locked to everyone, forever.
+  //
+  // This re-scores unconditionally rather than only when `result.locked` is
+  // set. This route is unauthenticated, so a client-supplied flag has no place
+  // in the trust path: a caller could simply omit it and have a hand-written
+  // payload stored verbatim and served publicly. The result is now the
+  // server's own work in every case, and the client's `result` is used only
+  // for the fields the scorer does not produce.
+  const result = buildAssessmentResult(body.result.audience, answersToRecord(body.answers));
 
   const topMatch = result.topMatches[0];
   const topSpecialty = topMatch ? specialtiesById[topMatch.specialtyId] : null;
