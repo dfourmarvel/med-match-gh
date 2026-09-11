@@ -3,6 +3,7 @@ import { fullAssessmentResultSchema } from "@/lib/api-validation";
 import { rateLimit } from "@/lib/rate-limit";
 import { specialtiesById } from "@/lib/specialties";
 import { serverSupabase } from "@/lib/supabase";
+import { getCurrentUser } from "@/lib/supabase/server";
 import { apiError, apiSuccess } from "@/lib/apiError";
 
 export async function POST(request: Request) {
@@ -35,6 +36,28 @@ export async function POST(request: Request) {
     }
 
     const body = parsed.data;
+
+    // Share links are now created by signed-in users only.
+    //
+    // This route takes a result and no answers, so unlike /api/quiz-results it
+    // cannot re-score a payload it is handed. A signed-out visitor's client
+    // holds a LOCKED result, and storing that would write placeholder traits in
+    // as someone's real profile and leave their /share/<id> link rendering
+    // locked to every viewer, with `answers: []` making it unclaimable. Since
+    // there is nothing sensible to store for a signed-out caller, require the
+    // session instead — which also closes the older hole where this route was
+    // an unauthenticated arbitrary-payload write into quiz_results.
+    const user = await getCurrentUser();
+    if (!user) {
+      return apiError("Sign in to create a share link for your result.", 401);
+    }
+
+    // Belt and braces: a signed-in caller's client should never hold a locked
+    // payload, but never persist one whatever the session says.
+    if (body.locked) {
+      return apiError("Cannot create a share link from a locked result.", 400);
+    }
+
     const id = randomUUID();
 
     if (!serverSupabase) {
@@ -57,12 +80,13 @@ export async function POST(request: Request) {
     );
 
     try {
-      // API-1: quiz_results is anonymous-first. RLS (see
-      // supabase/migrations/20260521_enable_rls_quiz_results.sql) permits inserts
-      // only with user_id IS NULL and public read-by-id for share links. We write
-      // via the service role (which bypasses RLS) and deliberately never set user_id.
+      // Written via the service role, which bypasses RLS. user_id is set now
+      // that the route requires a session, so the row is owned from the moment
+      // it exists and the owner policies in
+      // supabase/migrations/20260911d_quiz_results_owner_policies.sql apply.
       const { error } = await serverSupabase.from("quiz_results").insert({
         id,
+        user_id: user.id,
         answers: [],
         scores: {
           audience: body.audience,

@@ -247,7 +247,7 @@ export function ResultsClient({
   };
 
   const saveAndShare = () => {
-    if (!result) return;
+    if (!result || result.locked) return;
     startTransition(async () => {
       try {
         if (savedResultId) {
@@ -475,10 +475,19 @@ export function ResultsClient({
                 {isExporting ? "Preparing PDF…" : "Download PDF"}
               </Button>
               )}
-              <Button variant="outline" onClick={saveAndShare} aria-label="Save and share your results">
-                <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />
-                Save
-              </Button>
+              {locked ? (
+                <Link href={{ pathname: "/signin", query: { next: "/results" } }}>
+                  <Button variant="outline" aria-label="Sign in to save and share your results">
+                    <Lock className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Sign in to save
+                  </Button>
+                </Link>
+              ) : (
+                <Button variant="outline" onClick={saveAndShare} aria-label="Save and share your results">
+                  <Share2 className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Save
+                </Button>
+              )}
               <Link href="/assessment">
                 <Button variant="outline">Retake</Button>
               </Link>
