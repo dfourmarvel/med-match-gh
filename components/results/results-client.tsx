@@ -99,6 +99,7 @@ export function ResultsClient({
   const [isPending, startTransition] = useTransition();
   const [query, setQuery] = useState("");
   const [isExporting, setIsExporting] = useState(false);
+  const [exportMessage, setExportMessage] = useState("");
 
   useEffect(() => {
     if (sharedResult) {
@@ -163,12 +164,13 @@ export function ResultsClient({
   const exportPdf = async () => {
     if (!result || isExporting) return;
     setIsExporting(true);
-    setErrorMessage("");
+    setExportMessage("");
     try {
       const { downloadResultsPdf } = await import("@/lib/pdf-report");
       await downloadResultsPdf(result, aiSummary);
+      setExportMessage("Your PDF report has downloaded.");
     } catch {
-      setErrorMessage("Could not build the PDF. Try again, or use your browser's print-to-PDF option.");
+      setExportMessage("Could not build the PDF. Try again, or use your browser's print-to-PDF option.");
     } finally {
       setIsExporting(false);
     }
@@ -363,6 +365,9 @@ export function ResultsClient({
                 <Button variant="outline">Retake</Button>
               </Link>
             </div>
+            <p className="sr-only" role="status" aria-live="polite">
+              {isExporting ? "Preparing your PDF report." : exportMessage}
+            </p>
             {(shareUrl || saveMessage) && (
               <div className="mt-4 rounded-xl border border-border/60 p-4 text-sm text-foreground/75" role="status" aria-live="polite">
                 <p>{saveMessage}</p>

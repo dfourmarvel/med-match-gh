@@ -1,5 +1,11 @@
 import { assessmentQuestions, emptyTraitVector, traitLabels } from "@/lib/assessment";
-import { buildAssessmentResult, calculateTraitScores, scoreSpecialties } from "@/lib/scoring";
+import {
+  buildAssessmentResult,
+  calculateTraitScores,
+  confidenceRationale,
+  scoreSpecialties
+} from "@/lib/scoring";
+import { MatchResult } from "@/lib/types";
 import { specialtiesById } from "@/lib/specialties";
 import { fullAssessmentResultSchema } from "@/lib/api-validation";
 
@@ -179,5 +185,72 @@ describe("strengths and challenges point in the right direction", () => {
     for (const match of result.topMatches) {
       expect(match.challenges.length).toBeLessThanOrEqual(2);
     }
+  });
+});
+
+describe("confidenceRationale", () => {
+  const match = (
+    specialtyId: string,
+    matchPercentage: number,
+    confidenceLevel: MatchResult["confidenceLevel"],
+    scoreGapFromNext?: number
+  ): MatchResult => ({
+    specialtyId,
+    score: matchPercentage / 100,
+    matchPercentage,
+    confidenceLevel,
+    strengths: [],
+    challenges: [],
+    explanationFactors: { alignedTraits: [], stretchTraits: [], scoreGapFromNext },
+    reasoning: ""
+  });
+
+  it("explains a clear leader by naming the gap and the runner-up", () => {
+    const text = confidenceRationale([
+      match("pathology", 88, "High", 6),
+      match("radiology", 82, "High", 2)
+    ]);
+    expect(text).toContain("6 points clear");
+    expect(text).toContain(specialtiesById.radiology.name);
+  });
+
+  it("frames a medium lead as real but worth exploring both", () => {
+    const text = confidenceRationale([
+      match("pathology", 75, "Medium", 3),
+      match("radiology", 72, "Low", 1)
+    ]);
+    expect(text).toContain("3 points");
+    expect(text).toContain("both are worth exploring");
+  });
+
+  it("says low confidence is about separation, not fit, when the top two are tied", () => {
+    const text = confidenceRationale([
+      match("pathology", 72, "Low", 0),
+      match("radiology", 72, "Low", 1)
+    ]);
+    expect(text).toContain("the same range");
+    expect(text).toContain("separation, not fit");
+  });
+
+  it("handles a one-point gap without pluralising it", () => {
+    const text = confidenceRationale([
+      match("pathology", 72, "Low", 1),
+      match("radiology", 71, "Low", 1)
+    ]);
+    expect(text).toContain("1 point");
+    expect(text).not.toContain("1 points");
+  });
+
+  it("describes bunched scores when the gap is wider but confidence is still low", () => {
+    const text = confidenceRationale([
+      match("pathology", 60, "Low", 3),
+      match("radiology", 57, "Low", 1)
+    ]);
+    expect(text).toContain("bunched together");
+  });
+
+  it("degrades safely with a single match and with no matches at all", () => {
+    expect(confidenceRationale([match("pathology", 72, "Low")])).toContain("nothing to separate it from");
+    expect(confidenceRationale([])).toContain("nothing to compare");
   });
 });

@@ -71,6 +71,37 @@ function paragraph(doc: Doc, flow: Flow, text: string, opts?: { size?: number; c
   }
 }
 
+const DIFFICULTY_WORDS: Record<number, string> = {
+  1: "Low",
+  2: "Moderate",
+  3: "Fairly high",
+  4: "High",
+  5: "Very high"
+};
+
+function difficultyWord(score: number) {
+  return DIFFICULTY_WORDS[score] ?? "Unrated";
+}
+
+function formatSalary([min, max]: [number, number]) {
+  return `GHS ${min.toLocaleString("en-GH")} - ${max.toLocaleString("en-GH")} / month`;
+}
+
+/**
+ * Trims text to one line that fits `maxWidth`, ending in an ellipsis. Taking
+ * splitTextToSize(...)[0] instead would silently drop whole words, so a long
+ * name like "Public Health / Community Medicine" printed as "Public Health /
+ * Community" and read as if that were the specialty's name.
+ */
+function fitText(doc: Doc, text: string, maxWidth: number) {
+  if (doc.getTextWidth(text) <= maxWidth) return text;
+  let trimmed = text;
+  while (trimmed.length > 1 && doc.getTextWidth(`${trimmed}…`) > maxWidth) {
+    trimmed = trimmed.slice(0, -1);
+  }
+  return `${trimmed.trimEnd()}…`;
+}
+
 /** Thick arc approximated with short round-capped segments; jsPDF has no arc. */
 function arc(
   doc: Doc,
@@ -158,8 +189,7 @@ function coverHeader(doc: Doc, result: FullAssessmentResult, flow: Flow) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
     doc.setTextColor(CREAM);
-    const fitted = (doc.splitTextToSize(value, pillW - 22) as string[])[0];
-    doc.text(fitted, x + 11, bandH - 29);
+    doc.text(fitText(doc, value, pillW - 22), x + 11, bandH - 29);
   });
 
   flow.y = bandH + 28;
@@ -183,7 +213,7 @@ function matchesChart(doc: Doc, result: FullAssessmentResult, flow: Flow) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(9.5);
     doc.setTextColor(INK);
-    doc.text((doc.splitTextToSize(specialty?.name ?? match.specialtyId, labelW - 24) as string[])[0], MARGIN + 20, y);
+    doc.text(fitText(doc, specialty?.name ?? match.specialtyId, labelW - 24), MARGIN + 20, y);
 
     doc.setFillColor("#eceadf");
     doc.roundedRect(MARGIN + labelW, y - 7.5, barW, 9, 4.5, 4.5, "F");
@@ -304,6 +334,67 @@ function matchDetails(doc: Doc, result: FullAssessmentResult, flow: Flow) {
   });
 }
 
+/**
+ * The per-specialty training/pathway/pay detail. The old print-to-PDF output
+ * carried this and the first version of this writer dropped it, which for a
+ * Ghanaian student is the most actionable part of the report.
+ */
+function whatItTakes(doc: Doc, result: FullAssessmentResult, flow: Flow) {
+  sectionHeading(doc, flow, "What it takes", 96);
+
+  result.topMatches.forEach((match) => {
+    const specialty = specialtiesById[match.specialtyId];
+    if (!specialty) return;
+    ensureSpace(doc, flow, 96);
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10.5);
+    doc.setTextColor(INK);
+    doc.text(specialty.name, MARGIN, flow.y);
+    flow.y += 13;
+
+    const rows: [string, string][] = [
+      ["Training", specialty.trainingLength],
+      ["Pathway in Ghana", specialty.ghanaResidencyPathway],
+      [
+        "Difficulty",
+        `${difficultyWord(specialty.competitiveness)} competitiveness · burnout risk ${specialty.burnoutRisk}/5 · lifestyle ${specialty.lifestyleRating}/5`
+      ],
+      ["Expected pay", formatSalary(specialty.salaryRangeGhs)]
+    ];
+
+    const labelW = 92;
+    rows.forEach(([label, value]) => {
+      const lines = doc.splitTextToSize(value, CONTENT_W - labelW) as string[];
+      ensureSpace(doc, flow, lines.length * 12);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(7);
+      doc.setTextColor(MUTED);
+      doc.text(label.toUpperCase(), MARGIN, flow.y, { charSpace: 0.5 });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.6);
+      doc.setTextColor(INK);
+      lines.forEach((line, i) => {
+        if (i > 0) ensureSpace(doc, flow, 12);
+        doc.text(line, MARGIN + labelW, flow.y);
+        flow.y += 12;
+      });
+    });
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7.4);
+    doc.setTextColor(MUTED);
+    const note = doc.splitTextToSize(specialty.salaryDisclaimer, CONTENT_W - labelW) as string[];
+    note.forEach((line) => {
+      ensureSpace(doc, flow, 10.5);
+      doc.text(line, MARGIN + labelW, flow.y);
+      flow.y += 10.5;
+    });
+
+    flow.y += 12;
+  });
+}
+
 function closingSections(doc: Doc, result: FullAssessmentResult, aiSummary: string, flow: Flow) {
   if (aiSummary.trim()) {
     sectionHeading(doc, flow, "AI guidance");
@@ -404,6 +495,7 @@ export async function buildResultsPdf(result: FullAssessmentResult, aiSummary: s
   matchesChart(doc, result, flow);
   traitRadar(doc, result, flow);
   matchDetails(doc, result, flow);
+  whatItTakes(doc, result, flow);
   closingSections(doc, result, aiSummary, flow);
   footers(doc);
 
