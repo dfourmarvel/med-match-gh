@@ -25,7 +25,11 @@ const customJestConfig = {
     // Nor is the PDF writer: it is several hundred jsPDF drawing calls whose
     // only meaningful assertion is "does the rendered page look right", which
     // is a visual check, not a unit test.
-    "!lib/pdf-report.ts"
+    "!lib/pdf-report.ts",
+    // Nor are the Supabase SSR client factories: they are thin wrappers whose
+    // only behaviour is wiring cookies into the vendor SDK. lib/supabase.ts
+    // (the service-role client) is still covered.
+    "!lib/supabase/**"
   ],
   coverageReporters: ["text", "lcov"],
   coverageThreshold: {
