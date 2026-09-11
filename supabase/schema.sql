@@ -21,7 +21,13 @@ alter table public.quiz_results enable row level security;
 -- insert policy now.
 
 revoke all on public.quiz_results from anon, authenticated;
-grant insert on public.quiz_results to anon, authenticated;
+-- No grant to anon/authenticated at all. Every write goes through the
+-- service-role client (lib/results.ts, and the save-result, quiz-results and
+-- health routes), which bypasses grants and RLS entirely, so an anon INSERT
+-- grant bought nothing and let anyone holding the public anon key write rows
+-- directly through PostgREST. Verified 2026-09-11: service_role INSERT succeeds,
+-- anon INSERT is refused with 42501. The insert POLICY and the size constraints
+-- stay in place as defence in depth if a client-side write is ever added.
 
 create or replace function public.get_quiz_result(p_result_id uuid)
 returns table (scores jsonb)
