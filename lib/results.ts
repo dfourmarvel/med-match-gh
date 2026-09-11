@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { z } from "zod";
 import { serverSupabase } from "@/lib/supabase";
 import { FullAssessmentResult } from "@/lib/types";
@@ -20,8 +21,13 @@ export type ResultLookup =
  *
  * Callers map the discriminated result to the right response: the API returns
  * 400 / 404 / 200; the share page renders on "ok" and calls notFound() otherwise.
+ *
+ * Wrapped in React's cache() so the share segment's layout and page can each
+ * ask for the same id within one request and hit the database once.
  */
-export async function getResultById(id: string): Promise<ResultLookup> {
+export const getResultById = cache(async function getResultById(
+  id: string
+): Promise<ResultLookup> {
   const parsedId = z.string().uuid().safeParse(id);
   if (!parsedId.success) {
     return { status: "invalid-id" };
@@ -64,4 +70,4 @@ export async function getResultById(id: string): Promise<ResultLookup> {
   }
 
   return { status: "ok", result: row.scores.fullResult as FullAssessmentResult };
-}
+});
