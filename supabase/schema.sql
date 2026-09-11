@@ -9,7 +9,12 @@ create table if not exists public.quiz_results (
   -- Set when a result belongs to a signed-in account. Null for the anonymous
   -- rows the assessment still creates for guests. Owner policies live in
   -- 20260911d_quiz_results_owner_policies.sql.
-  user_id uuid
+  user_id uuid,
+  -- Set when a signed-in user asks for a share link. Rows are created NULL, and
+  -- lib/results.ts reads published rows only — otherwise a signed-out visitor
+  -- could open their own unlocked report through /share/<id>. See
+  -- 20260911e_quiz_results_published_at.sql.
+  published_at timestamptz
 );
 
 alter table public.quiz_results enable row level security;

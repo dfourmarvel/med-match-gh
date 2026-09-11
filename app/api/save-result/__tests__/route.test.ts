@@ -139,12 +139,14 @@ describe("POST /api/save-result publishing an existing row", () => {
   const RESULT_ID = "22222222-3333-4444-8555-666666666666";
   let updated: Record<string, unknown> | null = null;
   let ownerId: string | null = "user-1";
+  const updateEqArgs: unknown[][] = [];
 
   beforeEach(() => {
     mockedRateLimit.mockResolvedValue({ allowed: true });
     mockedGetCurrentUser.mockResolvedValue({ id: "user-1" } as never);
     updated = null;
     ownerId = "user-1";
+    updateEqArgs.length = 0;
 
     mockServerSupabase = {
       from: () => ({
@@ -153,7 +155,17 @@ describe("POST /api/save-result publishing an existing row", () => {
         }),
         update: (patch: Record<string, unknown>) => {
           updated = patch;
-          return { eq: () => ({ eq: () => Promise.resolve({ error: null }) }) };
+          return {
+            eq: (...idArgs: unknown[]) => {
+              updateEqArgs.push(idArgs);
+              return {
+                eq: (...ownerArgs: unknown[]) => {
+                  updateEqArgs.push(ownerArgs);
+                  return Promise.resolve({ error: null });
+                }
+              };
+            }
+          };
         },
         insert: () => Promise.resolve({ error: null })
       })
@@ -167,6 +179,11 @@ describe("POST /api/save-result publishing an existing row", () => {
     expect(response.status).toBe(200);
     expect(body.data.url).toBe(`/share/${RESULT_ID}`);
     expect(typeof (updated as unknown as { published_at: string }).published_at).toBe("string");
+    // The update itself must stay scoped to the owner, not just the pre-check.
+    expect(updateEqArgs).toEqual([
+      ["id", RESULT_ID],
+      ["user_id", "user-1"]
+    ]);
   });
 
   // A row id travels in every share link, so publishing must not be reachable

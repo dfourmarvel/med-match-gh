@@ -77,6 +77,8 @@ export async function POST(request: Request) {
     // unlocked payload is the server's own work either way.
     const result = buildAssessmentResult(parsed.data.audience, parsed.data.answers);
 
+    let claimed = false;
+
     if (serverSupabase && parsed.data.resultId) {
       // The submitted answers must match the ones stored on the row. Without
       // this check the row id alone would be enough to claim it, and a row id
@@ -109,11 +111,19 @@ export async function POST(request: Request) {
             code: error.code
           });
           // Not fatal: the visitor still gets their unlocked result.
+        } else {
+          claimed = true;
         }
       }
     }
 
-    return apiSuccess(result);
+    // `claimed` tells the client whether it still has a row it can publish. When
+    // a claim does not land — the answers do not match, somebody already owns
+    // the row, it is gone, or the write failed — the client must forget that
+    // row id. Otherwise Save keeps sending it, /api/save-result answers 403
+    // because the caller does not own it, and the visitor can never get a share
+    // link short of retaking the assessment.
+    return apiSuccess({ result, claimed: Boolean(parsed.data.resultId) && claimed });
   } catch (error) {
     const err = error instanceof Error ? error : new Error(String(error));
     console.error("Unhandled exception in POST /api/claim-result", {

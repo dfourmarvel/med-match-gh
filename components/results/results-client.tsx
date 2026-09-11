@@ -216,8 +216,16 @@ export function ResultsClient({
         const json = await response.json().catch(() => null);
         if (!response.ok || !json?.success || cancelled) return;
 
-        localStorage.setItem("medmatch-last-result", JSON.stringify(json.data));
-        setResult(json.data);
+        // A claim that did not land leaves a row this account does not own.
+        // Keeping its id would make every Save 403 forever; forgetting it lets
+        // Save fall back to creating a fresh, owned, published row.
+        if (!json.data.claimed) {
+          localStorage.removeItem("medmatch-last-result-id");
+          setSavedResultId("");
+        }
+
+        localStorage.setItem("medmatch-last-result", JSON.stringify(json.data.result));
+        setResult(json.data.result);
       } catch {
         // Leave the locked view in place; the visitor can retake or reload.
       }
