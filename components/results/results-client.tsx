@@ -250,20 +250,13 @@ export function ResultsClient({
     if (!result || result.locked) return;
     startTransition(async () => {
       try {
-        if (savedResultId) {
-          const absoluteUrl = `${window.location.origin}/share/${savedResultId}`;
-          setShareUrl(absoluteUrl);
-          setSaveMessage("Sharable result ready.");
-          if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText(absoluteUrl);
-          }
-          return;
-        }
-
+        // Always goes to the server, even when a row id is already known. The
+        // assessment creates that row UNPUBLISHED, so a share URL built from it
+        // on the client alone would 404 — Save is the act that publishes it.
         const response = await fetch("/api/save-result", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(result)
+          body: JSON.stringify(savedResultId ? { ...result, resultId: savedResultId } : result)
         });
         const json = await response.json().catch(() => null);
         if (!response.ok || !json?.success) {

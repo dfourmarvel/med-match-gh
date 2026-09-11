@@ -5,6 +5,7 @@ import { rateLimit } from "@/lib/rate-limit";
 import { specialtiesById } from "@/lib/specialties";
 import { buildAssessmentResult } from "@/lib/scoring";
 import { answersToRecord } from "@/lib/assessment";
+import { getCurrentUser } from "@/lib/supabase/server";
 import { serverSupabase } from "@/lib/supabase";
 import { apiError, apiSuccess } from "@/lib/apiError";
 
@@ -18,7 +19,11 @@ const quizResultPayloadSchema = z.object({
   result: fullAssessmentResultSchema
 });
 
-function buildQuizResultRow(body: z.infer<typeof quizResultPayloadSchema>, id = randomUUID()) {
+function buildQuizResultRow(
+  body: z.infer<typeof quizResultPayloadSchema>,
+  userId: string | null,
+  id = randomUUID()
+) {
   // Always re-scored from the submitted answers, never taken from the client.
   //
   // A signed-out visitor's client holds a LOCKED result: three of five matches
@@ -45,6 +50,13 @@ function buildQuizResultRow(body: z.infer<typeof quizResultPayloadSchema>, id = 
 
   return {
     id,
+    // Owned from the start when there is a session, so pressing Save later can
+    // publish this row without a separate claim. A guest's row stays unowned
+    // and is claimed on sign-in, which verifies their answers.
+    user_id: userId,
+    // Deliberately not published. The share link only becomes readable when a
+    // signed-in user asks for one.
+    published_at: null,
     answers: body.answers,
     scores: {
       audience: result.audience,
@@ -92,12 +104,12 @@ export async function POST(request: Request) {
       return apiError("Invalid request payload.", 400, validationErrors);
     }
 
-    const row = buildQuizResultRow(parsed.data);
+    const user = await getCurrentUser();
+    const row = buildQuizResultRow(parsed.data, user?.id ?? null);
 
-    // API-1: quiz_results is anonymous-first. RLS (see
-    // supabase/migrations/20260521_enable_rls_quiz_results.sql) permits inserts
-    // only with user_id IS NULL and public read-by-id for share links. We write
-    // via the service role (which bypasses RLS) and deliberately never set user_id.
+    // The assessment stays open to guests, so this route is unauthenticated and
+    // user_id is simply null when nobody is signed in. Written via the service
+    // role, which bypasses RLS.
     try {
       const { error } = await serverSupabase.from("quiz_results").insert(row);
       if (error) {

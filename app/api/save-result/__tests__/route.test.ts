@@ -134,3 +134,56 @@ describe("POST /api/save-result authorisation", () => {
     expect((inserted as unknown as { user_id: string }).user_id).toBe("user-1");
   });
 });
+
+describe("POST /api/save-result publishing an existing row", () => {
+  const RESULT_ID = "22222222-3333-4444-8555-666666666666";
+  let updated: Record<string, unknown> | null = null;
+  let ownerId: string | null = "user-1";
+
+  beforeEach(() => {
+    mockedRateLimit.mockResolvedValue({ allowed: true });
+    mockedGetCurrentUser.mockResolvedValue({ id: "user-1" } as never);
+    updated = null;
+    ownerId = "user-1";
+
+    mockServerSupabase = {
+      from: () => ({
+        select: () => ({
+          eq: () => ({ maybeSingle: () => Promise.resolve({ data: { user_id: ownerId }, error: null }) })
+        }),
+        update: (patch: Record<string, unknown>) => {
+          updated = patch;
+          return { eq: () => ({ eq: () => Promise.resolve({ error: null }) }) };
+        },
+        insert: () => Promise.resolve({ error: null })
+      })
+    };
+  });
+
+  it("publishes a row the caller owns and returns its share url", async () => {
+    const response = await POST(post({ ...validResult, resultId: RESULT_ID }));
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.data.url).toBe(`/share/${RESULT_ID}`);
+    expect(typeof (updated as unknown as { published_at: string }).published_at).toBe("string");
+  });
+
+  // A row id travels in every share link, so publishing must not be reachable
+  // for a row the caller does not own.
+  it("refuses to publish a row owned by someone else", async () => {
+    ownerId = "someone-else";
+    const response = await POST(post({ ...validResult, resultId: RESULT_ID }));
+
+    expect(response.status).toBe(403);
+    expect(updated).toBeNull();
+  });
+
+  it("refuses to publish an unclaimed row", async () => {
+    ownerId = null;
+    const response = await POST(post({ ...validResult, resultId: RESULT_ID }));
+
+    expect(response.status).toBe(403);
+    expect(updated).toBeNull();
+  });
+});
