@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, BrainCircuit, CheckCircle2, Save, Stethoscope, X } from "lucide-react";
 import { track } from "@vercel/analytics";
+import { buildCompletionProperties, capture } from "@/lib/analytics";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { assessmentQuestions } from "@/lib/assessment";
@@ -99,6 +100,7 @@ export function AssessmentClient() {
 
       if ((validStep && savedStep > 0) || validAnswers.length > 0) {
         setShowResumeNote(true);
+        capture("assessment_resumed", { step: validStep ? savedStep : 0, answered_count: validAnswers.length });
       }
     } catch {
       // Malformed JSON — discard it and start fresh.
@@ -142,10 +144,77 @@ export function AssessmentClient() {
     shouldFocusHeading.current = true;
     setStep(updater);
   };
-  const goNext = () => {
-    if (canAdvance) goToStep((value) => Math.min(totalSteps, value + 1));
+  // ── Analytics: timing and drop-off ──────────────────────────────────────────
+  const startedAtRef = useRef<number | null>(null);
+  const questionShownAtRef = useRef(Date.now());
+  const submittedRef = useRef(false);
+  const progressRef = useRef({ step, answeredCount, audience });
+
+  useEffect(() => {
+    progressRef.current = { step, answeredCount, audience };
+  }, [step, answeredCount, audience]);
+
+  useEffect(() => {
+    questionShownAtRef.current = Date.now();
+  }, [step]);
+
+  useEffect(() => {
+    // pagehide fires on tab close and navigation away, where unmount effects
+    // don't reliably run; PostHog sends it with sendBeacon so it still arrives.
+    const onPageHide = () => {
+      const { step: lastStep, answeredCount: answered, audience: lastAudience } = progressRef.current;
+      if (submittedRef.current || lastStep === 0) return;
+      capture("assessment_abandoned", {
+        last_question: lastStep,
+        answered_count: answered,
+        audience: lastAudience
+      });
+    };
+    window.addEventListener("pagehide", onPageHide);
+    return () => window.removeEventListener("pagehide", onPageHide);
+  }, []);
+
+  // Last reported value per question, so Back/Next and review edits only send
+  // an event when an answer is new or actually changed.
+  const reportedAnswersRef = useRef(new Map<number, number>());
+
+  const captureCurrentAnswer = () => {
+    if (!currentQuestion || selectedValue === undefined) return;
+    const previous = reportedAnswersRef.current.get(currentQuestion.id);
+    if (previous === selectedValue) return;
+    reportedAnswersRef.current.set(currentQuestion.id, selectedValue);
+    capture("question_answered", {
+      changed: previous !== undefined,
+      question_id: currentQuestion.id,
+      question_number: questionNumber,
+      question_type: currentQuestion.type,
+      answer: selectedValue,
+      audience,
+      seconds_on_question: Math.round((Date.now() - questionShownAtRef.current) / 1000)
+    });
   };
-  const goBack = () => goToStep((value) => Math.max(0, value - 1));
+
+  const goNext = () => {
+    if (!canAdvance) return;
+    if (isAudienceStep) {
+      if (startedAtRef.current === null) {
+        startedAtRef.current = Date.now();
+        capture("assessment_started", { audience, total_questions: totalSteps });
+      }
+    } else {
+      captureCurrentAnswer();
+    }
+    goToStep((value) => Math.min(totalSteps, value + 1));
+  };
+  const goBack = () => {
+    if (!isAudienceStep) capture("question_back", { from_question: questionNumber });
+    goToStep((value) => Math.max(0, value - 1));
+  };
+  const openReview = () => {
+    captureCurrentAnswer();
+    capture("review_opened", { answered_count: answeredCount });
+    setShowReview(true);
+  };
 
   const recordAnswer = (questionId: number, selectedOption: number) => {
     const nextAnswer = { questionId: `q${questionId}`, selectedOption: String(selectedOption) };
@@ -245,6 +314,7 @@ export function AssessmentClient() {
 
         const scored = await response.json().catch(() => null);
         if (!response.ok || !scored?.success) {
+          capture("assessment_failed", { stage: "score", status: response.status });
           setErrorMessage(scored?.error?.message ?? "Could not score your assessment. Please check your answers and try again.");
           return;
         }
@@ -294,8 +364,31 @@ export function AssessmentClient() {
           saved: Boolean(saveResponse.ok && saved?.success)
         });
 
+        submittedRef.current = true;
+        // Analytics must never block the visitor from reaching their results.
+        try {
+          const completion = buildCompletionProperties(
+            result,
+            answerRecord,
+            startedAtRef.current === null ? null : Date.now() - startedAtRef.current
+          );
+          capture("assessment_completed", {
+            ...completion,
+            saved: Boolean(saveResponse.ok && saved?.success),
+            $set: {
+              audience,
+              latest_top_specialty: completion.top_specialty,
+              latest_top_match_pct: completion.top_match_pct
+            },
+            $set_once: { first_top_specialty: completion.top_specialty }
+          });
+        } catch {
+          /* ignore */
+        }
+
         router.push("/results");
       } catch {
+        capture("assessment_failed", { stage: "network" });
         setErrorMessage("Could not submit your assessment. Check your connection and try again.");
       }
     });
@@ -435,6 +528,7 @@ export function AssessmentClient() {
                     <Button
                       variant="outline"
                       onClick={() => {
+                        capture("review_edit_clicked", { question_number: index + 1 });
                         setShowReview(false);
                         goToStep(() => index + 1);
                       }}
@@ -587,7 +681,7 @@ export function AssessmentClient() {
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
             ) : (
-              <Button variant="gold" onClick={() => setShowReview(true)} disabled={!canAdvance} aria-label="Review your answers before submitting">
+              <Button variant="gold" onClick={openReview} disabled={!canAdvance} aria-label="Review your answers before submitting">
                 Review answers
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>

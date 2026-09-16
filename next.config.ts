@@ -16,8 +16,13 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
   `connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com${isDev ? " ws://localhost:* http://localhost:*" : ""}`,
+  // PostHog's session recorder compresses in a blob: web worker.
+  "worker-src 'self' blob:",
   "frame-ancestors 'none'"
 ].join("; ");
+
+// PostHog is reached through /ingest on this domain (see rewrites below).
+const posthogRegion = process.env.NEXT_PUBLIC_POSTHOG_REGION === "us" ? "us" : "eu";
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -29,6 +34,20 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
+  // PostHog's API paths end in a slash; Next would otherwise redirect them.
+  skipTrailingSlashRedirect: true,
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: `https://${posthogRegion}-assets.i.posthog.com/static/:path*`
+      },
+      {
+        source: "/ingest/:path*",
+        destination: `https://${posthogRegion}.i.posthog.com/:path*`
+      }
+    ];
+  },
   // PERF-2: tree-shake barrel imports from these icon/chart packages.
   // (framer-motion is already optimized by Next 15's defaults.)
   experimental: {

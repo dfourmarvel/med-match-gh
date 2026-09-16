@@ -7,8 +7,17 @@ import { LoaderCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/browser";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { capture, GOOGLE_PENDING_KEY } from "@/lib/analytics";
 
 type Mode = "signin" | "signup";
+
+function clearGooglePending() {
+  try {
+    sessionStorage.removeItem(GOOGLE_PENDING_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 function GoogleMark() {
   return (
@@ -51,6 +60,13 @@ export function SignInForm() {
   const withGoogle = async () => {
     setPending(true);
     setMessage("");
+    capture("signin_started", { method: "google", next });
+    // Google sign-in leaves the page, so AccountButton reports completion on return.
+    try {
+      sessionStorage.setItem(GOOGLE_PENDING_KEY, "1");
+    } catch {
+      /* ignore */
+    }
     try {
       const supabase = createClient();
       const { error } = await supabase.auth.signInWithOAuth({
@@ -58,11 +74,14 @@ export function SignInForm() {
         options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` }
       });
       if (error) {
+        capture("signin_failed", { method: "google", error: error.message });
+        clearGooglePending();
         fail(error.message);
         setPending(false);
       }
       // On success the browser navigates to Google, so nothing else runs here.
     } catch {
+      clearGooglePending();
       fail("Sign-in is not configured yet. Check back shortly.");
       setPending(false);
     }
@@ -73,6 +92,7 @@ export function SignInForm() {
     setPending(true);
     setMessage("");
     setIsError(false);
+    capture("signin_started", { method: "password", mode, next });
 
     try {
       const supabase = createClient();
@@ -84,11 +104,13 @@ export function SignInForm() {
           options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` }
         });
         if (error) {
+          capture("signin_failed", { method: "password", mode, error: error.message });
           fail(error.message);
           return;
         }
         // With email confirmation on, Supabase returns a user with no session.
         if (!data.session) {
+          capture("signup_confirmation_sent");
           setIsError(false);
           setMessage(`Check ${email} for a confirmation link, then come back and sign in.`);
           return;
@@ -96,11 +118,13 @@ export function SignInForm() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
+          capture("signin_failed", { method: "password", mode, error: error.message });
           fail(error.message);
           return;
         }
       }
 
+      capture("signin_completed", { method: "password", mode });
       router.push(next as Route);
       router.refresh();
     } catch {
@@ -181,7 +205,7 @@ export function SignInForm() {
         <p
           role="status"
           aria-live="polite"
-          className={`mt-4 rounded-xl p-3 text-sm ${
+          className={`ph-no-capture mt-4 rounded-xl p-3 text-sm ${
             isError
               ? "bg-clay/10 text-clay dark:text-clay/90"
               : "bg-primary/10 text-foreground/80"

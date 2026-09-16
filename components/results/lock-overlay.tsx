@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { capture } from "@/lib/analytics";
 
 /**
  * Wraps a locked region: the placeholder content underneath is blurred and
@@ -35,7 +36,11 @@ export function LockOverlay({
           </div>
           <p className="mt-3 font-display text-lg font-semibold">{title}</p>
           <p className="mt-2 text-sm leading-6 text-foreground/65">{body}</p>
-          <Link href={{ pathname: "/signin", query: { next: "/results" } }} className="mt-4 inline-flex">
+          <Link
+            href={{ pathname: "/signin", query: { next: "/results" } }}
+            className="mt-4 inline-flex"
+            onClick={() => capture("unlock_clicked", { location: "lock_overlay", section: title })}
+          >
             <Button variant="gold">Sign in to unlock</Button>
           </Link>
           <p className="mt-3 text-xs text-foreground/50">Free. Takes about ten seconds with Google.</p>
