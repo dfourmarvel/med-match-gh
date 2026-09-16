@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { LogOut, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/browser";
 import { Button } from "@/components/ui/button";
+import { capture, identifyUser, resetUser } from "@/lib/analytics";
 
 /**
  * Sign in / sign out control. Renders nothing until the session is known, so a
@@ -27,13 +28,16 @@ export function AccountButton() {
 
     supabase.auth.getUser().then(({ data }) => {
       setEmail(data.user?.email ?? null);
+      if (data.user) identifyUser(data.user.id);
       setReady(true);
     });
 
     const {
       data: { subscription }
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setEmail(session?.user.email ?? null);
+      if (session?.user) identifyUser(session.user.id);
+      if (event === "SIGNED_OUT") resetUser();
     });
 
     return () => subscription.unsubscribe();
@@ -52,6 +56,7 @@ export function AccountButton() {
   }
 
   const signOut = async () => {
+    capture("signed_out");
     await createClient().auth.signOut();
     router.refresh();
   };
@@ -59,7 +64,7 @@ export function AccountButton() {
   return (
     <div className="flex items-center gap-1">
       <span
-        className="hidden max-w-[12rem] truncate text-xs text-foreground/60 lg:inline"
+        className="ph-no-capture hidden max-w-[12rem] truncate text-xs text-foreground/60 lg:inline"
         title={email}
       >
         <UserRound className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" />
@@ -67,7 +72,8 @@ export function AccountButton() {
       </span>
       <Button
         variant="ghost"
-        className="h-auto px-3 py-2 sm:px-4 sm:py-3"
+        // ph-no-capture: the aria-label contains the email, which click autocapture would record.
+        className="ph-no-capture h-auto px-3 py-2 sm:px-4 sm:py-3"
         onClick={signOut}
         aria-label={`Sign out of ${email}`}
       >

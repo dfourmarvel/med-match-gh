@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { capture } from "@/lib/analytics";
 import {
   Award,
   Brain,
@@ -108,6 +109,23 @@ export function ResultsClient({
   // Set by the server on a signed-out payload. The demo report is never locked:
   // it is fabricated data whose whole purpose is to be looked at.
   const locked = Boolean(result?.locked);
+  const source = sharedResult ? "shared" : showDemo ? "demo" : "own";
+
+  const viewedKeyRef = useRef("");
+  useEffect(() => {
+    if (!result) return;
+    const key = `${result.generatedAt}-${result.locked ? "locked" : "full"}`;
+    if (viewedKeyRef.current === key) return;
+    viewedKeyRef.current = key;
+    capture("results_viewed", {
+      source,
+      locked: Boolean(result.locked),
+      audience: result.audience,
+      confidence: result.confidenceLevel,
+      top_specialty: result.topMatches[0]?.specialtyId ?? "unknown",
+      top_match_pct: result.topMatches[0]?.matchPercentage ?? null
+    });
+  }, [result, source]);
 
   useEffect(() => {
     if (sharedResult) {
@@ -178,9 +196,11 @@ export function ResultsClient({
       });
       const json = await response.json().catch(() => null);
       if (!response.ok || !json?.success || !json.data?.explanation) {
+        capture("ai_explanation_loaded", { fallback: true, status: response.status });
         setAiSummary("Personalized AI guidance is temporarily unavailable. Use the match details below as a starting point for shadowing and mentorship.");
         return;
       }
+      capture("ai_explanation_loaded", { fallback: false });
       setAiSummary(json.data.explanation);
     });
   }, [result]);
@@ -215,6 +235,7 @@ export function ResultsClient({
         });
         const json = await response.json().catch(() => null);
         if (!response.ok || !json?.success || cancelled) return;
+        capture("result_unlocked", { claimed: Boolean(json.data.claimed) });
 
         // A claim that did not land leaves a row this account does not own.
         // Keeping its id would make every Save 403 forever; forgetting it lets
@@ -247,7 +268,9 @@ export function ResultsClient({
       const { downloadResultsPdf } = await import("@/lib/pdf-report");
       await downloadResultsPdf(result, aiSummary);
       setExportMessage("Your PDF report has downloaded.");
+      capture("pdf_exported", { success: true, source });
     } catch {
+      capture("pdf_exported", { success: false, source });
       setExportMessage("Could not build the PDF. Try again, or use your browser's print-to-PDF option.");
     } finally {
       setIsExporting(false);
@@ -268,9 +291,11 @@ export function ResultsClient({
         });
         const json = await response.json().catch(() => null);
         if (!response.ok || !json?.success) {
+          capture("share_link_created", { success: false, status: response.status });
           setSaveMessage(json?.error?.message ?? "Could not create a share link right now.");
           return;
         }
+        capture("share_link_created", { success: true });
         const data = json.data;
         const absoluteUrl = `${window.location.origin}${data.url}`;
         setSavedResultId(data.id ?? "");
@@ -367,6 +392,14 @@ export function ResultsClient({
                     <StaggerItem key={match.specialtyId} role="listitem">
                       <Link
                         href={`/specialties/${specialty.id}`}
+                        onClick={() =>
+                          capture("match_specialty_clicked", {
+                            specialty_id: specialty.id,
+                            rank: index + 1,
+                            match_pct: match.matchPercentage,
+                            source
+                          })
+                        }
                         className="block h-full rounded-xl border border-white/10 bg-white/[0.055] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/50 hover:bg-white/[0.09] focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12291f]"
                         aria-label={`#${index + 1} match: ${specialty.name}, ${match.matchPercentage}% compatibility, ${match.confidenceLevel} confidence`}
                       >
@@ -406,6 +439,7 @@ export function ResultsClient({
                               assistive tech, which heard only "Sign in". */}
                           <Link
                             href={{ pathname: "/signin", query: { next: "/results" } }}
+                            onClick={() => capture("unlock_clicked", { location: "locked_match_card" })}
                             className="text-xs font-semibold text-amber-300 underline underline-offset-4"
                             aria-label={`Match number ${FREE_MATCH_COUNT + index + 1} is locked. Sign in to see it.`}
                           >
@@ -440,6 +474,7 @@ export function ResultsClient({
                 </p>
                 <Link
                   href={{ pathname: "/signin", query: { next: "/results" } }}
+                  onClick={() => capture("unlock_clicked", { location: "ai_guidance" })}
                   className="mt-3 inline-flex text-sm font-semibold text-accent underline underline-offset-4"
                 >
                   Sign in to read it
@@ -460,7 +495,10 @@ export function ResultsClient({
             </div>
             <div className="mt-auto flex flex-wrap gap-3 pt-6">
               {locked ? (
-                <Link href={{ pathname: "/signin", query: { next: "/results" } }}>
+                <Link
+                  href={{ pathname: "/signin", query: { next: "/results" } }}
+                  onClick={() => capture("unlock_clicked", { location: "pdf_button" })}
+                >
                   <Button variant="gold" aria-label="Sign in to download your PDF report">
                     <Lock className="mr-2 h-4 w-4" aria-hidden="true" />
                     Sign in to download
@@ -477,7 +515,10 @@ export function ResultsClient({
               </Button>
               )}
               {locked ? (
-                <Link href={{ pathname: "/signin", query: { next: "/results" } }}>
+                <Link
+                  href={{ pathname: "/signin", query: { next: "/results" } }}
+                  onClick={() => capture("unlock_clicked", { location: "save_button" })}
+                >
                   <Button variant="outline" aria-label="Sign in to save and share your results">
                     <Lock className="mr-2 h-4 w-4" aria-hidden="true" />
                     Sign in to save
@@ -489,7 +530,7 @@ export function ResultsClient({
                   Save
                 </Button>
               )}
-              <Link href="/assessment">
+              <Link href="/assessment" onClick={() => capture("retake_clicked", { source })}>
                 <Button variant="outline">Retake</Button>
               </Link>
             </div>
