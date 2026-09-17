@@ -24,7 +24,7 @@ const fontDisplay = Fraunces({
   axes: ["SOFT", "WONK", "opsz"]
 });
 
-const defaultTitle = "MedMatch Ghana — Find your medical specialty";
+const defaultTitle = "Medical Specialty Quiz for Ghana | MedMatch Ghana";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   description: siteDescription,
   applicationName: siteName,
   keywords: [
+    "medical specialty quiz",
+    "medical specialty quiz Ghana",
+    "which medical specialty suits me",
     "medical specialty",
     "specialty match",
     "Ghana",

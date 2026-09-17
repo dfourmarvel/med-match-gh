@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import { AssessmentClient } from "@/components/quiz/assessment-client";
 import { KenteStrip } from "@/components/ui/kente-strip";
+
+export const metadata: Metadata = {
+  title: "Take the medical specialty quiz",
+  description:
+    "Answer a short set of questions and see which medical or dental specialties suit you, with Ghana training pathways for each match.",
+  alternates: { canonical: "/assessment" }
+};
 
 export default function AssessmentPage() {
   return (
