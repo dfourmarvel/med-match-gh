@@ -52,8 +52,10 @@ export function Footer() {
             pathways in mind.
           </p>
           <p className="mt-3 text-xs leading-5 text-foreground/50">
-            Your answers and scores are stored so your results page can be shared by link. Do not include personal
-            details in free-text answers.
+            Your answers, results and site usage are stored and analysed to run and improve MedMatch.{" "}
+            <Link href="/privacy" className="underline underline-offset-4 hover:text-accent">
+              Privacy policy
+            </Link>
           </p>
         </div>
       </div>

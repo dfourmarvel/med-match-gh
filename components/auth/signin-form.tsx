@@ -1,6 +1,7 @@
 "use client";
 
 import type { Route } from "next";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
@@ -142,6 +143,13 @@ export function SignInForm() {
       <p className="mt-2 text-sm leading-6 text-foreground/65">
         Your full report — all five matches, both charts and the PDF — unlocks once you have an account.
         It also means your results are still here on your next device.
+      </p>
+      <p className="mt-2 text-xs text-foreground/55">
+        By continuing you agree to our{" "}
+        <Link href="/privacy" className="underline underline-offset-4 hover:text-accent">
+          privacy policy
+        </Link>
+        .
       </p>
 
       <Button
