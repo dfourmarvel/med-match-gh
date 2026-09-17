@@ -159,7 +159,7 @@ Google Search Console (free) is how you tell Google "this site is mine, please i
 
 1. In Search Console, top **URL inspection** bar → paste your homepage `https://<your-domain>/` → Enter → click **Request indexing**. Repeat for `/specialties` and one or two specialty pages.
 2. Wait — indexing takes **days to weeks**. Then check progress:
-   - In Google, search **`site:<your-domain>`** (e.g. `site:med-match-gh.vercel.app`). This shows exactly which of your pages Google has indexed.
+   - In Google, search **`site:<your-domain>`** (e.g. `site:medmatchgh.vercel.app`). This shows exactly which of your pages Google has indexed.
    - Search **`MedMatch Ghana`** — once indexed, your site should appear for this brand term.
 
 ### What to search for (and realistic expectations)
