@@ -9,7 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/`, lastModified, changeFrequency: "monthly", priority: 1 },
     { url: `${siteUrl}/assessment`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/specialties`, lastModified, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteUrl}/pathways`, lastModified, changeFrequency: "monthly", priority: 0.7 }
+    { url: `${siteUrl}/pathways`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 }
   ];
 
   const specialtyRoutes: MetadataRoute.Sitemap = specialties.map((specialty) => ({
