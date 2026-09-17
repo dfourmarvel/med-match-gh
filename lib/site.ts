@@ -4,4 +4,4 @@ export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:30
 export const siteName = "MedMatch Ghana";
 
 export const siteDescription =
-  "Discover medical and dental specialties that fit your personality, interests, and goals — with Ghana-aware training pathways.";
+  "Free medical specialty quiz for Ghanaian medical and dental students. Find the specialties that fit your personality and goals, with GCPS and WACS training pathways, residency length and pay in Ghana.";

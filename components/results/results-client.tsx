@@ -401,7 +401,7 @@ export function ResultsClient({
                           })
                         }
                         className="block h-full rounded-xl border border-white/10 bg-white/[0.055] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/50 hover:bg-white/[0.09] focus-visible:ring-2 focus-visible:ring-amber-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12291f]"
-                        aria-label={`#${index + 1} match: ${specialty.name}, ${match.matchPercentage}% compatibility, ${match.confidenceLevel} confidence`}
+                        aria-label={`#${index + 1} match: ${specialty.name}, ${match.matchPercentage}% compatibility`}
                       >
                         <p className="text-[11px] uppercase tracking-[0.18em] text-[#f6f0e2]/70" aria-hidden="true">#{index + 1} match</p>
                         <p className="mt-3 min-h-12 text-base font-semibold leading-snug">{specialty.name}</p>
@@ -418,10 +418,7 @@ export function ResultsClient({
                             style={{ width: `${match.matchPercentage}%` }}
                           />
                         </div>
-                        <div className="mt-3 flex items-center justify-between text-sm">
-                          <span className="font-semibold text-amber-300" aria-hidden="true">{match.matchPercentage}%</span>
-                          <span className="text-xs uppercase tracking-[0.14em] text-[#f6f0e2]/70" aria-hidden="true">{match.confidenceLevel}</span>
-                        </div>
+                        <p className="mt-3 text-sm font-semibold text-amber-300" aria-hidden="true">{match.matchPercentage}%</p>
                       </Link>
                     </StaggerItem>
                   );
@@ -569,7 +566,7 @@ export function ResultsClient({
             {locked ? (
               <LockOverlay
                 title="Your trait profile is locked"
-                body="The chart below is placeholder data, not your answers. Sign in to see how you actually scored across all fifteen dimensions."
+                body="Sign in to see how you scored across all fifteen dimensions."
               >
                 <TraitRadarChart scores={result.traitScores} />
               </LockOverlay>
@@ -592,7 +589,7 @@ export function ResultsClient({
             {locked ? (
               <LockOverlay
                 title="The full spread is locked"
-                body="You are seeing a sample chart. Sign in for all five of your matches and how close they really are."
+                body="Sign in for all five of your matches and how close they are."
               >
                 <MatchesBarChart matches={demoResult.topMatches} />
               </LockOverlay>
@@ -609,7 +606,7 @@ export function ResultsClient({
           {locked ? (
             <LockOverlay
               title="Training and pay detail is locked"
-              body="Residency length, the Ghana pathway, competitiveness and expected pay for each of your matches. The cards below are a sample."
+              body="Residency length, the Ghana pathway, competitiveness and expected pay for each of your matches."
             >
               <div className="grid gap-6 md:grid-cols-3">
                 {demoResult.topMatches.slice(0, 3).map((match) => (

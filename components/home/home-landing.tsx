@@ -112,7 +112,7 @@ export function HomeLanding() {
               <div className="flex items-center gap-3">
                 <KenteStrip className="h-1.5 w-14 rounded-full" />
                 <p className="text-xs font-semibold uppercase tracking-[0.26em] text-foreground/60 sm:text-sm">
-                  Specialty-fit assessment
+                  Free medical specialty quiz
                 </p>
               </div>
             </Reveal>
@@ -126,7 +126,7 @@ export function HomeLanding() {
             </Reveal>
             <Reveal mode="mount" delay={0.2}>
               <p className="mt-6 max-w-xl text-base leading-7 text-foreground/70 sm:text-lg sm:leading-8">
-                A guided assessment for Ghana&apos;s future clinicians — built around your personality, strengths,
+                A medical specialty quiz for Ghana&apos;s future clinicians — built around your personality, strengths,
                 lifestyle goals, and the realities of training here.
               </p>
             </Reveal>
