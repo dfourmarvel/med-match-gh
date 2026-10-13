@@ -4,6 +4,7 @@ import { buildAssessmentResult } from "@/lib/scoring";
 import { apiError, apiSuccess } from "@/lib/apiError";
 import { lockResult } from "@/lib/gating";
 import { getCurrentUser } from "@/lib/supabase/server";
+import { reportServerError } from "@/lib/server-errors";
 
 export async function POST(request: Request) {
   try {
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
       message: error?.message,
       stack: error?.stack
     });
+    await reportServerError(error, "api/score");
     return apiError("Internal server error", 500);
   }
 }

@@ -6,6 +6,7 @@ const posthog = {
   __loaded: false,
   init: jest.fn(),
   capture: jest.fn(),
+  captureException: jest.fn(),
   identify: jest.fn(),
   reset: jest.fn(),
   get_distinct_id: jest.fn(() => "anonymous")

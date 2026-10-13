@@ -1,4 +1,4 @@
-import { buildCompletionProperties, capture } from "@/lib/analytics";
+import { buildCompletionProperties, capture, captureError } from "@/lib/analytics";
 import { buildAssessmentResult } from "@/lib/scoring";
 import posthog from "posthog-js";
 
@@ -38,5 +38,12 @@ describe("capture", () => {
   it("does nothing when PostHog was never initialised", () => {
     capture("test_event");
     expect(posthog.capture).not.toHaveBeenCalled();
+  });
+});
+
+describe("captureError", () => {
+  it("does nothing when PostHog was never initialised", () => {
+    captureError(new Error("boom"));
+    expect(posthog.captureException).not.toHaveBeenCalled();
   });
 });
