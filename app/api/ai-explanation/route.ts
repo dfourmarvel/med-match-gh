@@ -11,6 +11,7 @@ import { specialtiesById } from "@/lib/specialties";
 import { serverSupabase } from "@/lib/supabase";
 import { TraitKey } from "@/lib/types";
 import { apiError, apiSuccess } from "@/lib/apiError";
+import { reportServerError } from "@/lib/server-errors";
 
 export const maxDuration = 30;
 
@@ -157,6 +158,7 @@ export async function POST(request: Request) {
         error,
         supabaseConfigured: Boolean(serverSupabase)
       });
+      await reportServerError(new Error("AI explanation failed, returning fallback message"), "api/ai-explanation");
       return apiSuccess({ explanation: buildFallbackExplanation(parsed.data) });
     }
   } catch (globalError: any) {
@@ -164,6 +166,7 @@ export async function POST(request: Request) {
       message: globalError?.message,
       stack: globalError?.stack
     });
+    await reportServerError(globalError, "api/ai-explanation");
     return apiError("Internal server error", 500);
   }
 }

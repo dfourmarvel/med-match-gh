@@ -8,6 +8,7 @@ import { answersToRecord } from "@/lib/assessment";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { serverSupabase } from "@/lib/supabase";
 import { apiError, apiSuccess } from "@/lib/apiError";
+import { reportServerError } from "@/lib/server-errors";
 
 const savedAnswerSchema = z.object({
   questionId: z.string().regex(/^q\d+$/),
@@ -120,6 +121,7 @@ export async function POST(request: Request) {
           details: error.details,
           payload: { id: row.id, top_specialty: row.top_specialty }
         });
+        await reportServerError(new Error("Supabase insert quiz_results failed"), "api/quiz-results");
         return apiError("Failed to save quiz results.", 500);
       }
     } catch (dbError: any) {
@@ -129,6 +131,7 @@ export async function POST(request: Request) {
         stack: dbError.stack,
         payload: { id: row.id, top_specialty: row.top_specialty }
       });
+      await reportServerError(new Error("Supabase query exception in /api/quiz-results"), "api/quiz-results");
       return apiError("Failed to save quiz results.", 500);
     }
 
@@ -138,6 +141,7 @@ export async function POST(request: Request) {
       message: globalError?.message,
       stack: globalError?.stack
     });
+    await reportServerError(globalError, "api/quiz-results");
     return apiError("Internal server error", 500);
   }
 }

@@ -10,6 +10,12 @@ export function capture(event: string, properties?: Record<string, unknown>) {
   posthog.capture(event, properties);
 }
 
+/** Reports an error the app caught itself (error pages), which PostHog cannot see on its own. */
+export function captureError(error: unknown) {
+  if (!posthog.__loaded) return;
+  posthog.captureException(error);
+}
+
 export const GOOGLE_PENDING_KEY = "medmatch-google-signin-pending";
 
 export function identifyUser(userId: string) {

@@ -77,7 +77,7 @@ const sections: { heading: string; body: React.ReactNode }[] = [
             <strong>Supabase</strong> stores accounts and saved results.
           </li>
           <li>
-            <strong>PostHog</strong> (EU servers) records usage events and session recordings, linked to your
+            <strong>PostHog</strong> (EU servers) records usage events, session recordings and error reports, linked to your
             account ID if you sign in. It never receives your email address from us.
           </li>
           <li>

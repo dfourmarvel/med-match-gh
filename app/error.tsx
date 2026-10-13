@@ -6,6 +6,7 @@ import { Home, RotateCcw } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { KenteStrip } from "@/components/ui/kente-strip";
+import { captureError } from "@/lib/analytics";
 
 export default function Error({
   error,
@@ -16,6 +17,7 @@ export default function Error({
 }) {
   useEffect(() => {
     console.error("Route error boundary caught:", error);
+    captureError(error);
   }, [error]);
 
   return (

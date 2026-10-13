@@ -6,6 +6,7 @@ import { specialtiesById } from "@/lib/specialties";
 import { serverSupabase } from "@/lib/supabase";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { apiError, apiSuccess } from "@/lib/apiError";
+import { reportServerError } from "@/lib/server-errors";
 
 /**
  * The result to publish, plus optionally the id of the row the assessment
@@ -86,6 +87,7 @@ export async function POST(request: Request) {
           message: readError.message,
           code: readError.code
         });
+        await reportServerError(new Error("Reading quiz_results row for publish failed"), "api/save-result");
         return apiError("Could not create a share link right now.", 500);
       }
 
@@ -105,6 +107,7 @@ export async function POST(request: Request) {
           message: publishError.message,
           code: publishError.code
         });
+        await reportServerError(new Error("Publishing quiz_results row failed"), "api/save-result");
         return apiError("Could not create a share link right now.", 500);
       }
 
@@ -166,6 +169,7 @@ export async function POST(request: Request) {
           hint: error.hint,
           payload: { id }
         });
+        await reportServerError(new Error("Supabase insert quiz_results failed"), "api/save-result");
         return apiError("Could not create a share link right now.", 500);
       }
     } catch (dbError: any) {
@@ -175,6 +179,7 @@ export async function POST(request: Request) {
         stack: dbError?.stack,
         payload: { id }
       });
+      await reportServerError(new Error("Supabase query exception in /api/save-result"), "api/save-result");
       return apiError("Could not create a share link right now.", 500);
     }
 
@@ -184,6 +189,7 @@ export async function POST(request: Request) {
       message: globalError?.message,
       stack: globalError?.stack
     });
+    await reportServerError(globalError, "api/save-result");
     return apiError("Internal server error", 500);
   }
 }

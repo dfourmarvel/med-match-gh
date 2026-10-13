@@ -6,6 +6,7 @@ import { answersToRecord } from "@/lib/assessment";
 import { serverSupabase } from "@/lib/supabase";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { apiError, apiSuccess } from "@/lib/apiError";
+import { reportServerError } from "@/lib/server-errors";
 
 const claimSchema = quizSubmissionSchema.extend({
   /** The anonymous row created when the assessment was submitted, if there was one. */
@@ -97,6 +98,7 @@ export async function POST(request: Request) {
           message: readError.message,
           code: readError.code
         });
+        await reportServerError(new Error("Reading quiz_results row for claim failed"), "api/claim-result");
       } else if (row && row.user_id === null && answersMatch(row.answers, parsed.data.answers)) {
         const { error } = await serverSupabase
           .from("quiz_results")
@@ -110,6 +112,7 @@ export async function POST(request: Request) {
             message: error.message,
             code: error.code
           });
+          await reportServerError(new Error("Claiming quiz_results row failed"), "api/claim-result");
           // Not fatal: the visitor still gets their unlocked result.
         } else {
           claimed = true;
@@ -130,6 +133,7 @@ export async function POST(request: Request) {
       message: err.message,
       stack: err.stack
     });
+    await reportServerError(err, "api/claim-result");
     return apiError("Internal server error", 500);
   }
 }

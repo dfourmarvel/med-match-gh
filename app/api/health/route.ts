@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { serverSupabase } from "@/lib/supabase";
+import { reportServerError } from "@/lib/server-errors";
 
 // Never cached: the whole point is to hit the database on every call.
 export const dynamic = "force-dynamic";
@@ -40,6 +41,7 @@ export async function GET() {
       message: error.message,
       code: error.code
     });
+    await reportServerError(new Error("Health check failed"), "api/health");
     return NextResponse.json(
       { status: "degraded", db: "unreachable" },
       { status: 503, headers: { "Cache-Control": "no-store" } }
