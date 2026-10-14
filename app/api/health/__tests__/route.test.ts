@@ -9,13 +9,11 @@ jest.mock("@/lib/supabase", () => ({ serverSupabase: null }));
 
 const mockedModule = jest.requireMock("@/lib/supabase") as { serverSupabase: unknown };
 
-/** Minimal stand-in for the head-count query the route issues. */
+/** Minimal stand-in for the single-row write the route issues. */
 function supabaseReturning(result: { error: { message: string; code: string } | null }) {
   return {
     from: jest.fn().mockReturnValue({
-      select: jest.fn().mockReturnValue({
-        limit: jest.fn().mockResolvedValue(result)
-      })
+      upsert: jest.fn().mockResolvedValue(result)
     })
   };
 }
@@ -50,10 +48,16 @@ describe("GET /api/health", () => {
   });
 
   it("reports 200 only when the database actually answered", async () => {
-    mockedModule.serverSupabase = supabaseReturning({ error: null });
+    const client = supabaseReturning({ error: null });
+    mockedModule.serverSupabase = client;
 
     const response = await GET();
 
+    // A write, not a read: reads alone did not stop Supabase pausing the project.
+    expect(client.from).toHaveBeenCalledWith("keepalive");
+    expect(client.from.mock.results[0].value.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 1 })
+    );
     expect(response.status).toBe(200);
     // The keep-alive workflow greps for this exact shape, so it is a contract.
     await expect(response.json()).resolves.toEqual({ status: "ok", db: "reachable" });
@@ -70,12 +74,12 @@ describe("GET /api/health", () => {
   it("leaks no error detail to the caller", async () => {
     jest.spyOn(console, "error").mockImplementation(() => {});
     mockedModule.serverSupabase = supabaseReturning({
-      error: { message: "relation quiz_results does not exist", code: "42P01" }
+      error: { message: "relation keepalive does not exist", code: "42P01" }
     });
 
     const body = await (await GET()).json();
 
-    expect(JSON.stringify(body)).not.toContain("quiz_results");
+    expect(JSON.stringify(body)).not.toContain("keepalive");
     expect(JSON.stringify(body)).not.toContain("42P01");
   });
 });

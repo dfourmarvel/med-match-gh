@@ -15,9 +15,13 @@ export const revalidate = 0;
  * query itself errors. The check reported green with the database entirely
  * unreachable, which is the one condition it existed to catch.
  *
- * This route separates the two. A real query runs; 200 means the database
- * answered, 503 means it did not. It also does the keeping-alive, since a free
- * Supabase project pauses after ~7 days with no database activity.
+ * This route separates the two. A real write runs; 200 means the database
+ * accepted it, 503 means it did not.
+ *
+ * It writes rather than reads because reading most likely was not enough: a
+ * count-only read twice a week passed every run and the database still went
+ * unreachable by 24 Sep 2026. The write is one fixed row, so calling this route
+ * repeatedly cannot grow the table.
  *
  * Deliberately leaks nothing: no row data, no error detail, no table shape.
  */
@@ -29,11 +33,9 @@ export async function GET() {
     );
   }
 
-  // head:true sends no rows back — we only care that Postgres answered.
   const { error } = await serverSupabase
-    .from("quiz_results")
-    .select("id", { count: "exact", head: true })
-    .limit(1);
+    .from("keepalive")
+    .upsert({ id: 1, pinged_at: new Date().toISOString() });
 
   if (error) {
     console.error("Health check failed", {
