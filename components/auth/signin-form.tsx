@@ -8,7 +8,7 @@ import { LoaderCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/browser";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { capture, GOOGLE_PENDING_KEY } from "@/lib/analytics";
+import { authErrorProperties, capture, GOOGLE_PENDING_KEY } from "@/lib/analytics";
 
 type Mode = "signin" | "signup";
 
@@ -75,7 +75,7 @@ export function SignInForm() {
         options: { redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` }
       });
       if (error) {
-        capture("signin_failed", { method: "google", error: error.message });
+        capture("signin_failed", { method: "google", ...authErrorProperties(error) });
         clearGooglePending();
         fail(error.message);
         setPending(false);
@@ -105,7 +105,7 @@ export function SignInForm() {
           options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` }
         });
         if (error) {
-          capture("signin_failed", { method: "password", mode, error: error.message });
+          capture("signin_failed", { method: "password", mode, ...authErrorProperties(error) });
           fail(error.message);
           return;
         }
@@ -119,7 +119,7 @@ export function SignInForm() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
-          capture("signin_failed", { method: "password", mode, error: error.message });
+          capture("signin_failed", { method: "password", mode, ...authErrorProperties(error) });
           fail(error.message);
           return;
         }

@@ -1,4 +1,4 @@
-import { buildCompletionProperties, capture, captureError } from "@/lib/analytics";
+import { authErrorProperties, buildCompletionProperties, capture, captureError } from "@/lib/analytics";
 import { buildAssessmentResult } from "@/lib/scoring";
 import posthog from "posthog-js";
 
@@ -38,6 +38,20 @@ describe("capture", () => {
   it("does nothing when PostHog was never initialised", () => {
     capture("test_event");
     expect(posthog.capture).not.toHaveBeenCalled();
+  });
+});
+
+describe("authErrorProperties", () => {
+  it("keeps the code and status, never the message text", () => {
+    const error = { message: "User someone@example.com already registered", code: "user_already_exists", status: 422 };
+    const properties = authErrorProperties(error);
+
+    expect(properties).toEqual({ error_code: "user_already_exists", error_status: 422 });
+    expect(JSON.stringify(properties)).not.toContain("@");
+  });
+
+  it("falls back when Supabase gives no code", () => {
+    expect(authErrorProperties({})).toEqual({ error_code: "unknown", error_status: null });
   });
 });
 

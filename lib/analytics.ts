@@ -16,6 +16,14 @@ export function captureError(error: unknown) {
   posthog.captureException(error);
 }
 
+/**
+ * Sign-in failures go to PostHog as Supabase's short code ("invalid_credentials"),
+ * never the message text, which can echo what the user typed.
+ */
+export function authErrorProperties(error: { code?: string; status?: number }) {
+  return { error_code: error.code ?? "unknown", error_status: error.status ?? null };
+}
+
 export const GOOGLE_PENDING_KEY = "medmatch-google-signin-pending";
 
 export function identifyUser(userId: string) {
