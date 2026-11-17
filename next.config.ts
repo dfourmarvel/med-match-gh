@@ -16,8 +16,7 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
   `connect-src 'self' https://*.supabase.co https://vitals.vercel-insights.com${isDev ? " ws://localhost:* http://localhost:*" : ""}`,
-  // PostHog's session recorder compresses in a blob: web worker.
-  "worker-src 'self' blob:",
+  "worker-src 'self'",
   "frame-ancestors 'none'"
 ].join("; ");
 

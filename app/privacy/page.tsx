@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const CONTACT_EMAIL = "danieldeladzikunu@gmail.com";
-const LAST_UPDATED = "17 September 2026";
+const LAST_UPDATED = "17 November 2026";
 
 const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
@@ -44,12 +44,6 @@ const sections: { heading: string; body: React.ReactNode }[] = [
           people stop the assessment, your device and browser type, and your approximate country.
         </li>
         <li>
-          <strong>Session recordings.</strong> Recordings of clicks, scrolling and page changes, used to find
-          confusing parts of the site. Anything typed into a form (including your email and password) is hidden
-          from the recording. Recordings may be reviewed by automated AI tools from our analytics provider to spot
-          problems at scale.
-        </li>
-        <li>
           <strong>Technical data.</strong> Your IP address is used briefly to stop abuse (rate limiting) and by our
           hosting provider for security.
         </li>
@@ -77,7 +71,7 @@ const sections: { heading: string; body: React.ReactNode }[] = [
             <strong>Supabase</strong> stores accounts and saved results.
           </li>
           <li>
-            <strong>PostHog</strong> (EU servers) records usage events, session recordings and error reports, linked to your
+            <strong>PostHog</strong> (EU servers) records usage events and error reports (it does not record your screen), linked to your
             account ID if you sign in. It never receives your email address from us.
           </li>
           <li>
@@ -114,8 +108,8 @@ const sections: { heading: string; body: React.ReactNode }[] = [
     heading: "How long we keep it",
     body: (
       <p>
-        Saved results and accounts are kept until you ask us to delete them. Analytics events and session recordings
-        are kept for the period set by our PostHog plan and are then deleted automatically.
+        Saved results and accounts are kept until you ask us to delete them. Analytics events and error reports are
+        kept for the period set by our PostHog plan and are then deleted automatically.
       </p>
     )
   },

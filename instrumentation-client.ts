@@ -15,8 +15,7 @@ if (key) {
     defaults: "2025-05-24",
     person_profiles: "always",
     capture_exceptions: true,
-    session_recording: {
-      maskAllInputs: true
-    }
+    // Some users are minors: never record sessions, whatever the PostHog project setting says.
+    disable_session_recording: true
   });
 }
